@@ -1,0 +1,6 @@
+[gd_resource type="Theme" load_steps=2 format=3 uid="uid://bu3qilx747ohm"]
+
+[ext_resource type="FontFile" uid="uid://dyyb1vtu7nu5" path="res://assets/Quixel.ttf" id="1_ub2oj"]
+
+[resource]
+default_font = ExtResource("1_ub2oj")

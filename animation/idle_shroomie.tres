@@ -1,0 +1,35 @@
+[gd_resource type="SpriteFrames" load_steps=5 format=3 uid="uid://cip00qxsau0mi"]
+
+[ext_resource type="Texture2D" uid="uid://jlmtve0jyi2s" path="res://assets/shroomie_32x32-Sheet.png" id="1_62nil"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fq8ut"]
+atlas = ExtResource("1_62nil")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1k6v2"]
+atlas = ExtResource("1_62nil")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3wjei"]
+atlas = ExtResource("1_62nil")
+region = Rect2(64, 0, 32, 32)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fq8ut")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1k6v2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3wjei")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1k6v2")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}]
