@@ -5,9 +5,10 @@ extends Node2D
 @onready var timer: Timer = $Timer
 @onready var shroomie: CharacterBody2D = $Shroomie
 @onready var map: TileMapLayer = $Map
-const Plant := preload("res://world/plant_area.tscn")
-const Shrub := preload("res://plant_types/plant_area_medium.tscn")
-const Trees := preload("res://plant_types/plant_area_large.tscn")
+const TILE := preload("res://world/plant_area.tscn")
+const STALKS = preload("res://plant_types/stalks.tscn")
+const SHRUBS = preload("res://plant_types/shrubs.tscn")
+const TREES = preload("res://plant_types/trees.tscn")
 
 func _ready() -> void:
 	# persist local position between scene changes
@@ -20,11 +21,15 @@ func _process(_delta: float) -> void:
 	world_hud.update()
 
 func place_plant_on_tile(plant: PlantData, tile_coords: Vector2i):
-	var new_plant := Plant.instantiate()
-	if plant.type == Global.PlantType.Shrub:
-		new_plant = Shrub.instantiate()
-	elif plant.type == Global.PlantType.Trees:
-		new_plant = Trees.instantiate()
+	var new_plant := TILE.instantiate()
+	match plant.type:
+		Global.PlantType.Stalk:
+			new_plant.add_child(STALKS.instantiate())
+		Global.PlantType.Shrub:
+			new_plant.add_child(SHRUBS.instantiate())
+		Global.PlantType.Trees:
+			new_plant.add_child(TREES.instantiate())
+
 	new_plant.plant_data = plant
 	map.add_child(new_plant)
 	new_plant.position = map.map_to_local(tile_coords)

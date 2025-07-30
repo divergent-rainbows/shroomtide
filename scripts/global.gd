@@ -4,7 +4,7 @@ const WORLD_SCENE_PATH = "res://world/world.tscn"
 const START_SCREEN_PATH = "res://world/start_screen.tscn"
 const PLATFORMER_SCENE_PATH = "res://platformer/platformer.tscn"
 
-enum PlantType {Plant, Shrub, Trees}
+enum PlantType {Stalk, Shrub, Trees}
 enum HealthStatus {Dead, Healing, Recovered}
 enum LeafPosition {Left, Right}
 const STARTING_TILES = [

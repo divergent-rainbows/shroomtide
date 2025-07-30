@@ -1,8 +1,7 @@
 [gd_scene load_steps=12 format=3 uid="uid://cdb678m1upsxl"]
 
 [ext_resource type="Script" uid="uid://cf81un4t7q13x" path="res://scripts/plant_area.gd" id="1_cgr6h"]
-[ext_resource type="Resource" uid="uid://ba1hf7183thbd" path="res://plant_types/plant_large.tres" id="2_kg1ch"]
-[ext_resource type="TileSet" uid="uid://ck6a7xlv02pwt" path="res://plant_types/overworld_plants.tres" id="3_8kyox"]
+[ext_resource type="Script" uid="uid://drvolyvlc40or" path="res://scripts/plant_data.gd" id="2_8w6sc"]
 [ext_resource type="Script" uid="uid://dnuuh20l3rv8s" path="res://world/plant_area_menu.gd" id="4_yet14"]
 [ext_resource type="Texture2D" uid="uid://b25b0ofls5676" path="res://assets/hex-arrow2.png" id="5_b77d0"]
 [ext_resource type="Texture2D" uid="uid://7dkserjyfmon" path="res://assets/hex-arrow1.png" id="6_mc417"]
@@ -11,33 +10,39 @@
 [ext_resource type="Texture2D" uid="uid://dtn7sbqp4e6py" path="res://assets/hex-arrow3.png" id="9_m8nh6"]
 [ext_resource type="PackedScene" uid="uid://dh2cgb087os3c" path="res://world/inspector_view.tscn" id="10_s3xu4"]
 
+[sub_resource type="Resource" id="Resource_cgr6h"]
+script = ExtResource("2_8w6sc")
+id = 0
+type = 0
+is_in_network = false
+network_cost = 500
+is_revived = false
+revive_cost = 1500
+nurture_cost = 600
+leaf_cost_basis = 120
+leaves = Array[int]([])
+photosynthesis_rate = 0.75
+a_rate = 0.0
+p_rate = 0.0
+t_rate = 0.0
+run_multiplier = 15
+max_num_leaves = 150
+height_reached = 0.0
+leaves_reached = 0
+total_runs = 0
+growth_rate = 0.0
+metadata/_custom_type_script = "uid://drvolyvlc40or"
+
 [sub_resource type="CircleShape2D" id="CircleShape2D_be7xa"]
 radius = 14.0357
 
 [node name="PlantArea" type="Area2D"]
 script = ExtResource("1_cgr6h")
-plant_data = ExtResource("2_kg1ch")
+plant_data = SubResource("Resource_cgr6h")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -7)
 shape = SubResource("CircleShape2D_be7xa")
-
-[node name="PlantTile" type="Node2D" parent="."]
-
-[node name="Dead" type="TileMapLayer" parent="PlantTile"]
-visible = false
-tile_map_data = PackedByteArray(0, 0, 255, 255, 255, 255, 1, 0, 0, 0, 0, 0, 0, 0)
-tile_set = ExtResource("3_8kyox")
-
-[node name="Healing" type="TileMapLayer" parent="PlantTile"]
-visible = false
-tile_map_data = PackedByteArray(0, 0, 255, 255, 255, 255, 1, 0, 1, 0, 0, 0, 0, 0)
-tile_set = ExtResource("3_8kyox")
-
-[node name="Recovered" type="TileMapLayer" parent="PlantTile"]
-visible = false
-tile_map_data = PackedByteArray(0, 0, 255, 255, 255, 255, 1, 0, 2, 0, 0, 0, 0, 0)
-tile_set = ExtResource("3_8kyox")
 
 [node name="TileMenu" type="Control" parent="."]
 visible = false

@@ -12,7 +12,7 @@ const HEALTH_STRING = {
 }
 
 const PLANT_TYPE_STRING = {
-	Global.PlantType.Plant: 'Grass',
+	Global.PlantType.Stalk: 'Stalk',
 	Global.PlantType.Shrub: 'Shrub',
 	Global.PlantType.Trees: 'Tree'
 }
