@@ -13,10 +13,12 @@ config_version=5
 config/name="FungIsland"
 run/main_scene="uid://v3dq1lurbu55"
 config/features=PackedStringArray("4.4", "GL Compatibility")
-config/icon="res://icon.svg"
+config/icon="res://icon.png"
 
 [autoload]
 
+Save="*res://scripts/save_manager.gd"
+Eco="*res://scripts/eco_manager.gd"
 Global="*res://scripts/global.gd"
 
 [display]
