@@ -11,8 +11,16 @@ const ZERO = Vector2i(0,0)
 const NW_OFFSET = Vector2i(-1, -1)
 const SE_OFFSET = Vector2i(1, 1)
 
+var global_tile_offset := Vector2(0,0)
+var local_pos := Vector2i(0,0)
+
 @onready var world_map = get_node("../Map")
 var facing_east = true
+
+func _ready() -> void: 
+	local_pos = world_map.local_to_map(global_position)
+	var target_start = world_map.map_to_local(local_pos)
+	global_tile_offset = position - target_start
 
 func _physics_process(_delta: float) -> void:
 	if Global.control_override:
@@ -40,6 +48,6 @@ func _physics_process(_delta: float) -> void:
 		else:
 			dir = SW if offset_required else SE
 	
-	target_pos = world_map.map_to_local(local_pos + dir)
+	target_pos = world_map.map_to_local(local_pos + dir) + global_tile_offset
 	position = position.move_toward(target_pos, speed)
-	Global.current_coords = position
+	Global.current_coords = world_map.local_to_map(global_position)

@@ -1,0 +1,30 @@
+[gd_resource type="Resource" script_class="PlantData" load_steps=3 format=3 uid="uid://d1eey2dnkwxry"]
+
+[ext_resource type="Script" uid="uid://drvolyvlc40or" path="res://scripts/plant_data.gd" id="1_t6bf2"]
+[ext_resource type="PackedScene" uid="uid://dlg48nfmibicu" path="res://plant_types/shrubs.tscn" id="2_swj77"]
+
+[resource]
+script = ExtResource("1_t6bf2")
+id = 0
+type = 1
+is_in_network = false
+is_revived = false
+num_healthy_leaves = 0
+network_cost = 0
+revive_cost = 0
+nurture_cost = 5
+leaf_cost_basis = 15
+initial_leaf_count = 10
+leaves = Array[int]([])
+g_rate = 1.0
+a_rate = 0.0
+p_rate = 0.0
+t_rate = 0.0
+run_multiplier = 5
+max_num_leaves = 0
+height_reached = 0.0
+leaves_reached = 0
+total_runs = 0
+visual_scene = ExtResource("2_swj77")
+growth_rate = 0.0
+metadata/_custom_type_script = "uid://drvolyvlc40or"

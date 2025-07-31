@@ -86,6 +86,3 @@ func update_stats(energy_gained):
 	pd.leaves_reached = max(leaves_healed.size(), pd.leaves_reached)
 	
 	pd.total_runs += 1
-	Global.add_energy(energy_gained)
-	Global.save_game()
-	

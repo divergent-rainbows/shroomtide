@@ -8,7 +8,7 @@ extends Control
 @onready var timer: Timer = $Timer
 
 func _ready():
-	Global.energy_gained.connect(_on_energy_gained)
+	Eco.energy_gained.connect(_on_energy_gained)
 
 func _on_timer_timeout() -> void:
 	g.hide()

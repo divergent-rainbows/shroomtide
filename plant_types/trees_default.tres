@@ -1,0 +1,30 @@
+[gd_resource type="Resource" script_class="PlantData" load_steps=3 format=3 uid="uid://mkc2dr0oja3c"]
+
+[ext_resource type="Script" uid="uid://drvolyvlc40or" path="res://scripts/plant_data.gd" id="1_n740p"]
+[ext_resource type="PackedScene" uid="uid://hh6biw3cwduh" path="res://plant_types/trees.tscn" id="2_6mcyy"]
+
+[resource]
+script = ExtResource("1_n740p")
+id = 0
+type = 2
+is_in_network = false
+is_revived = false
+num_healthy_leaves = 0
+network_cost = 0
+revive_cost = 0
+nurture_cost = 1
+leaf_cost_basis = 5
+initial_leaf_count = 30
+leaves = Array[int]([])
+g_rate = 0.0
+a_rate = 0.0
+p_rate = 0.0
+t_rate = 0.0
+run_multiplier = 5
+max_num_leaves = 0
+height_reached = 0.0
+leaves_reached = 0
+total_runs = 0
+visual_scene = ExtResource("2_6mcyy")
+growth_rate = 0.0
+metadata/_custom_type_script = "uid://drvolyvlc40or"

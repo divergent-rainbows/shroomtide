@@ -20,6 +20,7 @@ is_revived = false
 revive_cost = 1500
 nurture_cost = 600
 leaf_cost_basis = 120
+initial_leaf_count = 0
 leaves = Array[int]([])
 photosynthesis_rate = 0.75
 a_rate = 0.0

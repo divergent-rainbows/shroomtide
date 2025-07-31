@@ -177,7 +177,6 @@ tile_set = ExtResource("2_wmrb2")
 
 [node name="Leaves" type="TileMapLayer" parent="."]
 position = Vector2(0, 1)
-tile_map_data = PackedByteArray("AAAMAA8AAAAFAAUAAAANAA8AAAADAAUAAAAOAA8AAAABAAUAAAAPAA8AAAADAAUAAAAQAA8AAAADAAUAAAARAA8AAAAFAAUAAAA=")
 tile_set = SubResource("TileSet_i4we8")
 
 [node name="Level Shroomie" parent="." instance=ExtResource("4_h5jla")]

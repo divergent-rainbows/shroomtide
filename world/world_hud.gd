@@ -1,5 +1,6 @@
 extends Control
 
+@onready var save_data := Save.data as SaveData
 @onready var g: RichTextLabel = $G
 @onready var a: RichTextLabel = $A
 @onready var p: RichTextLabel = $P
@@ -14,11 +15,11 @@ func _ready():
 	update()
 
 func update():
-	g.text = "Glycosine: \n%.1f" % Global.save_data.energy
-	if Global.save_data.energy > G_MAX :
+	g.text = "Glycosine: \n%.1f" % Global.save_data.energy_g
+	if save_data.energy_g > G_MAX :
 		a.text = "Alkaloid Balance Achieved!"
 
-	var amount_a = Global.save_data.energy_a
+	var amount_a = save_data.energy_a
 	a.text = "Alkaloids: \n%.1f" % amount_a
 	if amount_a > A_MAX :
 		a.text = "Alkaloid Balance Achieved!"
