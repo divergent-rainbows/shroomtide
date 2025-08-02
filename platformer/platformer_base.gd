@@ -8,8 +8,8 @@ const CHARGED_JUMP_HEIGHT = 8
 @onready var plant_data = Global.current_plant_data
 @onready var leaf_tileset: TileSet = load("res://assets/level_pallette.tres")
 @onready var leaf_map: TileMapLayer = $Leaves
-@onready var player: CharacterBody2D = $"Level Shroomie"
-@onready var hud: Control = $"CanvasLayer/Level HUD"
+@onready var player: CharacterBody2D = $LevelShroomie
+@onready var hud: Control = $CanvasLayer/HUD
 @onready var timer: Timer = $Timer
 
 var platform_tile_pattern: TileMapPattern = null
@@ -20,12 +20,12 @@ var offset_y = NORMAL_JUMP_HEIGHT
 const OFFSET_X = 3 # 50% of platorm width
 
 var final_leaf_reached = false
+var stats_shown = false
 var leaves_healed = []
 var starting_y = 0
 var run_height = 0
 
 func _ready():
-	print("Starting level for Plant %d" % Global.current_plant_data.id)
 	starting_y = player.position.y
 	left_lane = leaf_map.local_to_map(Vector2(Global.LEFT_LANE_X, 0)).x
 	right_lane = leaf_map.local_to_map(Vector2(Global.RIGHT_LANE_X, 0)).x
@@ -37,10 +37,10 @@ func _process(_delta: float) -> void:
 	hud.update(run_height)
 	calc_leaves_healed()
 	if is_game_over():
-		var energy_gained = leaves_healed.size() * plant_data.run_multiplier
-		hud.	show_run_stats(energy_gained)
-		if Input.is_action_just_released("jump"):
-			update_stats(energy_gained)
+		if not stats_shown:
+			hud.	show_run_stats()
+		if Input.is_action_just_released("ui_accept"):
+			update_stats()
 			Global.goto_scene(Global.WORLD_SCENE_PATH)
 
 func is_game_over():
@@ -58,11 +58,11 @@ func calc_leaves_healed():
 		
 # Create level using leaf positions
 func generate_leaves(leaf_positions: Array[Global.LeafPosition]):
-	if leaf_tileset is TileSet and leaf_tileset.get_patterns_count() > 0:
-		platform_tile_pattern = leaf_tileset.get_pattern(0)
-	else: 
-		print("Could not load pattern from level_pallette.tres")
-		return
+	assert(
+		leaf_tileset is TileSet and leaf_tileset.get_patterns_count() > 0,
+		"Could not load pattern from level_pallette.tres"
+		)
+	platform_tile_pattern = leaf_tileset.get_pattern(0)
 		
 	for leaf_pos in leaf_positions:
 		match leaf_pos:
@@ -76,13 +76,11 @@ func generate_leaves(leaf_positions: Array[Global.LeafPosition]):
 				offset_y += NORMAL_JUMP_HEIGHT
 				
 # Ran after run
-func update_stats(energy_gained):
+func update_stats():
 	var pd = Global.current_plant_data
-	
 	pd.height_reached = max( 
 		Global.convert_pixel_height_to_meters(run_height), 
 		pd.height_reached
 	) 
 	pd.leaves_reached = max(leaves_healed.size(), pd.leaves_reached)
-	
 	pd.total_runs += 1

@@ -7,8 +7,10 @@ const START_SCREEN_PATH = "res://world/start_screen.tscn"
 const PLATFORMER_SCENE_PATH = "res://platformer/platformer.tscn"
 
 enum PlantType {Stalk, Shrub, Trees}
-enum HealthStatus {Dead, Healing, Recovered}
+enum HealthStatus {Unknown, Dead, Healing, Recovered}
 enum LeafPosition {Left, Right}
+
+const TICK_SIGNAL = "energy_gained"
 
 const SCREEN_SCALE = 2.0
 const LEFT_LANE_X = 226.0

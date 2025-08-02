@@ -152,7 +152,7 @@ physics_layer_0/collision_layer = 1
 sources/0 = SubResource("TileSetAtlasSource_lypxs")
 pattern_0 = SubResource("TileMapPattern_i468s")
 
-[node name="Level 1" type="Node2D"]
+[node name="PlatformerLevel" type="Node2D"]
 script = ExtResource("1_je3qg")
 
 [node name="Parallax2D2" type="Parallax2D" parent="."]
@@ -179,13 +179,13 @@ tile_set = ExtResource("2_wmrb2")
 position = Vector2(0, 1)
 tile_set = SubResource("TileSet_i4we8")
 
-[node name="Level Shroomie" parent="." instance=ExtResource("4_h5jla")]
+[node name="LevelShroomie" parent="." instance=ExtResource("4_h5jla")]
 top_level = true
 position = Vector2(228, 320)
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
-[node name="Level HUD" type="Control" parent="CanvasLayer"]
+[node name="HUD" type="Control" parent="CanvasLayer"]
 z_index = 5
 layout_mode = 3
 anchors_preset = 15
@@ -196,7 +196,7 @@ grow_vertical = 2
 script = ExtResource("5_ll8sa")
 metadata/_edit_use_anchors_ = true
 
-[node name="Time" type="RichTextLabel" parent="CanvasLayer/Level HUD"]
+[node name="Time" type="RichTextLabel" parent="CanvasLayer/HUD"]
 layout_mode = 1
 offset_left = 233.0
 offset_top = 1.0
@@ -208,7 +208,7 @@ autowrap_mode = 0
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Score" type="RichTextLabel" parent="CanvasLayer/Level HUD"]
+[node name="Score" type="RichTextLabel" parent="CanvasLayer/HUD"]
 layout_mode = 0
 offset_left = 24.0
 offset_top = 9.0
@@ -219,7 +219,7 @@ theme_override_font_sizes/normal_font_size = 9
 text = "Score: 0.00m"
 horizontal_alignment = 1
 
-[node name="HighScore" type="RichTextLabel" parent="CanvasLayer/Level HUD"]
+[node name="HighScore" type="RichTextLabel" parent="CanvasLayer/HUD"]
 layout_mode = 0
 offset_left = 512.0
 offset_top = 9.0
@@ -231,7 +231,7 @@ text = "High Score
 0.00m"
 horizontal_alignment = 1
 
-[node name="PostRunMessage" type="RichTextLabel" parent="CanvasLayer/Level HUD"]
+[node name="PostRunMessage" type="RichTextLabel" parent="CanvasLayer/HUD"]
 visible = false
 layout_mode = 0
 offset_left = 6.0
@@ -243,7 +243,7 @@ text = "Congratulations!
 Plant is healed"
 horizontal_alignment = 1
 
-[node name="EnergyGained" type="RichTextLabel" parent="CanvasLayer/Level HUD"]
+[node name="EnergyGained" type="RichTextLabel" parent="CanvasLayer/HUD"]
 visible = false
 layout_mode = 0
 offset_left = 9.0

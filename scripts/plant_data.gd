@@ -89,14 +89,10 @@ func get_new_leaf_cost():
 func get_leaf_count():
 	return leaves.size()
 
-# Health = demand / supply ,
-# demand = the amount of resources the plant can consume 
-# supply = the amount of resources made available to the plant 
-# Health = % based on completion
-# num_healthy_leaves / num_healthy_leaves_required
 func get_health_status() -> Global.HealthStatus:
-	# placeholder logic
-	if not is_revived:
+	if not is_in_network:
+		return Global.HealthStatus.Unknown
+	elif not is_revived:
 		return Global.HealthStatus.Dead
 	elif get_leaf_count() < max_num_leaves:
 		return Global.HealthStatus.Healing

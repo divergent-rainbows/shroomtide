@@ -15,14 +15,16 @@ script = ExtResource("2_8w6sc")
 id = 0
 type = 0
 is_in_network = false
-network_cost = 500
 is_revived = false
+num_healthy_leaves = 0
+max_healthy_leaves = 0
+network_cost = 500
 revive_cost = 1500
 nurture_cost = 600
 leaf_cost_basis = 120
 initial_leaf_count = 0
 leaves = Array[int]([])
-photosynthesis_rate = 0.75
+g_rate = 0.0
 a_rate = 0.0
 p_rate = 0.0
 t_rate = 0.0
@@ -196,7 +198,6 @@ text = "Close"
 horizontal_alignment = 1
 
 [node name="Cost" type="Label" parent="TileMenu/Bottom"]
-visible = false
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.5

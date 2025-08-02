@@ -6,6 +6,12 @@ extends Control
 @onready var p: RichTextLabel = $P
 @onready var t: RichTextLabel = $T
 
+const G_LABEL = "Glycosine"
+const A_LABEL = "Alkaloid"
+const P_LABEL = "Polyphenol"
+const T_LABEL = "Terpene"
+const COMPOUND_SUCCESS = "balance achieved!"
+
 const G_MAX = 100000
 const A_MAX = 100000
 const P_MAX = 100000
@@ -15,34 +21,30 @@ func _ready():
 	update()
 
 func update():
-	g.text = "Glycosine: \n%.1f" % Global.save_data.energy_g
-	if save_data.energy_g > G_MAX :
-		a.text = "Alkaloid Balance Achieved!"
-
+	var amount_g = save_data.energy_g
 	var amount_a = save_data.energy_a
-	a.text = "Alkaloids: \n%.1f" % amount_a
-	if amount_a > A_MAX :
-		a.text = "Alkaloid Balance Achieved!"
-	if amount_a == 0:
-		a.hide()
-	else: 
+	var amount_p = save_data.energy_p
+	var amount_t = save_data.energy_t
+	
+	g.text = "%s: \n%.1f" % [G_LABEL, amount_g]
+	if save_data.energy_g > G_MAX:
+		g.text = "%s %s" % [G_LABEL, COMPOUND_SUCCESS]
+
+	a.text = "%s: \n%.1f" % [A_LABEL, amount_a]
+	if amount_a > A_MAX:
+		a.text = "%s %s" % [A_LABEL, COMPOUND_SUCCESS]
+	if amount_a != 0:
 		a.show()
 	
-	var amount_p = Global.save_data.energy_p
-	p.text = "Ployphenols: \n%.1f" % amount_p
-	if amount_a > P_MAX :
-		a.text = "Ployphenol Balance Achieved!"
-	if amount_p == 0:
-		p.hide()
-	else: 
+	p.text = "%s: \n%.1f" % [P_LABEL, amount_p]
+	if amount_a > P_MAX:
+		p.text = "%s %s" % [P_LABEL, COMPOUND_SUCCESS]
+	if amount_p != 0:
 		p.show()
 	
-	var amount_t = Global.save_data.energy_t
-	t.text = "Terpenes: \n%.1f" % amount_t
-	if amount_a > T_MAX :
-		a.text = "Terpenes Balance Achieved!"
-	if amount_t == 0:
-		t.hide()
-	else: 
+	t.text = "%s: \n%.1f" % [T_LABEL, amount_t]
+	if amount_a > T_MAX:
+		t.text = "%s %s" % [T_LABEL, COMPOUND_SUCCESS]
+	if amount_t != 0:
 		t.show()
 	

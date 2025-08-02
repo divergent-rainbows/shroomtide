@@ -15,15 +15,15 @@ var target_x = Global.LEFT_LANE_X
 
 @onready var level: Node2D = $".."
 @onready var timer: Timer = $"../Timer"
-@onready var level_hud: Control = $"../CanvasLayer/Level HUD"
+@onready var level_hud: Control = $"../CanvasLayer/HUD"
 
 func _ready() -> void:
-	need_to_clear_input = Input.is_action_pressed("jump")
+	need_to_clear_input = Input.is_action_pressed("ui_accept")
 
 func _physics_process(delta):
 	if level.is_game_over() or need_to_clear_input:
 		# skip first frame to clear inputs
-		if Input.is_action_just_released("jump"):
+		if Input.is_action_just_released("ui_accept"):
 			need_to_clear_input = false 
 		return
 	handle_h_input()
@@ -36,15 +36,15 @@ func _physics_process(delta):
 func handle_h_input():
 	if not is_on_floor():
 		return
-	if Input.is_action_pressed("left"):
+	if Input.is_action_pressed("ui_left"):
 		target_x = Global.LEFT_LANE_X
-	elif Input.is_action_pressed("right"):
+	elif Input.is_action_pressed("ui_right"):
 		target_x = Global.RIGHT_LANE_X
 	else: 
 		target_x = position.x
 
 func execute_jump_on_release():
-	if Input.is_action_just_released("jump") and is_on_floor():
+	if Input.is_action_just_released("ui_accept") and is_on_floor():
 		velocity.y = JUMP_VELOCITY*CHARGED_JUMP_MULTIPLIER if charge_time >= CHARGE_TIME else JUMP_VELOCITY
 		charge_time = 0
 		horizontal_speed = calculate_horizontal_speed_for_apex()
@@ -58,7 +58,7 @@ func calc_vertical_velocity(delta):
 		velocity.y += GRAVITY * delta
 
 func calc_charge(delta):
-	if Input.is_action_pressed("jump"):
+	if Input.is_action_pressed("ui_accept"):
 		charge_time += delta
 
 func calc_h_movement(delta):

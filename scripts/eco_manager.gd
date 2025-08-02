@@ -30,7 +30,7 @@ func add_energy(g, a = 0, p = 0, t = 0):
 	save_data.energy_p += p
 	save_data.energy_t += t
 	Save.save_game()
-	emit_signal("energy_gained", g,a,p,t)
+	emit_signal(Global.TICK_SIGNAL, g,a,p,t)
 
 func subtract_energy(g, a = 0, p = 0, t = 0):
 	save_data.energy_g -= g

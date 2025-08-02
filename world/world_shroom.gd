@@ -25,24 +25,24 @@ func _ready() -> void:
 func _physics_process(_delta: float) -> void:
 	if Global.control_override:
 		return
-	var local_pos = world_map.local_to_map(global_position)
+	local_pos = world_map.local_to_map(global_position)
 	var offset_required = local_pos.y % 2 != 1 # apply offset on even rows
 	var target_pos = null
 	var dir = ZERO
 	var speed = 100
 	
-	if Input.is_action_just_pressed("left"):
+	if Input.is_action_just_pressed("ui_left"):
 		facing_east = false
 		dir = WEST
-	elif Input.is_action_just_pressed("right"):
+	elif Input.is_action_just_pressed("ui_right"):
 		facing_east = true
 		dir = EAST
-	elif Input.is_action_just_pressed("up"):
+	elif Input.is_action_just_pressed("ui_up"):
 		if facing_east:
 			dir = NW if offset_required else NE
 		else:
 			dir = NW_OFFSET if offset_required else NW
-	elif Input.is_action_just_pressed("down"):
+	elif Input.is_action_just_pressed("ui_down"):
 		if facing_east:
 			dir = SE_OFFSET if !offset_required else SE
 		else:

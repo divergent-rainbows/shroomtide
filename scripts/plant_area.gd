@@ -5,6 +5,7 @@ extends Area2D
 @onready var message: Control = $Message
 @onready var tile_menu: Control = $TileMenu
 @onready var tile_states := {
+	Global.HealthStatus.Unknown: $PlantTile/Dead,
 	Global.HealthStatus.Dead: $PlantTile/Dead,
 	Global.HealthStatus.Healing: $PlantTile/Healing,
 	Global.HealthStatus.Recovered: $PlantTile/Recovered,

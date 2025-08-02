@@ -1,11 +1,10 @@
 extends Control
 
+@onready var timer: Timer = $Timer
 @onready var g: Label = $G
 @onready var a: Label = $A
 @onready var p: Label = $P
 @onready var t: Label = $T
-
-@onready var timer: Timer = $Timer
 
 func _ready():
 	Eco.energy_gained.connect(_on_energy_gained)
