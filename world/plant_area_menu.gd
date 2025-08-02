@@ -72,16 +72,24 @@ func _process(_delta: float) -> void:
 			set_cost(btn)
 
 func _on_left_pressed() -> void:
-	ACTION_CONFIG[pd.get_health_status()][BtnPos.LEFT][EXECUTE].call()
+	var available_actions = ACTION_CONFIG[pd.get_health_status()]
+	if BtnPos.LEFT in available_actions:
+		available_actions[BtnPos.LEFT][EXECUTE].call()
 
 func _on_right_pressed() -> void:
-	ACTION_CONFIG[pd.get_health_status()][BtnPos.RIGHT][EXECUTE].call()
+	var available_actions = ACTION_CONFIG[pd.get_health_status()]
+	if BtnPos.RIGHT in available_actions:
+		available_actions[BtnPos.RIGHT][EXECUTE].call()
 
 func _on_bottom_pressed() -> void:
-	ACTION_CONFIG[pd.get_health_status()][BtnPos.BTM][EXECUTE].call()
+	var available_actions = ACTION_CONFIG[pd.get_health_status()]
+	if BtnPos.BTM in available_actions:
+		available_actions[BtnPos.BTM][EXECUTE].call()
 
 func _on_top_pressed() -> void:
-	ACTION_CONFIG[pd.get_health_status()][BtnPos.TOP][EXECUTE].call()
+	var available_actions = ACTION_CONFIG[pd.get_health_status()]
+	if BtnPos.TOP in available_actions:
+		available_actions[BtnPos.TOP][EXECUTE].call()
 
 	
 func set_action(b: BtnPos, h: Global.HealthStatus) -> void:
