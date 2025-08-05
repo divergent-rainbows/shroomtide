@@ -2,13 +2,13 @@
 
 importer="font_data_dynamic"
 type="FontFile"
-uid="uid://dyyb1vtu7nu5"
-path="res://.godot/imported/Quixel.ttf-deae9778ead6787fb5887e1c449ad2c5.fontdata"
+uid="uid://cy1wxfd1qbdks"
+path="res://.godot/imported/NicoClean-Regular.ttf-5b25e1aa5c4974ccbdbbc2865eee3d5c.fontdata"
 
 [deps]
 
-source_file="res://assets/Quixel.ttf"
-dest_files=["res://.godot/imported/Quixel.ttf-deae9778ead6787fb5887e1c449ad2c5.fontdata"]
+source_file="res://assets/fonts/NicoClean/NicoClean-Regular.ttf"
+dest_files=["res://.godot/imported/NicoClean-Regular.ttf-5b25e1aa5c4974ccbdbbc2865eee3d5c.fontdata"]
 
 [params]
 

@@ -2,13 +2,13 @@
 
 importer="font_data_dynamic"
 type="FontFile"
-uid="uid://cge5jcmobdupx"
-path="res://.godot/imported/FrogPrincess.ttf-0dcf657531f2b46cd4acb72c5fc35390.fontdata"
+uid="uid://b1a2bgd40mqim"
+path="res://.godot/imported/NicoClean-Regular.woff-ef4b0b8ab9624e9fae5a2dc236da0b22.fontdata"
 
 [deps]
 
-source_file="res://assets/FrogPrincess.ttf"
-dest_files=["res://.godot/imported/FrogPrincess.ttf-0dcf657531f2b46cd4acb72c5fc35390.fontdata"]
+source_file="res://assets/fonts/NicoClean/NicoClean-Regular.woff"
+dest_files=["res://.godot/imported/NicoClean-Regular.woff-ef4b0b8ab9624e9fae5a2dc236da0b22.fontdata"]
 
 [params]
 

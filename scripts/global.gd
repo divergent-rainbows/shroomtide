@@ -2,6 +2,12 @@ extends Node
 
 @onready var save_data := Save.data as SaveData
 
+# Game End Requirements
+const G_MAX = 100000
+const A_MAX = 100000
+const P_MAX = 100000
+const T_MAX = 80000
+
 const WORLD_SCENE_PATH = "res://world/world.tscn"
 const START_SCREEN_PATH = "res://world/start_screen.tscn"
 const PLATFORMER_SCENE_PATH = "res://platformer/platformer.tscn"
@@ -52,14 +58,7 @@ func _deferred_goto_scene(path):
 func _input(event):
 	if event.is_action_pressed("reset"):
 		goto_scene(START_SCREEN_PATH)
-		print("Resetting...")
-		save_data.energy_g = 100
-		save_data.energy_a = 0
-		save_data.energy_p = 0
-		save_data.energy_t = 0
-		save_data.plants_map = {}
-		save_data.plants = []
-		Save.save_game()
+		Save.reset()
 	if event.is_action_pressed("esc"):
 		goto_scene(START_SCREEN_PATH)
 	if event.is_action_pressed("back"):

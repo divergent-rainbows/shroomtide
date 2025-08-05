@@ -1,6 +1,7 @@
 extends Resource
 class_name SaveData
 
+@export var run_time: float 
 @export var energy_g: float # Glycosine
 @export var energy_a: float # Alkaloid
 @export var energy_p: float # Polyphenols
