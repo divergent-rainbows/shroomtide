@@ -23,7 +23,7 @@ const WORLD_PLANT_LOCATIONS = {
 		Vector2i(15,11),
 	],	
 	Global.PlantType.Shrub:  [
-		Vector2i(6,9),
+		Vector2i(7,6),
 		Vector2i(10,2),
 		Vector2i(10,13),
 		Vector2i(11,5),
@@ -51,7 +51,7 @@ func _process(_delta: float) -> void:
 		world_hud.show_end_of_game()
 		return
 	world_hud.update()
-	check_game_over()
+	check_game_over_by_plant_health()
 
 static func initialize_plant_data() -> void:
 	var new_plants := {} as Dictionary[Vector2i, PlantData]
@@ -73,11 +73,20 @@ func place_plant_on_tile(plant: PlantData, tile_coords: Vector2i):
 func _on_sprint_timer_timeout() -> void:
 	save_data.run_time += sprint_timer.wait_time
 	
-func check_game_over() -> void:
+func check_game_over_by_energy() -> void:
 	var g_achieved = save_data.energy_g > Global.G_MAX
 	var a_achieved = save_data.energy_a > Global.A_MAX
 	var p_achieved = save_data.energy_p > Global.P_MAX
 	var t_achieved = save_data.energy_t > Global.T_MAX
 	if g_achieved and a_achieved and p_achieved and t_achieved:
+		sprint_timer.stop()
+		game_over = true
+
+func check_game_over_by_plant_health() -> void: 
+	var all_recovered = true 
+	for plant in  Global.save_data.plants: 
+		if plant.get_health_status() != Global.HealthStatus.Recovered:
+			all_recovered = false
+	if all_recovered:
 		sprint_timer.stop()
 		game_over = true

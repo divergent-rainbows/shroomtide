@@ -60,6 +60,7 @@ offset_right = 2.0
 offset_bottom = -4.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("7_nnsc4")
 script = ExtResource("4_yet14")
 metadata/_edit_use_anchors_ = true
 
@@ -275,6 +276,7 @@ offset_left = 162.36
 offset_top = 76.6
 offset_right = 497.2
 offset_bottom = 120.4
+theme = ExtResource("7_nnsc4")
 metadata/_edit_use_anchors_ = true
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

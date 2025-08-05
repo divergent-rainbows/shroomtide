@@ -31,6 +31,8 @@ func _ready():
 	right_lane = leaf_map.local_to_map(Vector2(Global.RIGHT_LANE_X, 0)).x
 	generate_leaves(plant_data.leaves)
 	hud.update_record_height(plant_data.height_reached)
+	timer.wait_time = plant_data.get_nurture_time()
+	timer.start()
 
 func _process(_delta: float) -> void:
 	run_height = max((starting_y - player.position.y), run_height)

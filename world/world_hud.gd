@@ -38,19 +38,19 @@ func update():
 	if amount_a > Global.A_MAX:
 		a.text = "%s - %s" % [A_SYMBOL, COMPOUND_SUCCESS]
 	if amount_a != 0:
-		a.show()
+		pass # a.show()
 	
 	p.text = "%s: %.1f" % [P_SYMBOL, amount_p]
 	if amount_a > Global.P_MAX:
 		p.text = "%s - %s" % [P_SYMBOL, COMPOUND_SUCCESS]
 	if amount_p != 0:
-		p.show()
+		pass # p.show()
 	
 	t.text = "%s: %.1f" % [T_SYMBOL, amount_t]
 	if amount_a > Global.T_MAX:
 		t.text = "%s - %s" % [T_SYMBOL, COMPOUND_SUCCESS]
 	if amount_t != 0:
-		t.show()
+		pass # t.show()
 	
 func update_timer():
 	var minutes = Save.data.run_time / 60

@@ -114,6 +114,7 @@ autowrap_mode = 0
 context_menu_enabled = true
 
 [node name="A" type="RichTextLabel" parent="World HUD"]
+visible = false
 layout_mode = 0
 offset_left = 2.0
 offset_top = 34.0
@@ -124,6 +125,7 @@ scroll_active = false
 autowrap_mode = 0
 
 [node name="P" type="RichTextLabel" parent="World HUD"]
+visible = false
 layout_mode = 0
 offset_left = 2.0
 offset_top = 57.0
@@ -134,6 +136,7 @@ scroll_active = false
 autowrap_mode = 0
 
 [node name="T" type="RichTextLabel" parent="World HUD"]
+visible = false
 layout_mode = 0
 offset_left = 2.0
 offset_top = 81.0

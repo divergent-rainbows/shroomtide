@@ -49,6 +49,9 @@ func show_run_stats():
 	if timer.time_left == 0:
 		post_run_message.text =  TIMEOUT
 	else:
+		var earned = Global.current_plant_data.get_nurture_reward()
+		Eco.add_energy(earned)
+		energy_gained.text = "Energy gained: %d" % earned
 		post_run_message.text = RUN_SUCCESS
 	post_run_message.show()
 	energy_gained.show()
