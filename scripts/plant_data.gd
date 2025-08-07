@@ -109,7 +109,7 @@ func get_info():
 	for i in Save.data.plants_map.keys():
 		var p = Save.data.plants_map[i]
 		print(i, ": %s, %s" % [p.stringify_type(), p.stringify_health()])
-	return "%s has %d leaves\nGlycosine Rate: %.2f" % [PLANT_TYPE_STRING[type],  get_leaf_count(), g_rate] 
+	return "%s has %d leaves\nGlycosine Rate: %.2f" % [PLANT_TYPE_STRING[type],  get_leaf_count(), get_glycosine_per_tick()] 
 
 func stringify_type() -> String:
 	return PLANT_TYPE_STRING[type]

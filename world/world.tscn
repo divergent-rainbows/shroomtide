@@ -18,7 +18,7 @@
 [ext_resource type="Texture2D" uid="uid://blgl5114ekc6k" path="res://assets/hex-side2.png" id="9_o8fc1"]
 [ext_resource type="Texture2D" uid="uid://byasy4decb4p3" path="res://assets/hex-side3.png" id="10_xo05s"]
 [ext_resource type="Texture2D" uid="uid://c2g32a2x46nnj" path="res://assets/hex-side4.png" id="11_dss4m"]
-[ext_resource type="PackedScene" uid="uid://dh2cgb087os3c" path="res://world/inspector_view.tscn" id="19_j34ew"]
+[ext_resource type="Script" uid="uid://dk2u0ri6onvnj" path="res://world/inspector_view.gd" id="19_j34ew"]
 
 [sub_resource type="Theme" id="Theme_mad0u"]
 default_font = ExtResource("2_ov2xu")
@@ -534,14 +534,40 @@ text = "-100"
 horizontal_alignment = 2
 vertical_alignment = 1
 
-[node name="Message" parent="HUD" instance=ExtResource("19_j34ew")]
+[node name="Message" type="Control" parent="HUD"]
+layout_mode = 3
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
+script = ExtResource("19_j34ew")
+
+[node name="Label" type="Label" parent="HUD/Message"]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.208
+anchor_top = 0.219
+anchor_right = 0.791
+anchor_bottom = 0.539
+offset_left = -298.0
+offset_top = 26.0
+offset_right = 301.0
+offset_bottom = 45.0
+theme = ExtResource("2_m0cxt")
+theme_override_font_sizes/font_size = 18
+text = "test"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Timer" type="Timer" parent="HUD/Message"]
+wait_time = 2.085
+one_shot = true
 
 [connection signal="timeout" from="World HUD/Economy/Timer" to="World HUD/Economy" method="_on_timer_timeout"]
 [connection signal="timeout" from="TickTimer" to="." method="_on_timer_timeout"]
@@ -550,3 +576,4 @@ size_flags_vertical = 4
 [connection signal="pressed" from="HUD/TileMenu/Right" to="HUD/TileMenu" method="_on_right_pressed"]
 [connection signal="pressed" from="HUD/TileMenu/Bottom" to="HUD/TileMenu" method="_on_bottom_pressed"]
 [connection signal="pressed" from="HUD/TileMenu/Left" to="HUD/TileMenu" method="_on_left_pressed"]
+[connection signal="timeout" from="HUD/Message/Timer" to="HUD/Message" method="_on_timer_timeout"]
