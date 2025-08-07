@@ -54,12 +54,3 @@ func _deferred_goto_scene(path):
 	current_scene = s.instantiate()
 	get_tree().root.add_child(current_scene)
 	get_tree().current_scene = current_scene
-	
-func _input(event):
-	if event.is_action_pressed("reset"):
-		goto_scene(START_SCREEN_PATH)
-		Save.reset()
-	if event.is_action_pressed("esc"):
-		goto_scene(START_SCREEN_PATH)
-	if event.is_action_pressed("back"):
-		goto_scene(WORLD_SCENE_PATH)

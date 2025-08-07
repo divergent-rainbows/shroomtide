@@ -39,9 +39,6 @@ const WORLD_PLANT_LOCATIONS = {
 }
 
 func _ready() -> void:
-	# persist local position between scene changes
-	var target_pos = map.map_to_local( Global.current_coords)
-	shroomie.position = target_pos
 	var plant_coords = Global.save_data.plants_map
 	for coord in plant_coords:
 		place_plant_on_tile(plant_coords[coord], coord)

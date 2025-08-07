@@ -13,8 +13,13 @@ const GROWTH_SUCCESS = "Plant grew a new leaf!"
 const CONNECT_SUCCESS = "Plant is now in fungal network!"
 const NOT_ENOUGH_RES = "Not enough energy..."
 
-@onready var plant_area: Area2D = $".."
-@onready var message: Control = $"../Message"
+# Button references for screen input
+@onready var button_nodes = {
+	BtnPos.TOP: $Top,
+	BtnPos.LEFT: $Left, 
+	BtnPos.RIGHT: $Right,
+	BtnPos.BTM: $Bottom
+}
 
 @onready var UI_NODES = {
 	BtnPos.TOP: {
@@ -54,7 +59,8 @@ const NOT_ENOUGH_RES = "Not enough energy..."
 		BtnPos.RIGHT: ACTION_GROW_LEAF
 	}
 }
-
+@onready var message: Control = $"../Message"
+@onready var shroomie := $"../../Shroomie"
 @onready var pd := Global.current_plant_data as PlantData
 @onready var save_data := Save.data as SaveData
 
@@ -62,7 +68,10 @@ func _ready() -> void:
 	# Add Back button to each menu state
 	for health_state_config in ACTION_CONFIG.keys():
 		ACTION_CONFIG[health_state_config][BtnPos.BTM] = ACTION_BACK
-
+	
+	# Connect screen input for menu interaction
+	InputManager.tap_at_position.connect(_on_screen_tap)
+	
 func _process(_delta: float) -> void: 
 	pd = Global.current_plant_data
 	if pd != null: 
@@ -72,25 +81,64 @@ func _process(_delta: float) -> void:
 			set_cost(btn)
 
 func _on_left_pressed() -> void:
+	pd = Global.current_plant_data
 	var available_actions = ACTION_CONFIG[pd.get_health_status()]
 	if BtnPos.LEFT in available_actions:
 		available_actions[BtnPos.LEFT][EXECUTE].call()
 
 func _on_right_pressed() -> void:
+	pd = Global.current_plant_data
 	var available_actions = ACTION_CONFIG[pd.get_health_status()]
 	if BtnPos.RIGHT in available_actions:
 		available_actions[BtnPos.RIGHT][EXECUTE].call()
 
 func _on_bottom_pressed() -> void:
+	pd = Global.current_plant_data
 	var available_actions = ACTION_CONFIG[pd.get_health_status()]
 	if BtnPos.BTM in available_actions:
 		available_actions[BtnPos.BTM][EXECUTE].call()
 
 func _on_top_pressed() -> void:
+	pd = Global.current_plant_data
 	var available_actions = ACTION_CONFIG[pd.get_health_status()]
 	if BtnPos.TOP in available_actions:
 		available_actions[BtnPos.TOP][EXECUTE].call()
 
+# Screen Input Handler
+func _on_screen_tap(screen_pos: Vector2) -> void:
+	if not visible:
+		return
+	
+	var button_tapped = false
+	
+	# Check which button was tapped using screen coordinates
+	for btn_pos in button_nodes:
+		var button = button_nodes[btn_pos]
+		if button.visible and _is_button_tapped(button, screen_pos):
+			# Focus the tapped button and execute its action
+			button.grab_focus()
+			_execute_button_action(btn_pos)
+			button_tapped = true
+			break
+	
+	# If no button was tapped, close the menu
+	if not button_tapped:
+		_close_menu()
+
+func _is_button_tapped(button: Control, screen_pos: Vector2) -> bool:
+	# Check if the screen position is within the button's global rect
+	var button_rect = button.get_global_rect()
+	return button_rect.has_point(screen_pos)
+
+func _execute_button_action(btn_pos: BtnPos) -> void:
+	var available_actions = ACTION_CONFIG[pd.get_health_status()]
+	if btn_pos in available_actions:
+		available_actions[btn_pos][EXECUTE].call()
+
+func _close_menu() -> void:
+	# Same logic as the Back button
+	Global.control_override = false
+	self.hide()
 	
 func set_action(b: BtnPos, h: Global.HealthStatus) -> void:
 	var menu_state = ACTION_CONFIG[h]
@@ -168,7 +216,6 @@ func execute_nurture():
 	var cost = pd.get_nurture_cost()
 	if save_data.energy_g >= cost:
 		Eco.subtract_energy(cost)
-		plant_area.is_selected = false
 		Global.control_override = false
 		Global.goto_scene(Global.PLATFORMER_SCENE_PATH)
 	else: 
@@ -196,7 +243,5 @@ var ACTION_BACK = {
 	EXECUTE: Callable(self, "execute_back"),
 }
 func execute_back():
-	plant_area.is_selected = false
 	Global.control_override = false
 	self.hide()
-		

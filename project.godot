@@ -20,6 +20,7 @@ config/icon="res://icon.png"
 Save="*res://scripts/save_manager.gd"
 Eco="*res://scripts/eco_manager.gd"
 Global="*res://scripts/global.gd"
+InputManager="*res://scripts/input_manager.gd"
 
 [display]
 
@@ -56,5 +57,4 @@ reset={
 
 [rendering]
 
-renderer/rendering_method="gl_compatibility"
-renderer/rendering_method.mobile="gl_compatibility"
+renderer/rendering_method="mobile"

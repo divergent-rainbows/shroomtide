@@ -2,8 +2,10 @@ extends Area2D
 
 @export var plant_data: PlantData
 
-@onready var message: Control = $Message
-@onready var tile_menu: Control = $TileMenu
+@onready var message: Control = $"../../HUD/Message"
+@onready var tile_menu: Control = $"../../HUD/TileMenu"
+@onready var tile_menu_top: Control = $"../../HUD/TileMenu/Top"
+
 @onready var tile_states := {
 	Global.HealthStatus.Unknown: $PlantTile/Dead,
 	Global.HealthStatus.Dead: $PlantTile/Dead,
@@ -14,18 +16,21 @@ extends Area2D
 var player_in_range = false
 var is_selected = false
 
+func _ready():
+	InputManager.accept.connect(_on_accept_pressed)
+
 func _process(_delta):
 	show_growth()
-	if player_in_range and Input.is_action_just_pressed("ui_accept"):
-		if is_selected:
-			pass
-		else:
-			is_selected = true
-			Global.control_override = true
-			Global.load_plant_data(plant_data.id)
-			tile_menu.show()
-			await get_tree().create_timer(0.3).timeout
-			$TileMenu/Top.grab_focus()
+
+func _on_accept_pressed():
+	if player_in_range and not is_selected:
+		is_selected = true
+		Global.control_override = true
+		Global.load_plant_data(plant_data.id)
+		tile_menu.position = $"../../Shroomie".global_position		
+		tile_menu.show()
+		await get_tree().create_timer(0.3).timeout
+		tile_menu_top.grab_focus()
 
 func show_growth():
 	for tile in tile_states.values():

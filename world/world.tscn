@@ -1,17 +1,24 @@
-[gd_scene load_steps=23 format=4 uid="uid://c3dhtno1emkj1"]
+[gd_scene load_steps=30 format=4 uid="uid://c3dhtno1emkj1"]
 
 [ext_resource type="Texture2D" uid="uid://dv5hgh4i02cdj" path="res://assets/basic-hex-32x28-Sheet.png" id="1_f3sb7"]
 [ext_resource type="Script" uid="uid://dajmoyc7by1ky" path="res://world/world.gd" id="1_i7141"]
+[ext_resource type="Theme" uid="uid://bu3qilx747ohm" path="res://assets/radial_menu.tres" id="2_m0cxt"]
 [ext_resource type="FontFile" uid="uid://b5rbgyjenb6jm" path="res://assets/fonts/NicoClean/NicoClean-Monospaced.otf" id="2_ov2xu"]
+[ext_resource type="Script" uid="uid://dnuuh20l3rv8s" path="res://world/plant_area_menu.gd" id="3_j34ew"]
 [ext_resource type="PackedScene" uid="uid://c4gw23h066pik" path="res://world/world_shroom.tscn" id="3_tlwt5"]
 [ext_resource type="Script" uid="uid://unjhlxsa5g8t" path="res://world/world_hud.gd" id="4_036b0"]
+[ext_resource type="Texture2D" uid="uid://b25b0ofls5676" path="res://assets/hex-arrow2.png" id="4_p2iis"]
+[ext_resource type="Texture2D" uid="uid://7dkserjyfmon" path="res://assets/hex-arrow1.png" id="5_aysyn"]
 [ext_resource type="Theme" uid="uid://du1ir6iptoqui" path="res://assets/fungisland.tres" id="5_dwbse"]
 [ext_resource type="FontFile" uid="uid://cge5jcmobdupx" path="res://assets/fonts/FrogPrincess.ttf" id="5_mad0u"]
+[ext_resource type="Texture2D" uid="uid://b3ciwd0knnb0x" path="res://assets/hex-arrow4.png" id="6_o1net"]
+[ext_resource type="Texture2D" uid="uid://dtn7sbqp4e6py" path="res://assets/hex-arrow3.png" id="7_3ljsx"]
 [ext_resource type="Script" uid="uid://sn378tuwcmow" path="res://world/compound_hud.gd" id="7_7r4gi"]
 [ext_resource type="Texture2D" uid="uid://xlccaps7saif" path="res://assets/hex-side1.png" id="8_jhx03"]
 [ext_resource type="Texture2D" uid="uid://blgl5114ekc6k" path="res://assets/hex-side2.png" id="9_o8fc1"]
 [ext_resource type="Texture2D" uid="uid://byasy4decb4p3" path="res://assets/hex-side3.png" id="10_xo05s"]
 [ext_resource type="Texture2D" uid="uid://c2g32a2x46nnj" path="res://assets/hex-side4.png" id="11_dss4m"]
+[ext_resource type="PackedScene" uid="uid://dh2cgb087os3c" path="res://world/inspector_view.tscn" id="19_j34ew"]
 
 [sub_resource type="Theme" id="Theme_mad0u"]
 default_font = ExtResource("2_ov2xu")
@@ -307,6 +314,239 @@ theme_override_font_sizes/normal_font_size = 9
 text = "FungIsland"
 horizontal_alignment = 1
 
+[node name="HUD" type="CanvasLayer" parent="."]
+
+[node name="TileMenu" type="Control" parent="HUD"]
+visible = false
+z_index = 1
+layout_mode = 3
+anchors_preset = 0
+focus_mode = 1
+mouse_filter = 1
+mouse_default_cursor_shape = 2
+theme = ExtResource("2_m0cxt")
+script = ExtResource("3_j34ew")
+metadata/_edit_use_anchors_ = true
+
+[node name="Top" type="TextureButton" parent="HUD/TileMenu"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.485
+anchor_top = 0.458
+anchor_right = 0.485
+anchor_bottom = 0.458
+offset_left = -15.955
+offset_top = -51.174
+offset_right = 16.045
+offset_bottom = -23.174
+focus_neighbor_left = NodePath("../Left")
+focus_neighbor_top = NodePath(".")
+focus_neighbor_right = NodePath("../Right")
+focus_neighbor_bottom = NodePath("../Bottom")
+mouse_default_cursor_shape = 2
+action_mode = 0
+texture_normal = ExtResource("4_p2iis")
+texture_focused = ExtResource("5_aysyn")
+stretch_mode = 0
+
+[node name="Action" type="Label" parent="HUD/TileMenu/Top"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.761
+anchor_top = 0.5
+anchor_right = -0.761
+anchor_bottom = 0.5
+offset_left = -0.692999
+offset_top = -36.826
+offset_right = 81.307
+offset_bottom = -15.826
+theme = ExtResource("2_m0cxt")
+text = "Connect"
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[node name="Cost" type="Label" parent="HUD/TileMenu/Top"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.761
+anchor_top = 0.5
+anchor_right = -0.761
+anchor_bottom = 0.5
+offset_left = 0.307001
+offset_top = -52.826
+offset_right = 73.307
+offset_bottom = -31.826
+theme = ExtResource("2_m0cxt")
+text = "-100"
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[node name="Right" type="TextureButton" parent="HUD/TileMenu"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.485
+anchor_top = 0.458
+anchor_right = 0.485
+anchor_bottom = 0.458
+offset_left = 25.045
+offset_top = -13.174
+offset_right = 57.045
+offset_bottom = 14.826
+focus_neighbor_left = NodePath("../Left")
+focus_neighbor_top = NodePath("../Top")
+focus_neighbor_right = NodePath(".")
+focus_neighbor_bottom = NodePath("../Bottom")
+action_mode = 0
+texture_normal = ExtResource("6_o1net")
+texture_focused = ExtResource("7_3ljsx")
+stretch_mode = 0
+
+[node name="Cost" type="Label" parent="HUD/TileMenu/Right"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 1.838
+anchor_right = 0.5
+anchor_bottom = 1.838
+offset_left = 21.955
+offset_top = -37.29
+offset_right = 114.955
+offset_bottom = -18.29
+theme = ExtResource("2_m0cxt")
+text = "-100"
+vertical_alignment = 1
+
+[node name="Action" type="Label" parent="HUD/TileMenu/Right"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 1.838
+anchor_right = 0.5
+anchor_bottom = 1.838
+offset_left = 19.955
+offset_top = -57.29
+offset_right = 91.955
+offset_bottom = -35.29
+theme = ExtResource("2_m0cxt")
+text = "Grow"
+vertical_alignment = 1
+
+[node name="Bottom" type="TextureButton" parent="HUD/TileMenu"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.485
+anchor_top = 0.458
+anchor_right = 0.485
+anchor_bottom = 0.458
+offset_left = -15.955
+offset_top = 21.826
+offset_right = 16.045
+offset_bottom = 49.826
+focus_neighbor_left = NodePath("../Left")
+focus_neighbor_top = NodePath("../Top")
+focus_neighbor_right = NodePath("../Right")
+action_mode = 0
+texture_normal = ExtResource("4_p2iis")
+texture_focused = ExtResource("5_aysyn")
+stretch_mode = 0
+flip_v = true
+
+[node name="Action" type="Label" parent="HUD/TileMenu/Bottom"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = -0.729
+anchor_right = 0.5
+anchor_bottom = -0.729
+offset_left = -28.045
+offset_top = 52.586
+offset_right = 30.955
+offset_bottom = 90.586
+theme = ExtResource("2_m0cxt")
+text = "Close"
+horizontal_alignment = 1
+
+[node name="Cost" type="Label" parent="HUD/TileMenu/Bottom"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = -0.729
+anchor_right = 0.5
+anchor_bottom = -0.729
+offset_left = -28.045
+offset_top = 69.586
+offset_right = 30.955
+offset_bottom = 86.586
+theme = ExtResource("2_m0cxt")
+text = "-100"
+horizontal_alignment = 1
+
+[node name="Left" type="TextureButton" parent="HUD/TileMenu"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.485
+anchor_top = 0.458
+anchor_right = 0.485
+anchor_bottom = 0.458
+offset_left = -54.955
+offset_top = -13.174
+offset_right = -22.955
+offset_bottom = 14.826
+focus_neighbor_left = NodePath(".")
+focus_neighbor_top = NodePath("../Top")
+focus_neighbor_right = NodePath("../Right")
+focus_neighbor_bottom = NodePath("../Bottom")
+action_mode = 0
+texture_normal = ExtResource("6_o1net")
+texture_focused = ExtResource("7_3ljsx")
+stretch_mode = 0
+flip_h = true
+
+[node name="Action" type="Label" parent="HUD/TileMenu/Left"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 1.709
+anchor_top = 0.5
+anchor_right = 1.709
+anchor_bottom = 0.5
+offset_left = -133.688
+offset_top = -23.0
+offset_right = -57.688
+offset_bottom = -3.0
+theme = ExtResource("2_m0cxt")
+text = "Play"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Cost" type="Label" parent="HUD/TileMenu/Left"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 1.709
+anchor_top = 0.5
+anchor_right = 1.709
+anchor_bottom = 0.5
+offset_left = -134.733
+offset_top = -3.826
+offset_right = -58.733
+offset_bottom = 16.174
+theme = ExtResource("2_m0cxt")
+text = "-100"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Message" parent="HUD" instance=ExtResource("19_j34ew")]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
 [connection signal="timeout" from="World HUD/Economy/Timer" to="World HUD/Economy" method="_on_timer_timeout"]
 [connection signal="timeout" from="TickTimer" to="." method="_on_timer_timeout"]
 [connection signal="timeout" from="SprintTimer" to="." method="_on_sprint_timer_timeout"]
+[connection signal="pressed" from="HUD/TileMenu/Top" to="HUD/TileMenu" method="_on_top_pressed"]
+[connection signal="pressed" from="HUD/TileMenu/Right" to="HUD/TileMenu" method="_on_right_pressed"]
+[connection signal="pressed" from="HUD/TileMenu/Bottom" to="HUD/TileMenu" method="_on_bottom_pressed"]
+[connection signal="pressed" from="HUD/TileMenu/Left" to="HUD/TileMenu" method="_on_left_pressed"]

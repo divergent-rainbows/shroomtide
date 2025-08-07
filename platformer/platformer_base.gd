@@ -24,6 +24,7 @@ var stats_shown = false
 var leaves_healed = []
 var starting_y = 0
 var run_height = 0
+var game_over_accept_ready = false
 
 func _ready():
 	starting_y = player.position.y
@@ -33,6 +34,7 @@ func _ready():
 	hud.update_record_height(plant_data.height_reached)
 	timer.wait_time = plant_data.get_nurture_time()
 	timer.start()
+	InputManager.accept.connect(_on_accept_pressed)
 
 func _process(_delta: float) -> void:
 	run_height = max((starting_y - player.position.y), run_height)
@@ -40,10 +42,14 @@ func _process(_delta: float) -> void:
 	calc_leaves_healed()
 	if is_game_over():
 		if not stats_shown:
-			hud.	show_run_stats()
-		if Input.is_action_just_released("ui_accept"):
-			update_stats()
-			Global.goto_scene(Global.WORLD_SCENE_PATH)
+			hud.show_run_stats()
+			stats_shown = true
+			game_over_accept_ready = true
+
+func _on_accept_pressed():
+	if game_over_accept_ready:
+		update_stats()
+		Global.goto_scene(Global.WORLD_SCENE_PATH)
 
 func is_game_over():
 	var finish_line = START_Y - offset_y + NORMAL_JUMP_HEIGHT

@@ -1,14 +1,16 @@
 extends Node
 
 const GAME_SAVE_PATH = "user://save_data.tres"
-@onready var data := load(GAME_SAVE_PATH) as SaveData 
+var data: SaveData 
 
 func _ready() -> void: 
-	if data == null:
+	var loaded = load(GAME_SAVE_PATH)
+	if loaded and loaded is SaveData:
+		data = loaded
+	else:
 		data = SaveData.new()
-		data.energy = 50
+		data.energy_g = 100
 		ResourceSaver.save(data, GAME_SAVE_PATH)
-		print("Created new save data")
 	if data.plants.is_empty():
 		World.initialize_plant_data()
 
@@ -17,13 +19,19 @@ func save_game():
 	if err != OK:
 		push_error("Save failed: %s" % error_string(err))
 
-func reset():
-	print("Resetting...")
+func initialize_data():
 	data.energy_g = 100
-	data.energy_a = 0
-	data.energy_p = 0
-	data.energy_t = 0
 	data.plants_map = {}
 	data.plants = []
 	data.run_time = 0
-	save_game()
+
+func reset():
+	initialize_data()
+	delete_save()
+
+func delete_save():
+	initialize_data()
+	if FileAccess.file_exists(GAME_SAVE_PATH):
+		var dir = DirAccess.open("user://")
+		if dir:
+			dir.remove("save_data.tres")
