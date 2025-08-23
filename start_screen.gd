@@ -1,6 +1,6 @@
 extends Node2D
 
-@onready var start_button = $Menu/StartButton  # Adjust path if needed
+@onready var start_button: Button = $CanvasLayer/Menu/StartButton
 
 func _ready():
 	flash_start_button()

@@ -25,9 +25,13 @@ var leaves_healed = []
 var starting_y = 0
 var run_height = 0
 var game_over_accept_ready = false
+@onready var cam: Camera2D = $LevelShroomie/Camera2D2
 
 func _ready():
+	cam.enabled = true
+	cam.make_current()
 	starting_y = player.position.y
+	player.position.x = Global.LEFT_LANE_X
 	left_lane = leaf_map.local_to_map(Vector2(Global.LEFT_LANE_X, 0)).x
 	right_lane = leaf_map.local_to_map(Vector2(Global.RIGHT_LANE_X, 0)).x
 	generate_leaves(plant_data.leaves)

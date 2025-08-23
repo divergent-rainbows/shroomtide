@@ -24,16 +24,8 @@ var facing_east = true
 func _ready() -> void: 
 	# Use saved coordinates if available, otherwise use current position
 	local_pos = Global.current_coords
-	var target_start = world_map.map_to_local(local_pos)
-	
-	# Calculate offset from current position to tile center
-	var current_tile_pos = world_map.local_to_map(global_position)
-	var current_tile_center = world_map.map_to_local(current_tile_pos)
-	global_tile_offset = position - current_tile_center
-	
 	# Position player at saved coordinates with proper centering
-	position = target_start + global_tile_offset
-	Global.current_coords = local_pos
+	position = world_map.map_to_local(local_pos) 
 	
 	InputManager.set_platformer_mode(false)
 	_connect_input_signals()

@@ -2,9 +2,9 @@ extends Area2D
 
 @export var plant_data: PlantData
 
-@onready var message: Control = $"../../HUD/Message"
-@onready var tile_menu: Control = $"../../HUD/TileMenu"
-@onready var tile_menu_top: Control = $"../../HUD/TileMenu/Top"
+@onready var shroomie: CharacterBody2D 	= $"../../Shroomie"
+@onready var tile_menu: Control        	= $"../../Shroomie/TileMenu" 
+@onready var tile_menu_top: TextureButton = $"../../Shroomie/TileMenu/Top"
 
 @onready var tile_states := {
 	Global.HealthStatus.Unknown: $PlantTile/Dead,
@@ -17,6 +17,7 @@ var player_in_range = false
 var is_selected = false
 
 func _ready():
+	await get_tree().process_frame
 	InputManager.accept.connect(_on_accept_pressed)
 
 func _process(_delta):
@@ -27,7 +28,7 @@ func _on_accept_pressed():
 		is_selected = true
 		Global.control_override = true
 		Global.load_plant_data(plant_data.id)
-		tile_menu.position = $"../../Shroomie".global_position		
+		tile_menu.global_position = $"../../Shroomie".global_position
 		tile_menu.show()
 		await get_tree().create_timer(0.3).timeout
 		tile_menu_top.grab_focus()

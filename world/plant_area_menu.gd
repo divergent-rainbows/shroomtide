@@ -59,8 +59,9 @@ const NOT_ENOUGH_RES = "Not enough energy..."
 		BtnPos.RIGHT: ACTION_GROW_LEAF
 	}
 }
-@onready var message: Control = $"../Message"
-@onready var shroomie := $"../../Shroomie"
+
+@onready var message: Control = %Message
+@onready var shroomie := %Shroomie
 @onready var pd := Global.current_plant_data as PlantData
 @onready var save_data := Save.data as SaveData
 

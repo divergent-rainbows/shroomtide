@@ -22,7 +22,7 @@ const SCREEN_SCALE = 2.0
 const LEFT_LANE_X = 226.0
 const RIGHT_LANE_X = 435.0
 var current_scene = null
-var current_coords = Vector2i(10, 8)
+var current_coords = Vector2i(20, 28)
 
 var current_plant_data = null
 var control_override = false

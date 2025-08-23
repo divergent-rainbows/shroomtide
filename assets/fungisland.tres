@@ -5,3 +5,4 @@
 [resource]
 default_font = ExtResource("1_at07p")
 default_font_size = 17
+Label/font_sizes/font_size = 24

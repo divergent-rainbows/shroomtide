@@ -1,0 +1,17 @@
+[gd_resource type="TileSet" load_steps=3 format=3 uid="uid://btjqgniy4geil"]
+
+[ext_resource type="Texture2D" uid="uid://dt2bevtou3o7x" path="res://assets/white_square.png" id="1_dlxvb"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_j34ew"]
+texture = ExtResource("1_dlxvb")
+texture_region_size = Vector2i(360, 360)
+0:0/0 = 0
+1:0/0 = 0
+0:1/0 = 0
+1:1/0 = 0
+0:2/0 = 0
+1:2/0 = 0
+
+[resource]
+tile_size = Vector2i(360, 360)
+sources/6 = SubResource("TileSetAtlasSource_j34ew")

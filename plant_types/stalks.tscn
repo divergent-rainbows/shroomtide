@@ -1,7 +1,6 @@
-[gd_scene load_steps=8 format=3 uid="uid://xosll0unga4"]
+[gd_scene load_steps=6 format=3 uid="uid://xosll0unga4"]
 
 [ext_resource type="Texture2D" uid="uid://driuhpxtix6p4" path="res://assets/pixel_art/plant-hex-placeholder.png" id="1_fbmkx"]
-[ext_resource type="Shader" uid="uid://ddxnpsvbejf1u" path="res://shaders/waves.gdshader" id="2_fbmkx"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_58aww"]
 texture = ExtResource("1_fbmkx")
@@ -27,73 +26,6 @@ tile_shape = 3
 tile_size = Vector2i(32, 28)
 sources/1 = SubResource("TileSetAtlasSource_68upc")
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_58aww"]
-resource_name = "radial_glow"
-shader = ExtResource("2_fbmkx")
-shader_parameter/enabled = true
-shader_parameter/wave_speed = 80.0
-shader_parameter/wave_scale_x = 1.0
-shader_parameter/wave_scale_y = 143.235
-shader_parameter/wave_offset_x = -0.0199999
-shader_parameter/wave_offset_y = -0.407
-shader_parameter/wave_direction_x = 1.0
-shader_parameter/wave_direction_y = 0.7
-shader_parameter/enable_radial_waves = true
-shader_parameter/island_center_x = 0.5
-shader_parameter/island_center_y = 0.5
-shader_parameter/radial_frequency = 12.602
-shader_parameter/radial_scale = 63.89
-shader_parameter/radial_wave_speed = 0.588
-shader_parameter/radial_direction = -1.0
-shader_parameter/enable_oscillation = false
-shader_parameter/oscillation_speed = 0.3
-shader_parameter/center_brightness = 2.0
-shader_parameter/edge_brightness = 1.0
-shader_parameter/brightness_falloff = 1.0
-shader_parameter/brightness_amount = 2.0
-shader_parameter/brightness_bias = 0.779
-shader_parameter/saturation_boost = 0.0
-shader_parameter/contrast = 0.48
-shader_parameter/wave_bias = 0.0
-shader_parameter/wave_color = Color(1, 0.909804, 0, 1)
-shader_parameter/wave_color_strength = 1.0
-shader_parameter/opacity = 1.0
-shader_parameter/effect_opacity = 0.642
-shader_parameter/enable_radial_opacity = false
-shader_parameter/radial_opacity_center_x = 0.5
-shader_parameter/radial_opacity_center_y = 0.5
-shader_parameter/radial_opacity_radius = 0.7
-shader_parameter/radial_opacity_falloff = 1.0
-shader_parameter/invert_radial_opacity = false
-shader_parameter/brightness_as_alpha = false
-shader_parameter/alpha_threshold = 1.0
-shader_parameter/enable_pulse_mode = false
-shader_parameter/pulse_speed = 3.437
-shader_parameter/pulse_intensity = 0.481
-shader_parameter/enable_second_wave = false
-shader_parameter/second_wave_speed = 50.0
-shader_parameter/second_wave_scale_x = 200.0
-shader_parameter/second_wave_scale_y = 200.0
-shader_parameter/second_wave_strength = 0.3
-shader_parameter/second_wave_direction_x = 1.0
-shader_parameter/second_wave_direction_y = 0.8
-shader_parameter/tidal_cycle_speed = 1.0
-shader_parameter/tidal_phase_offset = 1.0
-shader_parameter/enable_noise = false
-shader_parameter/noise_scale = 10.0
-shader_parameter/noise_strength = 0.05
-shader_parameter/noise_speed = 100.0
-shader_parameter/noise_direction_x = 0.5
-shader_parameter/noise_direction_y = 0.0
-shader_parameter/asymmetry_strength = 0.0
-shader_parameter/asymmetry_angle = 0.0
-shader_parameter/enable_pixelation = false
-shader_parameter/pixelation_size = 3.0
-shader_parameter/rainbow_mode = false
-shader_parameter/rainbow_speed = 100.0
-shader_parameter/rainbow_saturation = 0.8
-shader_parameter/rainbow_strength = 0.5
-
 [node name="PlantTile" type="Node2D"]
 
 [node name="Dead" type="TileMapLayer" parent="."]
@@ -107,6 +39,5 @@ tile_map_data = PackedByteArray(0, 0, 255, 255, 255, 255, 1, 0, 1, 0, 0, 0, 0, 0
 tile_set = SubResource("TileSet_yg0tw")
 
 [node name="Recovered" type="TileMapLayer" parent="."]
-material = SubResource("ShaderMaterial_58aww")
 tile_map_data = PackedByteArray(0, 0, 255, 255, 255, 255, 1, 0, 2, 0, 0, 0, 0, 0)
 tile_set = SubResource("TileSet_yg0tw")

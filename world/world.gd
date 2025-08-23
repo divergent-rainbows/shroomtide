@@ -2,7 +2,7 @@ extends Node2D
 class_name World
 
 @onready var save_data := Save.data as SaveData
-@onready var world_hud: Control = $"World HUD"
+@onready var world_hud: Control = $"CanvasLayer/World HUD"
 @onready var shroomie: CharacterBody2D = $Shroomie
 @onready var map: TileMapLayer = $Map
 @onready var sprint_timer: Timer = $SprintTimer
@@ -13,35 +13,29 @@ const STALKS = preload("res://plant_types/stalks.tscn")
 const SHRUBS = preload("res://plant_types/shrubs.tscn")
 const TREES = preload("res://plant_types/trees.tscn")
 const WORLD_PLANT_LOCATIONS = {
-	Global.PlantType.Stalk: [
-		Vector2i(5,8),
-		Vector2i(9,5),
-		Vector2i(8,14),
-		Vector2i(12,3),
-		Vector2i(12,14),
-		Vector2i(15,7),
-		Vector2i(15,11),
+	Global.PlantType.Shrub: [
+		Vector2i(17,32),
+		Vector2i(17,28),
+		Vector2i(20,26),
+		Vector2i(20,34),
+		Vector2i(23,28),
+		Vector2i(23,32),
 	],	
-	Global.PlantType.Shrub:  [
-		Vector2i(7,6),
-		Vector2i(10,2),
-		Vector2i(10,13),
-		Vector2i(11,5),
-		Vector2i(13,9),
+	Global.PlantType.Stalk:  [
+		Vector2i(18,29),
+		Vector2i(18,31),
+		Vector2i(21,29),
+		Vector2i(21,31),
 	],
 	Global.PlantType.Trees: [
-		Vector2i(7,10),
-		Vector2i(8,4),
-		Vector2i(11,8),
-		Vector2i(13,5),
-		Vector2i(14, 11),
+		Vector2i(20,30)
 	]
 }
 
 func _ready() -> void:
 	var plant_coords = Global.save_data.plants_map
 	for coord in plant_coords:
-		place_plant_on_tile(plant_coords[coord], coord)
+		instantiate_and_place_plant_on_tile(plant_coords[coord], coord)
 
 func _process(_delta: float) -> void:
 	if game_over:
@@ -60,7 +54,7 @@ static func initialize_plant_data() -> void:
 	Save.data.upload_plants(new_plants)
 	Save.data.serialize_plant_data()
 
-func place_plant_on_tile(plant: PlantData, tile_coords: Vector2i):
+func instantiate_and_place_plant_on_tile(plant: PlantData, tile_coords: Vector2i):
 	var new_plant_area := TILE.instantiate()
 	new_plant_area.add_child(plant.visual_scene.instantiate())
 	new_plant_area.plant_data = plant

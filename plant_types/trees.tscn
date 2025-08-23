@@ -1,9 +1,8 @@
-[gd_scene load_steps=9 format=4 uid="uid://hh6biw3cwduh"]
+[gd_scene load_steps=8 format=4 uid="uid://hh6biw3cwduh"]
 
 [ext_resource type="Texture2D" uid="uid://bl1ufvt42y4p5" path="res://assets/pixel_art/plant_tree/hex_tree1.png" id="1_aysvb"]
 [ext_resource type="Texture2D" uid="uid://bfjgp8vg6wh3d" path="res://assets/pixel_art/plant_tree/hex_tree2.png" id="2_0rs8p"]
 [ext_resource type="Texture2D" uid="uid://bsfx37dc0ta6t" path="res://assets/pixel_art/plant_tree/hex_tree3.png" id="3_dmo4f"]
-[ext_resource type="Material" uid="uid://djip0idl6wmsn" path="res://shaders/radial_glow.tres" id="4_0rs8p"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_aysvb"]
 texture = ExtResource("1_aysvb")
@@ -89,6 +88,5 @@ tile_set = SubResource("TileSet_l3l3h")
 
 [node name="Recovered" type="TileMapLayer" parent="."]
 visible = false
-material = ExtResource("4_0rs8p")
 tile_map_data = PackedByteArray("AAD/////BQABAAMAAAD///7/BQABAAIAAAD//wAABQABAAQAAAAAAP7/BQACAAIAAAAAAP//BQACAAMAAAAAAAAABQACAAQAAAD+//z/BQAAAAAAAAD+//3/BQAAAAEAAAD+//7/BQAAAAIAAAD+////BQAAAAMAAAD+/wAABQAAAAQAAAD///z/BQABAAAAAAD///3/BQABAAEAAAD//wEABQABAAUAAAAAAPz/BQACAAAAAAAAAP3/BQACAAEAAAAAAAEABQACAAUAAAABAPz/BQADAAAAAAABAP3/BQADAAEAAAABAP7/BQADAAIAAAABAP//BQADAAMAAAA=")
 tile_set = SubResource("TileSet_l3l3h")
