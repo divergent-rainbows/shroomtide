@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://xlccaps7saif"
-path="res://.godot/imported/hex-side1.png-93164c5d2209e4f924c76100c48ed572.ctex"
+uid="uid://driuhpxtix6p4"
+path="res://.godot/imported/plant-hex-placeholder.png-84d602b62e9e42cd12c34c8aa4555973.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/hex-side1.png"
-dest_files=["res://.godot/imported/hex-side1.png-93164c5d2209e4f924c76100c48ed572.ctex"]
+source_file="res://assets/pixel_art/plant-hex-placeholder.png"
+dest_files=["res://.godot/imported/plant-hex-placeholder.png-84d602b62e9e42cd12c34c8aa4555973.ctex"]
 
 [params]
 

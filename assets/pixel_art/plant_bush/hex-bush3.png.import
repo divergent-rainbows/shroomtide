@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c0dhwy0q11c81"
-path="res://.godot/imported/hex-bush1.png-77ab03ae0e4b48896b170eaa5ca98fa8.ctex"
+uid="uid://wic8jjn40sad"
+path="res://.godot/imported/hex-bush3.png-f189e3117db9368491eedcb4f4a2a520.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/hex-bush1.png"
-dest_files=["res://.godot/imported/hex-bush1.png-77ab03ae0e4b48896b170eaa5ca98fa8.ctex"]
+source_file="res://assets/pixel_art/plant_bush/hex-bush3.png"
+dest_files=["res://.godot/imported/hex-bush3.png-f189e3117db9368491eedcb4f4a2a520.ctex"]
 
 [params]
 

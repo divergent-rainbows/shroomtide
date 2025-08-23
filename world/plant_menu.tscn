@@ -2,10 +2,10 @@
 
 [ext_resource type="Theme" uid="uid://bu3qilx747ohm" path="res://assets/radial_menu.tres" id="3_4j0hb"]
 [ext_resource type="Script" uid="uid://dnuuh20l3rv8s" path="res://world/plant_area_menu.gd" id="4_ltysi"]
-[ext_resource type="Texture2D" uid="uid://b25b0ofls5676" path="res://assets/hex-arrow2.png" id="5_mh6sb"]
-[ext_resource type="Texture2D" uid="uid://7dkserjyfmon" path="res://assets/hex-arrow1.png" id="6_flxyh"]
-[ext_resource type="Texture2D" uid="uid://b3ciwd0knnb0x" path="res://assets/hex-arrow4.png" id="7_0knkr"]
-[ext_resource type="Texture2D" uid="uid://dtn7sbqp4e6py" path="res://assets/hex-arrow3.png" id="8_imarh"]
+[ext_resource type="Texture2D" uid="uid://b25b0ofls5676" path="res://assets/pixel_art/hex-arrow2.png" id="5_mh6sb"]
+[ext_resource type="Texture2D" uid="uid://7dkserjyfmon" path="res://assets/pixel_art/hex-arrow1.png" id="6_flxyh"]
+[ext_resource type="Texture2D" uid="uid://b3ciwd0knnb0x" path="res://assets/pixel_art/hex-arrow4.png" id="7_0knkr"]
+[ext_resource type="Texture2D" uid="uid://dtn7sbqp4e6py" path="res://assets/pixel_art/hex-arrow3.png" id="8_imarh"]
 
 [node name="TileMenu" type="Control"]
 z_index = 1

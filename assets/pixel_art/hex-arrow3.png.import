@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://7dkserjyfmon"
-path="res://.godot/imported/hex-arrow1.png-859d71484955ced7b6d60c6ce20b7893.ctex"
+uid="uid://dtn7sbqp4e6py"
+path="res://.godot/imported/hex-arrow3.png-6eb87aa2f953f04a8fad24ce6b74a43b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/hex-arrow1.png"
-dest_files=["res://.godot/imported/hex-arrow1.png-859d71484955ced7b6d60c6ce20b7893.ctex"]
+source_file="res://assets/pixel_art/hex-arrow3.png"
+dest_files=["res://.godot/imported/hex-arrow3.png-6eb87aa2f953f04a8fad24ce6b74a43b.ctex"]
 
 [params]
 

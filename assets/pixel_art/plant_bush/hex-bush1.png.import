@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dtn7sbqp4e6py"
-path="res://.godot/imported/hex-arrow3.png-b01571d004ab43ccf52d555d3de0fa9e.ctex"
+uid="uid://c0dhwy0q11c81"
+path="res://.godot/imported/hex-bush1.png-60381f98938ab3f55873d618ba4b16bf.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/hex-arrow3.png"
-dest_files=["res://.godot/imported/hex-arrow3.png-b01571d004ab43ccf52d555d3de0fa9e.ctex"]
+source_file="res://assets/pixel_art/plant_bush/hex-bush1.png"
+dest_files=["res://.godot/imported/hex-bush1.png-60381f98938ab3f55873d618ba4b16bf.ctex"]
 
 [params]
 

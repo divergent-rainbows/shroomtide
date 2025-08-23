@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://jlmtve0jyi2s"
-path="res://.godot/imported/shroomie_32x32-Sheet.png-30e8e828dd76f865ff032568bc2c3af4.ctex"
+uid="uid://dt2bevtou3o7x"
+path="res://.godot/imported/white_square.png-a9075e71544e74a341e9b0606f913c12.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/shroomie_32x32-Sheet.png"
-dest_files=["res://.godot/imported/shroomie_32x32-Sheet.png-30e8e828dd76f865ff032568bc2c3af4.ctex"]
+source_file="res://assets/white_square.png"
+dest_files=["res://.godot/imported/white_square.png-a9075e71544e74a341e9b0606f913c12.ctex"]
 
 [params]
 

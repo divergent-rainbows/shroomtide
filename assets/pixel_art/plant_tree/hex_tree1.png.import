@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bfjgp8vg6wh3d"
-path="res://.godot/imported/hex_tree2.png-5a8cf6d7dd78a24cdbfa946c791e8bf2.ctex"
+uid="uid://bl1ufvt42y4p5"
+path="res://.godot/imported/hex_tree1.png-37d5b9541be9b03daf985a467f77233c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/hex_tree2.png"
-dest_files=["res://.godot/imported/hex_tree2.png-5a8cf6d7dd78a24cdbfa946c791e8bf2.ctex"]
+source_file="res://assets/pixel_art/plant_tree/hex_tree1.png"
+dest_files=["res://.godot/imported/hex_tree1.png-37d5b9541be9b03daf985a467f77233c.ctex"]
 
 [params]
 

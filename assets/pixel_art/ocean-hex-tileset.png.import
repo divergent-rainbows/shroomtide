@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cwgbjrso726nd"
-path="res://.godot/imported/hex-side.png-f4f31f349420bb565da516f892796985.ctex"
+uid="uid://bixpvdq8q3o4j"
+path="res://.godot/imported/ocean-hex-tileset.png-1867b9ae83453998cac67dfab199a312.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/hex-side.png"
-dest_files=["res://.godot/imported/hex-side.png-f4f31f349420bb565da516f892796985.ctex"]
+source_file="res://assets/pixel_art/ocean-hex-tileset.png"
+dest_files=["res://.godot/imported/ocean-hex-tileset.png-1867b9ae83453998cac67dfab199a312.ctex"]
 
 [params]
 

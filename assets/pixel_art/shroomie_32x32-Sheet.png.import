@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bl1ufvt42y4p5"
-path="res://.godot/imported/hex_tree1.png-4f427c4592cd6e339680dfe750204738.ctex"
+uid="uid://jlmtve0jyi2s"
+path="res://.godot/imported/shroomie_32x32-Sheet.png-65f8609f18359e4a821fd19595c22728.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/hex_tree1.png"
-dest_files=["res://.godot/imported/hex_tree1.png-4f427c4592cd6e339680dfe750204738.ctex"]
+source_file="res://assets/pixel_art/shroomie_32x32-Sheet.png"
+dest_files=["res://.godot/imported/shroomie_32x32-Sheet.png-65f8609f18359e4a821fd19595c22728.ctex"]
 
 [params]
 

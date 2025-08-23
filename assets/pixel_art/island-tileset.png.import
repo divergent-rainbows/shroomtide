@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://driuhpxtix6p4"
-path="res://.godot/imported/plant-hex-placeholder.png-3bb3d397771669bc4491136f30a64cba.ctex"
+uid="uid://bd4ukgr17itnc"
+path="res://.godot/imported/island-tileset.png-ec78a7e93d64e719fb6061f157cdecd1.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/plant-hex-placeholder.png"
-dest_files=["res://.godot/imported/plant-hex-placeholder.png-3bb3d397771669bc4491136f30a64cba.ctex"]
+source_file="res://assets/pixel_art/island-tileset.png"
+dest_files=["res://.godot/imported/island-tileset.png-ec78a7e93d64e719fb6061f157cdecd1.ctex"]
 
 [params]
 
