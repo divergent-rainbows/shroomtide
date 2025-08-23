@@ -117,7 +117,8 @@ func _on_screen_tap(screen_pos: Vector2) -> void:
 		if button.visible and _is_button_tapped(button, screen_pos):
 			# Focus the tapped button and execute its action
 			button.grab_focus()
-			_execute_button_action(btn_pos)
+			# don't duplicate actions, currently handled through 
+			# linked button node signal method _on_top_pressed
 			button_tapped = true
 			break
 	
