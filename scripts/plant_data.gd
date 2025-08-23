@@ -92,7 +92,7 @@ func get_leaf_count():
 func get_nurture_time():
 	return (get_leaf_count() / 2.0) + 5
 func get_nurture_reward():
-	print("tick: %s, \thealth: %s" % [Eco.get_tick_energy(), get_health_status()])
+	Console.log_format("Nurture reward: ", "tick: %s, \thealth: %s", [Eco.get_tick_energy(), get_health_status()])
 	return Eco.get_tick_energy() * get_health_status() * run_multiplier
 
 func get_health_status() -> Global.HealthStatus:
@@ -108,7 +108,7 @@ func get_health_status() -> Global.HealthStatus:
 func get_info():
 	for i in Save.data.plants_map.keys():
 		var p = Save.data.plants_map[i]
-		print(i, ": %s, %s" % [p.stringify_type(), p.stringify_health()])
+		Console.log_format(i, ": %s, %s", [p.stringify_type(), p.stringify_health()])
 	return "%s has %d leaves\nGlycosine Rate: %.2f" % [PLANT_TYPE_STRING[type],  get_leaf_count(), get_glycosine_per_tick()] 
 
 func stringify_type() -> String:
