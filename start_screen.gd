@@ -7,8 +7,14 @@ var start_input_position = null
 func _ready():
 	flash_start_button()
 
-func _process(delta: float) -> void:
-	if start_input_position != null:
+func _process(_delta: float) -> void:
+	if Input.is_action_pressed("ui_accept") and start_input_position == null:
+		if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
+			start_input_position = get_viewport().get_mouse_position()
+		else:
+			start_input_position = start_effect.get_global_rect().size / 2.0
+	elif start_input_position != null:
+		start_effect.modulate = Color(1,1,1,1)
 		activate_shader_effect_at(start_effect, start_input_position)
 		await get_tree().create_timer(0.9).timeout
 		Global.goto_scene(Global.WORLD_SCENE_PATH)
@@ -25,12 +31,3 @@ func activate_shader_effect_at(cr: ColorRect, screen_pos: Vector2) -> void:
 	var uv: Vector2 = local / global_rect.size
 	cr.material.set_shader_parameter("texture_center", uv)
 	cr.modulate = Color(1,1,1,1)
-
-
-func _unhandled_input(event: InputEvent) -> void:
-	if event.is_pressed():
-		if start_input_position == null:
-			start_input_position = event.position
-			start_effect.modulate = Color(1,1,1,1)
-		else: 
-			start_input_position = null

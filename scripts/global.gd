@@ -32,16 +32,6 @@ func _ready() -> void:
 	_resize_and_relocate_window()
 	var root = get_tree().root
 	current_scene = root.get_child(-1)
-
-# Convert pixels to "meters" (320px = 1m in game)
-func convert_pixel_height_to_meters(y):
-	return abs(y) / 320.0
-	
-func goto_scene(path):
-	_deferred_goto_scene.call_deferred(path)
-
-func load_plant_data(plant_id):
-	current_plant_data = save_data.plants[plant_id]
 	
 func _resize_and_relocate_window():
 	DisplayServer.window_set_size(Vector2i(1280*SCREEN_SCALE, 720*SCREEN_SCALE))
@@ -54,3 +44,13 @@ func _deferred_goto_scene(path):
 	current_scene = s.instantiate()
 	get_tree().root.add_child(current_scene)
 	get_tree().current_scene = current_scene
+
+# Convert pixels to "meters" (320px = 1m in game)
+func convert_pixel_height_to_meters(y):
+	return abs(y) / 320.0
+	
+func goto_scene(path):
+	_deferred_goto_scene.call_deferred(path)
+
+func load_plant_data(plant_id):
+	current_plant_data = save_data.plants[plant_id]

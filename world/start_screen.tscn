@@ -121,5 +121,4 @@ grow_vertical = 2
 mouse_filter = 2
 mouse_default_cursor_shape = 2
 
-[connection signal="pressed" from="CanvasLayer/Menu/StartButton" to="." method="_on_start_button_pressed"]
 [connection signal="gui_input" from="CanvasLayer/StartEffect" to="." method="_on_start_effect_gui_input"]

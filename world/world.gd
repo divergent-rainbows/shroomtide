@@ -81,3 +81,11 @@ func check_game_over_by_plant_health() -> void:
 	if all_recovered:
 		sprint_timer.stop()
 		game_over = true
+
+func _on_back_to_start_screen_pressed() -> void:
+	Global.goto_scene(Global.START_SCREEN_PATH)
+
+
+func _on_reset_data_pressed() -> void:
+	Save.reset()
+	Global.goto_scene(Global.START_SCREEN_PATH)

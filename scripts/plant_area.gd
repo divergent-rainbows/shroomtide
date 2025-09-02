@@ -13,15 +13,19 @@ extends Area2D
 	Global.HealthStatus.Recovered: $PlantTile/Recovered,
 }
 
+var current_plant_state
 var player_in_range = false
 var is_selected = false
 
 func _ready():
 	await get_tree().process_frame
 	InputManager.accept.connect(_on_accept_pressed)
+	current_plant_state = plant_data.get_health_status()
+	update_growth_stage()
 
 func _process(_delta):
-	show_growth()
+	if plant_data.get_health_status() != current_plant_state:
+		update_growth_stage()
 
 func _on_accept_pressed():
 	if player_in_range and not is_selected:
@@ -33,10 +37,11 @@ func _on_accept_pressed():
 		await get_tree().create_timer(0.3).timeout
 		tile_menu_top.grab_focus()
 
-func show_growth():
+func update_growth_stage():
 	for tile in tile_states.values():
 		tile.hide()
 	tile_states[plant_data.get_health_status()].show()
+	current_plant_state = plant_data.get_health_status()
 
 func _on_body_entered(_body: Node2D) -> void:
 	player_in_range = true

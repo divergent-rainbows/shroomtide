@@ -26,8 +26,9 @@ func initialize_data():
 	data.run_time = 0
 
 func reset():
-	initialize_data()
 	delete_save()
+	initialize_data()
+	World.initialize_plant_data()
 
 func delete_save():
 	initialize_data()

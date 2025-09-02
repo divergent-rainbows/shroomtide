@@ -116,10 +116,8 @@ func _on_screen_tap(screen_pos: Vector2) -> void:
 	for btn_pos in button_nodes:
 		var button = button_nodes[btn_pos]
 		if button.visible and _is_button_tapped(button, screen_pos):
-			# Focus the tapped button and execute its action
 			button.grab_focus()
-			# don't duplicate actions, currently handled through 
-			# linked button node signal method _on_top_pressed
+			_execute_button_action(btn_pos)
 			button_tapped = true
 			break
 	
@@ -130,7 +128,9 @@ func _on_screen_tap(screen_pos: Vector2) -> void:
 func _is_button_tapped(button: Control, screen_pos: Vector2) -> bool:
 	# Check if the screen position is within the button's global rect
 	var button_rect = button.get_global_rect()
-	return button_rect.has_point(screen_pos)
+	var vp = get_viewport()
+	var canvas_pos = vp.get_canvas_transform().affine_inverse() * screen_pos
+	return button_rect.has_point(canvas_pos)
 
 func _execute_button_action(btn_pos: BtnPos) -> void:
 	var available_actions = ACTION_CONFIG[pd.get_health_status()]
