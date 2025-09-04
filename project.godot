@@ -17,7 +17,7 @@ config/icon="res://icon.png"
 
 [autoload]
 
-Console="*res://console_debug.gd"
+Console="*res://scripts/console_debug.gd"
 Save="*res://scripts/save_manager.gd"
 Eco="*res://scripts/eco_manager.gd"
 Global="*res://scripts/global.gd"
@@ -28,6 +28,7 @@ InputManager="*res://scripts/input_manager.gd"
 window/size/viewport_width=720
 window/size/viewport_height=1280
 window/stretch/mode="viewport"
+window/stretch/aspect="expand"
 window/handheld/orientation=1
 
 [dotnet]
