@@ -3,7 +3,8 @@
 [ext_resource type="Script" uid="uid://b17fkfsurc8h3" path="res://world/world_shroom.gd" id="1_s1shv"]
 [ext_resource type="SpriteFrames" uid="uid://cip00qxsau0mi" path="res://animation/idle_shroomie.tres" id="2_siaj3"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_m7aoq"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rhiql"]
+size = Vector2(22, 6)
 
 [node name="World Shroomie" type="CharacterBody2D"]
 script = ExtResource("1_s1shv")
@@ -16,6 +17,5 @@ animation = &"idle"
 autoplay = "idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, -7)
-shape = SubResource("CircleShape2D_m7aoq")
-one_way_collision = true
+position = Vector2(1, 1)
+shape = SubResource("RectangleShape2D_rhiql")

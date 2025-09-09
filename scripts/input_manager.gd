@@ -13,6 +13,9 @@ signal cancel
 signal back
 signal reset
 signal tap_at_position
+signal on_screen_touch
+signal on_screen_drag
+signal on_change_direction
 
 # Input Device Types
 enum InputDevice {
@@ -107,7 +110,7 @@ func handle_keyboard_mouse_input(event: InputEvent) -> void:
 func handle_mouse_button_input(event: InputEventMouseButton) -> void:
 	if event.button_index == MOUSE_BUTTON_LEFT:
 		if event.pressed:
-			handle_screen_interaction(event.position)
+			tap_at_position.emit(event.position)
 		else:
 			jump_released.emit(event.position)
 
@@ -130,11 +133,13 @@ func handle_touch_input(event: InputEvent) -> void:
 	# filter out mouse clicksq
 	if event is InputEventScreenTouch:
 		handle_screen_touch_input(event)
+	elif event is InputEventScreenDrag:
+		on_screen_drag.emit(event)
 
 func handle_screen_touch_input(event: InputEventScreenTouch) -> void:
 	if event.pressed:
 		touch_start_pos = event.position
-		handle_screen_interaction(event.position)
+		handle_screen_interaction(event)
 	else:
 		var swipe_vector = event.position - touch_start_pos
 		if swipe_vector.length() > touch_threshold:
@@ -142,12 +147,12 @@ func handle_screen_touch_input(event: InputEventScreenTouch) -> void:
 		else:
 			jump_released.emit(event.position)
 
-func handle_screen_interaction(position: Vector2) -> void:
+func handle_screen_interaction(event: InputEventScreenTouch) -> void:
 	match current_game_mode:
 		GameMode.PLATFORMER:
-			handle_platformer_screen_input(position)
+			handle_platformer_screen_input(event.position)
 		GameMode.WORLD:
-			handle_world_screen_input(position)
+			handle_world_screen_input(event)
 
 func handle_platformer_screen_input(position: Vector2) -> void:
 	var screen_width = get_viewport().get_visible_rect().size.x
@@ -160,9 +165,9 @@ func handle_platformer_screen_input(position: Vector2) -> void:
 	
 	accept.emit()
 
-func handle_world_screen_input(position: Vector2) -> void:
-	print("WORLD input emitting at: ", position)
-	tap_at_position.emit(position)
+func handle_world_screen_input(event: InputEventScreenTouch) -> void:
+	tap_at_position.emit(event.position)
+	on_screen_touch.emit(event)
 
 func handle_touch_swipe_gesture(swipe_vector: Vector2) -> void:
 	var normalized = swipe_vector.normalized()

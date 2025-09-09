@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://cdb678m1upsxl"]
+[gd_scene load_steps=12 format=3 uid="uid://cdb678m1upsxl"]
 
 [ext_resource type="Script" uid="uid://cf81un4t7q13x" path="res://scripts/plant_area.gd" id="1_cgr6h"]
 [ext_resource type="Script" uid="uid://drvolyvlc40or" path="res://scripts/plant_data.gd" id="2_8w6sc"]
+[ext_resource type="Texture2D" uid="uid://d3tus1wkh1fkw" path="res://animation/hex-selector-outline.png" id="3_aiu0i"]
 
 [sub_resource type="Resource" id="Resource_cgr6h"]
 script = ExtResource("2_8w6sc")
@@ -29,16 +30,74 @@ total_runs = 0
 growth_rate = 0.0
 metadata/_custom_type_script = "uid://drvolyvlc40or"
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_be7xa"]
-radius = 14.0357
+[sub_resource type="AtlasTexture" id="AtlasTexture_p2iis"]
+atlas = ExtResource("3_aiu0i")
+region = Rect2(0, 0, 46, 37)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_aysyn"]
+atlas = ExtResource("3_aiu0i")
+region = Rect2(46, 0, 46, 37)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o1net"]
+atlas = ExtResource("3_aiu0i")
+region = Rect2(92, 0, 46, 37)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3ljsx"]
+atlas = ExtResource("3_aiu0i")
+region = Rect2(138, 0, 46, 37)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gi7ib"]
+atlas = ExtResource("3_aiu0i")
+region = Rect2(184, 0, 46, 37)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0pnie"]
+atlas = ExtResource("3_aiu0i")
+region = Rect2(230, 0, 46, 37)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_llyeo"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_p2iis")
+}, {
+"duration": 0.7,
+"texture": SubResource("AtlasTexture_aysyn")
+}, {
+"duration": 0.5,
+"texture": SubResource("AtlasTexture_o1net")
+}, {
+"duration": 0.4,
+"texture": SubResource("AtlasTexture_3ljsx")
+}, {
+"duration": 0.3,
+"texture": SubResource("AtlasTexture_gi7ib")
+}, {
+"duration": 0.2,
+"texture": SubResource("AtlasTexture_0pnie")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
 
 [node name="PlantArea" type="Area2D"]
 script = ExtResource("1_cgr6h")
 plant_data = SubResource("Resource_cgr6h")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, -7)
-shape = SubResource("CircleShape2D_be7xa")
+[node name="Selector" type="AnimatedSprite2D" parent="."]
+visible = false
+sprite_frames = SubResource("SpriteFrames_llyeo")
+autoplay = "default"
+frame_progress = 0.528553
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D"]
+polygon = PackedVector2Array(-14, -6, -14, 8, 0, 13, 14, 8, 14, -6, 0, -12)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+scale = Vector2(1.05, 1.05)
+polygon = PackedVector2Array(-14, -6, -14, 8, 0, 13, 14, 8, 14, -6, 0, -12)
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="body_exited" from="." to="." method="_on_body_exited"]

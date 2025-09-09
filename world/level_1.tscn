@@ -1,0 +1,1211 @@
+[gd_scene load_steps=27 format=4 uid="uid://csk605jlwerg"]
+
+[ext_resource type="Script" uid="uid://dajmoyc7by1ky" path="res://world/world.gd" id="1_cm483"]
+[ext_resource type="FontFile" uid="uid://b5rbgyjenb6jm" path="res://assets/fonts/NicoClean/NicoClean-Monospaced.otf" id="2_elf5d"]
+[ext_resource type="Script" uid="uid://unjhlxsa5g8t" path="res://world/world_hud.gd" id="3_ltcrh"]
+[ext_resource type="Theme" uid="uid://bu3qilx747ohm" path="res://assets/radial_menu.tres" id="4_tftsi"]
+[ext_resource type="Theme" uid="uid://du1ir6iptoqui" path="res://assets/fungisland.tres" id="5_j0pdx"]
+[ext_resource type="Script" uid="uid://dk2u0ri6onvnj" path="res://world/inspector_view.gd" id="6_2dlxi"]
+[ext_resource type="Shader" uid="uid://ddxnpsvbejf1u" path="res://shaders/waves.gdshader" id="7_t7y30"]
+[ext_resource type="Texture2D" uid="uid://bd4ukgr17itnc" path="res://assets/pixel_art/island-tileset.png" id="8_5jua3"]
+[ext_resource type="Texture2D" uid="uid://ceete43ed2d6w" path="res://assets/aap64-hex-32x28.png" id="8_cm483"]
+[ext_resource type="Texture2D" uid="uid://bixpvdq8q3o4j" path="res://assets/pixel_art/ocean-hex-tileset.png" id="10_87vrv"]
+[ext_resource type="Script" uid="uid://b17fkfsurc8h3" path="res://world/world_shroom.gd" id="11_fnv45"]
+[ext_resource type="Script" uid="uid://dnuuh20l3rv8s" path="res://world/plant_area_menu.gd" id="12_fwnsf"]
+[ext_resource type="Texture2D" uid="uid://b25b0ofls5676" path="res://assets/pixel_art/hex-arrow2.png" id="13_x7u5b"]
+[ext_resource type="Texture2D" uid="uid://7dkserjyfmon" path="res://assets/pixel_art/hex-arrow1.png" id="14_tyo1i"]
+[ext_resource type="Texture2D" uid="uid://b3ciwd0knnb0x" path="res://assets/pixel_art/hex-arrow4.png" id="15_ch43e"]
+[ext_resource type="Texture2D" uid="uid://dtn7sbqp4e6py" path="res://assets/pixel_art/hex-arrow3.png" id="16_ltrov"]
+[ext_resource type="SpriteFrames" uid="uid://cip00qxsau0mi" path="res://animation/idle_shroomie.tres" id="17_sgd8w"]
+
+[sub_resource type="Theme" id="Theme_mad0u"]
+default_font = ExtResource("2_elf5d")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_m0cxt"]
+shader = ExtResource("7_t7y30")
+shader_parameter/enable = false
+shader_parameter/primary_waveform = 1
+shader_parameter/enable_pulse_mode = false
+shader_parameter/texture_center = Vector2(0.5, 0.5)
+shader_parameter/wave_offset = Vector2(0, 0)
+shader_parameter/time_offset = 0.0
+shader_parameter/uv_scale = 1000.0
+shader_parameter/brightness_bias = 0.0
+shader_parameter/wave_speed = 2.88
+shader_parameter/wave_scale = Vector2(4, 6)
+shader_parameter/wave_direction = Vector2(1, 1)
+shader_parameter/enable_pixelation = false
+shader_parameter/pixelation_size = 1.835
+shader_parameter/enable_noise = false
+shader_parameter/noise_scale = 10.0
+shader_parameter/noise_strength = 0.05
+shader_parameter/noise_speed = 100.0
+shader_parameter/noise_direction_x = 0.5
+shader_parameter/noise_direction_y = 0.0
+shader_parameter/asymmetry_strength = 0.0
+shader_parameter/asymmetry_angle = 0.0
+shader_parameter/pulse_speed = 0.1
+shader_parameter/pulse_intensity = 0.5
+shader_parameter/radial_frequency = 27.835
+shader_parameter/radial_direction = 1
+shader_parameter/radial_scale = Vector2(1.5, 5)
+shader_parameter/wave_sharpness = 1.817
+shader_parameter/enable_oscillation = false
+shader_parameter/oscillation_magnitude = 3.0
+shader_parameter/oscillation_speed = 1.0
+shader_parameter/cycle_gap = 0.5
+shader_parameter/acceleration_type = 1
+shader_parameter/wave_acceleration = 6.602
+shader_parameter/gradient_inner_density = 1.833
+shader_parameter/gradient_middle_density = 1.384
+shader_parameter/gradient_outer_density = 1.0
+shader_parameter/inner_radius = 0.3
+shader_parameter/outer_radius = 0.7
+shader_parameter/opacity = 1.0
+shader_parameter/effect_opacity = 1.0
+shader_parameter/brightness_as_alpha = true
+shader_parameter/alpha_threshold = 1.816
+shader_parameter/enable_radial_opacity = true
+shader_parameter/radial_opacity_center = Vector2(0.5, 0.5)
+shader_parameter/inner_radial_opacity_radius = 0.43
+shader_parameter/outer_radial_opacity_radius = 1.186
+shader_parameter/radial_opacity_falloff = 3.254
+shader_parameter/invert_radial_opacity = false
+shader_parameter/brightness_amount = 1.0
+shader_parameter/saturation_boost = 0.0
+shader_parameter/contrast = 1.0
+shader_parameter/wave_bias = -0.479
+shader_parameter/wave_color = Color(1, 1, 1, 1)
+shader_parameter/wave_color_strength = 0.0
+shader_parameter/rainbow_mode = true
+shader_parameter/spiral_strength = -1.1
+shader_parameter/radial_cycles = 3.0
+shader_parameter/rainbow_speed = 0.78
+shader_parameter/rainbow_saturation = 0.8
+shader_parameter/rainbow_strength = 0.972
+shader_parameter/enable_secondary_wave = false
+shader_parameter/secondary_waveform = 0
+shader_parameter/secondary_wave_scale = Vector2(5, 5)
+shader_parameter/secondary_wave_direction = Vector2(0, 0)
+shader_parameter/secondary_wave_speed = 10.0
+shader_parameter/secondary_wave_strength = 0.3
+shader_parameter/cycle_speed = 0.0
+shader_parameter/cycle_magnitude = 0.0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_elf5d"]
+texture = ExtResource("8_cm483")
+texture_region_size = Vector2i(32, 28)
+0:0/0 = 0
+1:0/0 = 0
+2:0/0 = 0
+3:0/0 = 0
+0:1/0 = 0
+1:1/0 = 0
+2:1/0 = 0
+3:1/0 = 0
+0:2/0 = 0
+1:2/0 = 0
+2:2/0 = 0
+3:2/0 = 0
+0:3/0 = 0
+1:3/0 = 0
+2:3/0 = 0
+3:3/0 = 0
+0:4/0 = 0
+1:4/0 = 0
+2:4/0 = 0
+3:4/0 = 0
+0:5/0 = 0
+1:5/0 = 0
+2:5/0 = 0
+3:5/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_2tavo"]
+texture = ExtResource("8_5jua3")
+texture_region_size = Vector2i(32, 28)
+0:0/0 = 0
+1:0/0 = 0
+2:0/0 = 0
+3:0/0 = 0
+4:0/0 = 0
+5:0/0 = 0
+0:1/0 = 0
+1:1/0 = 0
+2:1/0 = 0
+3:1/0 = 0
+4:1/0 = 0
+5:1/0 = 0
+0:2/0 = 0
+1:2/0 = 0
+2:2/0 = 0
+3:2/0 = 0
+4:2/0 = 0
+5:2/0 = 0
+0:3/0 = 0
+1:3/0 = 0
+2:3/0 = 0
+3:3/0 = 0
+4:3/0 = 0
+5:3/0 = 0
+0:4/0 = 0
+1:4/0 = 0
+2:4/0 = 0
+3:4/0 = 0
+4:4/0 = 0
+5:4/0 = 0
+0:5/0 = 0
+1:5/0 = 0
+2:5/0 = 0
+3:5/0 = 0
+4:5/0 = 0
+5:5/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_llyeo"]
+texture = ExtResource("10_87vrv")
+texture_region_size = Vector2i(32, 28)
+use_texture_padding = false
+0:0/0 = 0
+1:0/0 = 0
+2:0/0 = 0
+3:0/0 = 0
+4:0/0 = 0
+5:0/0 = 0
+0:1/0 = 0
+1:1/0 = 0
+2:1/0 = 0
+3:1/0 = 0
+4:1/0 = 0
+5:1/0 = 0
+0:2/0 = 0
+1:2/0 = 0
+2:2/0 = 0
+3:2/0 = 0
+4:2/0 = 0
+5:2/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_tlwt5"]
+tile_shape = 3
+tile_size = Vector2i(32, 28)
+sources/1 = SubResource("TileSetAtlasSource_2tavo")
+sources/0 = SubResource("TileSetAtlasSource_elf5d")
+sources/8 = SubResource("TileSetAtlasSource_llyeo")
+
+[sub_resource type="Shader" id="Shader_p2iis"]
+resource_local_to_scene = true
+resource_name = "radial_glow"
+code = "shader_type canvas_item;
+
+// Wave type constants
+const int WAVE_LINEAR = 0;
+const int WAVE_RADIAL = 1;
+
+// Acceleration type constants
+const int ACCEL_NONE = 0;
+const int ACCEL_EXPONENTIAL = 1;
+const int ACCEL_GRADIENT = 2;
+
+group_uniforms General;
+/** Enable/disable all shader effects */
+uniform bool enable = true;
+/** Wave pattern type (0=Linear, 1=Radial) */
+uniform int primary_waveform : hint_enum(\"Linear\", \"Radial\") = 0;
+/** Enable additional pulsing effect */
+uniform bool enable_pulse_mode = false;
+/** Enable receding tide effect */
+uniform bool enable_second_wave = false;
+/** Enable noise-based distortion effects */
+uniform bool enable_noise = false;
+/** Enable pixelation effect */
+uniform bool enable_pixelation = false;
+/** Time offset for synchronizing effects across layers */
+uniform float time_offset : hint_range(0.0, 10.0) = 0.0;
+/** Base brightness adjustment */
+uniform float brightness_bias : hint_range(-1.0, 1.0) = 0.0;
+/** Center of the texture (x,y) for wave origin */
+uniform vec2 texture_center = vec2(0.5, 0.5);
+/** Horizontal wave pattern offset */
+uniform vec2 wave_offset = vec2(0.0, 0.0);
+
+group_uniforms BasicWaves;
+/** Speed of wave animation */
+uniform float wave_speed : hint_range(1.0, 300.0) = 80.0;
+/** Horizontal wave size (lower = smaller waves, higher = larger waves) */
+uniform float wave_scale_x : hint_range(1.0, 500.0) = 300.0;
+/** Vertical wave size (lower = smaller waves, higher = larger waves) */
+uniform float wave_scale_y : hint_range(1.0, 500.0) = 300.0;
+/** Horizontal wave movement direction and speed */
+uniform float wave_direction_x : hint_range(-2.0, 2.0) = 1.0;
+/** Vertical wave movement direction and speed */
+uniform float wave_direction_y : hint_range(-2.0, 2.0) = 0.7;
+
+group_uniforms RadialWaves;
+/** Distance between wave peaks (lower = wider waves) */
+uniform float radial_frequency : hint_range(1.0, 20.0) = 8.0;
+/** Horizontal radial wave scale (lower = smaller waves, higher = larger waves) */
+uniform float radial_scale_x : hint_range(1.0, 50.0) = 1.0;
+/** Vertical radial wave scale (lower = smaller waves, higher = larger waves) */
+uniform float radial_scale_y : hint_range(1.0, 50.0) = 1.0;
+/** Speed of radial wave animation */
+uniform float radial_wave_speed : hint_range(1.0, 50.0) = 10;
+/** Direction of radial waves (-1.0 = inward, 1.0 = outward) */
+uniform float radial_direction : hint_range(-1.0, 1.0) = 1.0;
+/** Wave sharpness (1.0 = normal, higher = thinner highlighted areas) */
+uniform float wave_sharpness : hint_range(0.1, 3.0, 0.01) = 1.0;
+
+group_uniforms RadialOpacity;
+/** Enable radial opacity falloff from center */
+uniform bool enable_radial_opacity = false;
+/** Center enter for radial opacity */
+uniform vec2 radial_opacity_center = vec2(0.5, 0.5);
+/** Inner radius for opacity transition start */
+uniform float inner_radial_opacity_radius : hint_range(0.0, 2.0) = 0.3;
+/** Outer radius for opacity transition end */
+uniform float outer_radial_opacity_radius : hint_range(0.1, 2.0) = 0.7;
+/** Speed of opacity falloff (1.0 = linear, higher = sharper) */
+uniform float radial_opacity_falloff : hint_range(0.1, 20.0) = 1.0;
+/** Invert radial opacity (true = opaque at edges, transparent at center) */
+uniform bool invert_radial_opacity = false;
+
+group_uniforms RadialDynamics;
+/** Enable wave direction oscillation */
+uniform bool enable_oscillation = false;
+/** Oscillation bias (0 = balanced, positive = more forward, negative = more backward) */
+uniform float oscillation_bias : hint_range(-10.0, 10.0) = 0.0;
+/** Oscillation bounce intensity (1 = small bounce, higher = larger bounces) */
+uniform float oscillation_speed : hint_range(1.0, 10.0) = 1.0;
+/** Wave acceleration type (0=None, 1=Exponential, 2=Gradient) */
+uniform int acceleration_type : hint_enum(\"None\", \"Exponential\", \"Gradient\") = 0;
+/** Wave acceleration strength for exponential mode */
+uniform float wave_acceleration : hint_range(-10.0, 10.0) = 0.0;
+/** Wave density at inner radius (higher = more waves) */
+uniform float gradient_inner_density : hint_range(0.1, 10.0) = 1.0;
+/** Wave density at middle point (higher = more waves) */
+uniform float gradient_middle_density : hint_range(0.1, 10.0) = 1.0;
+/** Wave density at outer radius (higher = more waves) */
+uniform float gradient_outer_density : hint_range(0.1, 10.0) = 1.0;
+
+
+group_uniforms GlobalBrightness;
+/** Overall wave effect intensity */
+uniform float brightness_amount : hint_range(0.0, 1.0) = 0.5;
+/** Color saturation enhancement */
+uniform float saturation_boost : hint_range(-0.3, 0.3) = 0.0;
+/** Wave contrast enhancement (1.0 = normal, higher = more contrast) */
+uniform float contrast : hint_range(0.1, 5.0) = 1.0;
+/** Wave threshold bias (negative = shrink lights, positive = expand lights) */
+uniform float wave_bias : hint_range(-1.0, 1.0) = 0.0;
+/** Color tint for wave effects */
+uniform vec4 wave_color : source_color = vec4(1.0, 1.0, 1.0, 1.0);
+/** Strength of wave color tinting (0 = no tint, 1 = full color) */
+uniform float wave_color_strength : hint_range(0.0, 1.0) = 0.0;
+/** Overall material opacity (0 = invisible, 1 = full opacity) */
+uniform float opacity : hint_range(0.0, 1.0) = 1.0;
+/** Wave effects opacity (0 = original texture only, 1 = full effects) */
+uniform float effect_opacity : hint_range(0.0, 1.0) = 1.0;
+/** Use brightness as transparency (darker = transparent, lighter = opaque) */
+uniform bool brightness_as_alpha = false;
+/** Brightness threshold for transparency (higher = more areas become transparent) */
+uniform float alpha_threshold : hint_range(0.0, 2.0) = 1.0;
+
+group_uniforms PulseMode;
+/** Speed of pulse animation */
+uniform float pulse_speed : hint_range(1.0, 10.0) = 4.0;
+/** Strength of pulse effect */
+uniform float pulse_intensity : hint_range(0.1, 1.0) = 0.4;
+
+group_uniforms SecondaryWaves;
+/** Speed of secondary wave animation */
+uniform float second_wave_speed : hint_range(1.0, 300.0) = 50.0;
+/** Secondary horizontal wave size (lower = smaller waves, higher = larger waves) */
+uniform float second_wave_scale_x : hint_range(1.0, 500.0) = 200.0;
+/** Secondary vertical wave size (lower = smaller waves, higher = larger waves) */
+uniform float second_wave_scale_y : hint_range(1.0, 500.0) = 200.0;
+/** Intensity of secondary wave effect */
+uniform float second_wave_strength : hint_range(0.0, 1.0) = 0.3;
+/** Secondary horizontal wave movement direction and speed */
+uniform float second_wave_direction_x : hint_range(-2.0, 2.0) = 1.0;
+/** Secondary vertical wave movement direction and speed */
+uniform float second_wave_direction_y : hint_range(-2.0, 2.0) = 0.8;
+/** Speed of tidal cycle switching */
+uniform float tidal_cycle_speed : hint_range(0.01, 10.0) = 0.3;
+/** Phase offset between primary and secondary waves */
+uniform float tidal_phase_offset : hint_range(0.0, 6.28) = 1.57;
+
+group_uniforms NoiseDistortion;
+/** Size of noise patterns (lower = larger features) */
+uniform float noise_scale : hint_range(1.0, 50.0) = 10.0;
+/** Intensity of noise distortion */
+uniform float noise_strength : hint_range(0.0, 0.2) = 0.05;
+/** Speed of noise animation */
+uniform float noise_speed : hint_range(1.0, 500.0) = 100.0;
+/** Horizontal noise drift direction */
+uniform float noise_direction_x : hint_range(-2.0, 2.0) = 0.5;
+/** Vertical noise drift direction */
+uniform float noise_direction_y : hint_range(-2.0, 2.0) = 0.0;
+/** Creates directional wave asymmetry */
+uniform float asymmetry_strength : hint_range(0.0, 1.0) = 0.0;
+/** Direction of asymmetric effects (radians) */
+uniform float asymmetry_angle : hint_range(0.0, 6.28) = 0.0;
+/** Pixel size (higher = larger pixels, more pixelated) */
+uniform float pixelation_size : hint_range(1.0, 10.0) = 3.0;
+
+group_uniforms RainbowWaves;
+/** Enable rainbow color cycling on waves */
+uniform bool rainbow_mode = false;
+/** Speed of rainbow color cycling */
+uniform float rainbow_speed : hint_range(1.0, 300.0) = 100.0;
+/** Intensity of rainbow colors */
+uniform float rainbow_saturation : hint_range(0.0, 1.0) = 0.8;
+/** Overall rainbow effect intensity */
+uniform float rainbow_strength : hint_range(0.0, 1.0) = 0.5;
+
+vec3 rgb_to_hsv(vec3 c) {
+	vec4 K = vec4(0.0, -1.0 / 3.0, 2.0 / 3.0, -1.0);
+	vec4 p = mix(vec4(c.bg, K.wz), vec4(c.gb, K.xy), step(c.b, c.g));
+	vec4 q = mix(vec4(p.xyw, c.r), vec4(c.r, p.yzx), step(p.x, c.r));
+
+	float d = q.x - min(q.w, q.y);
+	float e = 1.0e-10;
+	return vec3(abs(q.z + (q.w - q.y) / (6.0 * d + e)), d / (q.x + e), q.x);
+}
+
+vec3 hsv_to_rgb(vec3 c) {
+	vec4 K = vec4(1.0, 2.0 / 3.0, 1.0 / 3.0, 3.0);
+	vec3 p = abs(fract(c.xxx + K.xyz) * 6.0 - K.www);
+	return c.z * mix(K.xxx, clamp(p - K.xxx, 0.0, 1.0), c.y);
+}
+
+// Simple noise function for distortion effects
+float noise(vec2 p) {
+	return fract(sin(dot(p, vec2(12.9898, 78.233))) * 43758.5453);
+}
+
+// Smooth noise with interpolation
+float smooth_noise(vec2 p) {
+	vec2 i = floor(p);
+	vec2 f = fract(p);
+	f = f * f * (3.0 - 2.0 * f); // Smooth interpolation
+
+	float a = noise(i);
+	float b = noise(i + vec2(1.0, 0.0));
+	float c = noise(i + vec2(0.0, 1.0));
+	float d = noise(i + vec2(1.0, 1.0));
+
+	return mix(mix(a, b, f.x), mix(c, d, f.x), f.y);
+}
+
+void fragment() {
+	// Apply pixelation if enabled
+	vec2 pixelated_uv = UV;
+	if (enable_pixelation) {
+		float squared_size = pixelation_size * pixelation_size; // Square the slider value
+		vec2 pixel_size = vec2(squared_size) / 1000.0; // Convert to UV space
+		pixelated_uv = floor(UV / pixel_size) * pixel_size + pixel_size * 0.5;
+		pixelated_uv = clamp(pixelated_uv, 0.0, 1.0);
+	}
+
+	// Sample the original hex tile texture
+	vec4 base_color = texture(TEXTURE, pixelated_uv);
+
+	// Create primary wave animation
+	float time = (TIME + time_offset) * (wave_speed / 10.0);
+	vec2 wave_uv = pixelated_uv + wave_offset;
+
+	// Apply noise distortion if enabled
+	if (enable_noise) {
+		float noise_time = (TIME + time_offset) * (noise_speed / 1000.0);
+		vec2 noise_drift = vec2(noise_direction_x, noise_direction_y) * noise_time;
+
+		// Generate noise at multiple scales for natural look
+		float noise1 = smooth_noise((wave_uv + noise_drift) * noise_scale);
+		float noise2 = smooth_noise((wave_uv + noise_drift) * noise_scale * 2.0) * 0.5;
+		float combined_noise = (noise1 + noise2 - 0.75) * noise_strength;
+
+		// Apply asymmetric distortion
+		vec2 asymmetry_dir = vec2(cos(asymmetry_angle), sin(asymmetry_angle));
+		float asymmetry_factor = dot(wave_uv - vec2(0.5), asymmetry_dir) * asymmetry_strength;
+
+		wave_uv += vec2(combined_noise + asymmetry_factor * 0.1, combined_noise * 0.7);
+	}
+
+	float wave1;
+	switch (primary_waveform) {
+		case WAVE_RADIAL:
+			// Apply separate X/Y scaling to create non-uniform radial waves
+		vec2 scaled_position = wave_uv - texture_center;
+		float scaled_radial_value_x = radial_scale_x / 1000.0;
+		float scaled_radial_value_y = radial_scale_y / 1000.0;
+		scaled_position.x /= scaled_radial_value_x;
+		scaled_position.y /= scaled_radial_value_y;
+		float distance_from_center = length(scaled_position);
+
+		// Primary radial wave with time-based oscillation
+		float base_time = (TIME + time_offset) * radial_wave_speed / 10.0;
+		float radial_time = base_time;
+
+		if (enable_oscillation) {
+			// Create 2:1 forward/backward oscillation pattern with bias and bounce intensity
+			float cycle_phase = fract((TIME + time_offset) * 1.0); // Fixed oscillation timing
+			float time_modulation;
+
+			// Square the oscillation speed for more granular control at lower values
+			float scaled_oscillation_speed = oscillation_speed * oscillation_speed / 10.0;
+
+			if (cycle_phase < 0.667) { // 2/3 forward motion
+				float forward_progress = cycle_phase / 0.667;
+				time_modulation = sin(forward_progress * 3.14159) * oscillation_bias * scaled_oscillation_speed;
+			} else { // 1/3 backward motion
+				float backward_progress = (cycle_phase - 0.667) / 0.333;
+				time_modulation = -sin(backward_progress * 3.14159) * oscillation_bias * scaled_oscillation_speed;
+			}
+
+			radial_time = base_time + time_modulation;
+		}
+
+		// Choose acceleration type based on radio button
+		float distance_based_frequency = radial_frequency;
+
+		switch (acceleration_type) {
+			case ACCEL_GRADIENT:
+				// Apply radial gradient with 3-point interpolation
+				float inner_radius = inner_radial_opacity_radius;
+				float outer_radius = outer_radial_opacity_radius;
+				float middle_radius = (inner_radius + outer_radius) * 0.5;
+				bool in_inner_region = (distance_from_center <= middle_radius);
+				// Determine which segment we're in and interpolate density
+				float t = in_inner_region
+					? (distance_from_center - inner_radius) / (middle_radius - inner_radius)
+					: (distance_from_center - middle_radius) / (outer_radius - middle_radius);
+				t = clamp(t, 0.0, 1.0);
+				float density_multiplier = mix(gradient_inner_density,
+					in_inner_region ? gradient_middle_density : gradient_outer_density, t);
+				distance_based_frequency = radial_frequency * density_multiplier;
+				break;
+
+			case ACCEL_EXPONENTIAL:
+				// Apply exponential frequency acceleration normalized to preserve inner wave frequency
+				// This creates true acceleration where wave spacing changes exponentially with distance
+				// Convert wave_acceleration to exponential base
+				float acceleration_base = 1.0 + wave_acceleration / 1000.0;
+				// Normalize so frequency at reference distance equals base frequency
+				// f(d) = base_f * (base ^ ref_dist) / (base ^ distance)
+				float normalization_factor = pow(acceleration_base, inner_radial_opacity_radius);
+				distance_based_frequency = radial_frequency * normalization_factor / pow(acceleration_base, distance_from_center);
+				break;
+
+			case ACCEL_NONE:
+			default:
+				// No acceleration, keep base frequency
+				distance_based_frequency = radial_frequency;
+				break;
+		}
+
+			// Create radial wave with distance-variable frequency and sharpness control
+			float raw_wave = sin(distance_from_center * (distance_based_frequency / 100.0) + radial_time * radial_direction * 3.0);
+			float radial_wave = pow(abs(raw_wave), pow(wave_sharpness, 3)) * sign(raw_wave);
+
+			// Distance-based brightness control
+			float normalized_distance = distance_from_center / 0.7071; // Normalize to 0-1 (diagonal distance)
+			normalized_distance = clamp(normalized_distance, 0.0, 1.0);
+			wave1 = radial_wave * 0.5;
+			break;
+
+		case WAVE_LINEAR:
+		default:
+			// Original linear waves (scale / 1000 so lower = smaller waves)
+			float scaled_value_x = wave_scale_x / 1000.0;
+			float scaled_value_y = wave_scale_y / 1000.0;
+			float inverted_scale_x = 1.0 / scaled_value_x;
+			float inverted_scale_y = 1.0 / scaled_value_y;
+			wave1 = sin(wave_uv.x * inverted_scale_x + time * wave_direction_x) + cos(wave_uv.y * inverted_scale_y + time * wave_direction_y);
+			wave1 = wave1 * 0.5;
+			break;
+	}
+
+	// Create secondary wave layer if enabled
+	float wave2 = 0.0;
+	if (enable_second_wave) {
+		float time2 = (TIME + time_offset) * (second_wave_speed / 1000.0) * 100.0;
+
+		if (primary_waveform == WAVE_RADIAL) {
+			float distance_from_center = length(wave_uv - texture_center);
+
+			// Receding tide moves outward (positive time direction)
+			wave2 = sin(distance_from_center * (radial_frequency * 0.7) + time2 * 40.0);
+
+			// Enhanced tidal cycle with user-controllable timing
+			float tidal_cycle = sin(time2 * tidal_cycle_speed + tidal_phase_offset);
+			tidal_cycle = (tidal_cycle + 1.0) * 0.5; // Normalize to 0-1
+
+			// Create stronger contrast between incoming and outgoing phases
+			tidal_cycle = smoothstep(0.2, 0.8, tidal_cycle);
+
+			// Apply edge boost and tidal strength modulation
+			float edge_distance = min(min(wave_uv.x, 1.0 - wave_uv.x), min(wave_uv.y, 1.0 - wave_uv.y));
+			float edge_boost = 1.0 + (1.0 - smoothstep(0.0, 0.3, edge_distance)) * 0.6;
+
+			wave2 = wave2 * edge_boost * second_wave_strength * tidal_cycle;
+		} else {
+			// Original linear secondary waves (scale / 1000 so lower = smaller waves)
+			float scaled_second_value_x = second_wave_scale_x / 1000.0;
+			float scaled_second_value_y = second_wave_scale_y / 1000.0;
+			float inverted_second_scale_x = 1.0 / scaled_second_value_x;
+			float inverted_second_scale_y = 1.0 / scaled_second_value_y;
+			wave2 = sin(wave_uv.x * inverted_second_scale_x + time2 * second_wave_direction_x) * cos(wave_uv.y * inverted_second_scale_y + time2 * second_wave_direction_y);
+			wave2 = wave2 * second_wave_strength;
+		}
+	}
+
+	// Add pulse mode if enabled
+	float pulse_wave = 0.0;
+	if (enable_pulse_mode) {
+		float pulse_time = (TIME + time_offset) * pulse_speed;
+		pulse_wave = sin(pulse_time) * pulse_intensity;
+	}
+
+	// Rainbow color modulation if enabled
+	vec3 rainbow_color_mod = vec3(1.0);
+	if (rainbow_mode) {
+		vec2 rainbow_pos = wave_uv - texture_center;
+		float distance_from_center = length(rainbow_pos);
+		float angle = atan(rainbow_pos.y, rainbow_pos.x);
+
+		// Create rainbow pattern based on waves and position
+		float hue_time = (TIME + time_offset) * (rainbow_speed / 1000.0) + angle + distance_from_center * 3.0;
+		float hue = fract(hue_time * 0.1);
+		vec3 rainbow_color = hsv_to_rgb(vec3(hue, rainbow_saturation, 1.0));
+
+		// Apply rainbow based on wave intensity
+		float wave_intensity = abs(wave1 + wave2 + pulse_wave);
+		rainbow_color_mod = mix(vec3(1.0), rainbow_color, wave_intensity * rainbow_strength);
+	}
+
+	// Combine all waves
+	float combined_wave = wave1 + wave2 + pulse_wave;
+
+	// Apply wave bias (shifts the light/dark threshold)
+	float biased_wave = combined_wave + wave_bias;
+
+	// Apply contrast enhancement to waves
+	float enhanced_wave = biased_wave;
+
+	// Center the wave around 0, apply contrast, then restore
+	enhanced_wave = (biased_wave * contrast);
+	enhanced_wave = clamp(enhanced_wave, -2.0, 2.0); // Prevent extreme values
+
+	// Apply brightness modulation
+	float brightness = 1.0 + brightness_bias + enhanced_wave * brightness_amount;
+
+	// Apply saturation boost if enabled
+	vec3 base_final_color;
+	if (abs(saturation_boost) > 0.001) {
+		vec3 hsv = rgb_to_hsv(base_color.rgb);
+		hsv.y = clamp(hsv.y + saturation_boost, 0.0, 1.0);
+		base_final_color = hsv_to_rgb(hsv) * brightness;
+	} else {
+		base_final_color = base_color.rgb * brightness;
+	}
+
+	// Apply wave color tinting
+	vec3 final_color;
+	if (wave_color_strength > 0.001) {
+		// Calculate wave intensity for color application
+		float wave_intensity = clamp(enhanced_wave * brightness_amount + 0.5, 0.0, 1.0);
+
+		// Mix base color with wave color based on wave intensity and strength
+		vec3 tinted_color = mix(base_final_color, base_final_color * wave_color.rgb, wave_intensity * wave_color_strength);
+		final_color = tinted_color;
+	} else {
+		final_color = base_final_color;
+	}
+
+	// Apply rainbow color modulation
+	final_color *= rainbow_color_mod;
+
+	// Check if shader effects are enabled
+	if (enable) {
+		// Apply effect opacity control - blend between original and modified colors
+		final_color = mix(base_color.rgb, final_color, effect_opacity);
+	} else {
+		// Use original texture without effects
+		final_color = base_color.rgb;
+	}
+
+	// Apply radial opacity if enabled
+	float final_opacity = opacity;
+	if (enable_radial_opacity) {
+		// Apply the same X/Y scaling used for radial waves to the opacity calculation
+		vec2 scaled_opacity_position = UV - radial_opacity_center;
+		float scaled_radial_value_x = radial_scale_x / 1000.0;
+		float scaled_radial_value_y = radial_scale_y / 1000.0;
+		scaled_opacity_position.x /= scaled_radial_value_x;
+		scaled_opacity_position.y /= scaled_radial_value_y;
+		float distance_from_center = length(scaled_opacity_position);
+
+		// Scale the radii to match the coordinate space transformation
+		float scaled_inner_radius = inner_radial_opacity_radius / max(scaled_radial_value_x, scaled_radial_value_y);
+		float scaled_outer_radius = outer_radial_opacity_radius / max(scaled_radial_value_x, scaled_radial_value_y);
+
+		// Calculate radial opacity using two smooth transitions that meet in the middle
+		// Inner transition: fade from center (transparent) to inner radius (opaque)
+		float inner_progress = smoothstep(0.0, scaled_inner_radius, distance_from_center);
+		inner_progress = pow(inner_progress, radial_opacity_falloff);
+
+		// Outer transition: fade from outer radius (opaque) to beyond (transparent)
+		float outer_progress = 1.0 - smoothstep(scaled_outer_radius, scaled_outer_radius * 1.5, distance_from_center);
+		outer_progress = pow(outer_progress, radial_opacity_falloff);
+
+		// Combine both transitions - take minimum to create island mask with ocean fade
+		float radial_alpha = min(inner_progress, outer_progress);
+
+		if (invert_radial_opacity) {
+			radial_alpha = 1.0 - radial_alpha; // Invert the entire effect
+		}
+
+		final_opacity *= radial_alpha;
+	}
+
+	// Apply brightness-as-alpha if enabled
+	if (brightness_as_alpha) {
+		// Calculate brightness of final color
+		float color_brightness = dot(final_color, vec3(0.299, 0.587, 0.114)); // Luminance calculation
+
+		// Convert brightness to alpha (darker = transparent, lighter = opaque)
+		float brightness_alpha = clamp(color_brightness / alpha_threshold, 0.0, 1.0);
+		final_opacity *= brightness_alpha;
+	}
+
+	// Apply overall opacity to alpha channel for transparency overlay effect
+	float final_alpha = base_color.a * final_opacity;
+
+	COLOR = vec4(final_color, final_alpha);
+}"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_j34ew"]
+shader = SubResource("Shader_p2iis")
+shader_parameter/enable = true
+shader_parameter/primary_waveform = 0
+shader_parameter/enable_pulse_mode = false
+shader_parameter/enable_second_wave = false
+shader_parameter/enable_noise = false
+shader_parameter/enable_pixelation = false
+shader_parameter/time_offset = 0.0
+shader_parameter/brightness_bias = 0.0
+shader_parameter/texture_center = Vector2(0.5, 0.5)
+shader_parameter/wave_offset = Vector2(0.5, 0.5)
+shader_parameter/wave_speed = 0.1
+shader_parameter/wave_scale_x = 300.0
+shader_parameter/wave_scale_y = 300.0
+shader_parameter/wave_direction_x = 1.0
+shader_parameter/wave_direction_y = 0.7
+shader_parameter/radial_frequency = 8.0
+shader_parameter/radial_scale_x = 150.0
+shader_parameter/radial_scale_y = 150.0
+shader_parameter/radial_wave_speed = 0.08
+shader_parameter/radial_direction = 1.0
+shader_parameter/wave_sharpness = 1.0
+shader_parameter/enable_radial_opacity = false
+shader_parameter/radial_opacity_center = Vector2(0.5, 0.5)
+shader_parameter/inner_radial_opacity_radius = 0.3
+shader_parameter/outer_radial_opacity_radius = 0.7
+shader_parameter/radial_opacity_falloff = 1.0
+shader_parameter/invert_radial_opacity = false
+shader_parameter/enable_oscillation = false
+shader_parameter/oscillation_bias = 0.0
+shader_parameter/oscillation_speed = 0.3
+shader_parameter/acceleration_type = 0
+shader_parameter/wave_acceleration = 0.0
+shader_parameter/gradient_inner_density = 1.0
+shader_parameter/gradient_middle_density = 1.0
+shader_parameter/gradient_outer_density = 1.0
+shader_parameter/brightness_amount = 0.08
+shader_parameter/saturation_boost = 0.0
+shader_parameter/contrast = 1.0
+shader_parameter/wave_bias = 0.0
+shader_parameter/wave_color = Color(1, 1, 1, 1)
+shader_parameter/wave_color_strength = 0.0
+shader_parameter/opacity = 1.0
+shader_parameter/effect_opacity = 1.0
+shader_parameter/brightness_as_alpha = false
+shader_parameter/alpha_threshold = 1.0
+shader_parameter/pulse_speed = 4.0
+shader_parameter/pulse_intensity = 0.4
+shader_parameter/second_wave_speed = 0.5
+shader_parameter/second_wave_scale_x = 200.0
+shader_parameter/second_wave_scale_y = 200.0
+shader_parameter/second_wave_strength = 0.3
+shader_parameter/second_wave_direction_x = 1.0
+shader_parameter/second_wave_direction_y = 0.8
+shader_parameter/tidal_cycle_speed = 0.3
+shader_parameter/tidal_phase_offset = 1.57
+shader_parameter/noise_scale = 10.0
+shader_parameter/noise_strength = 0.05
+shader_parameter/noise_speed = 1.0
+shader_parameter/noise_direction_x = 0.5
+shader_parameter/noise_direction_y = 0.0
+shader_parameter/asymmetry_strength = 0.0
+shader_parameter/asymmetry_angle = 0.0
+shader_parameter/pixelation_size = 3.0
+shader_parameter/rainbow_mode = false
+shader_parameter/rainbow_speed = 1.0
+shader_parameter/rainbow_saturation = 0.8
+shader_parameter/rainbow_strength = 0.5
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_m7aoq"]
+
+[node name="World" type="Node2D"]
+script = ExtResource("1_cm483")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="World HUD" type="Control" parent="CanvasLayer"]
+z_index = 5
+texture_filter = 1
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 0
+theme = SubResource("Theme_mad0u")
+script = ExtResource("3_ltcrh")
+metadata/_edit_use_anchors_ = true
+
+[node name="Header" type="HBoxContainer" parent="CanvasLayer/World HUD"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.05
+anchor_top = 0.02
+anchor_right = 0.95
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Stats" type="VBoxContainer" parent="CanvasLayer/World HUD/Header"]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 0
+
+[node name="TimeDisplay" type="RichTextLabel" parent="CanvasLayer/World HUD/Header/Stats"]
+clip_contents = false
+layout_mode = 2
+size_flags_vertical = 3
+theme = ExtResource("4_tftsi")
+text = "00:00
+"
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
+context_menu_enabled = true
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="Resource" type="RichTextLabel" parent="CanvasLayer/World HUD/Header/Stats"]
+clip_contents = false
+layout_mode = 2
+size_flags_vertical = 3
+theme = ExtResource("4_tftsi")
+text = "G: 0"
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
+context_menu_enabled = true
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="Title" type="Label" parent="CanvasLayer/World HUD/Header"]
+layout_mode = 2
+size_flags_horizontal = 10
+size_flags_vertical = 3
+theme = ExtResource("5_j0pdx")
+text = "FungIsland"
+horizontal_alignment = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/World HUD"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.3
+anchor_right = 0.7
+offset_left = -83.5
+offset_top = 121.0
+offset_right = 83.5
+offset_bottom = 317.0
+grow_horizontal = 2
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="Message" type="Control" parent="CanvasLayer/World HUD/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("6_2dlxi")
+metadata/_edit_use_anchors_ = true
+
+[node name="Label" type="RichTextLabel" parent="CanvasLayer/World HUD/HBoxContainer/Message"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 3
+theme = ExtResource("4_tftsi")
+text = "Message goes here"
+fit_content = true
+scroll_active = false
+autowrap_mode = 2
+context_menu_enabled = true
+horizontal_alignment = 1
+vertical_alignment = 1
+justification_flags = 160
+metadata/_edit_use_anchors_ = true
+
+[node name="Timer" type="Timer" parent="CanvasLayer/World HUD/HBoxContainer/Message"]
+wait_time = 2.085
+one_shot = true
+
+[node name="GameOverScreen" type="VBoxContainer" parent="CanvasLayer/World HUD"]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 200.0
+offset_bottom = -300.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+alignment = 1
+
+[node name="GameOver" type="Label" parent="CanvasLayer/World HUD/GameOverScreen"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.65
+theme = ExtResource("5_j0pdx")
+text = "Game Over!"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="FinalTime" type="Label" parent="CanvasLayer/World HUD/GameOverScreen"]
+layout_mode = 2
+theme = ExtResource("4_tftsi")
+text = "00:00"
+horizontal_alignment = 1
+
+[node name="FinalMessage" type="Label" parent="CanvasLayer/World HUD/GameOverScreen"]
+custom_minimum_size = Vector2(0, 200)
+layout_mode = 2
+size_flags_vertical = 3
+theme = ExtResource("4_tftsi")
+text = "Try to beat your score next time."
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="Controls" type="HBoxContainer" parent="CanvasLayer/World HUD"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -40.0
+offset_right = 40.0
+grow_vertical = 0
+
+[node name="BackToStartScreen" type="Button" parent="CanvasLayer/World HUD/Controls"]
+layout_mode = 2
+text = "Back"
+
+[node name="ResetData" type="Button" parent="CanvasLayer/World HUD/Controls"]
+layout_mode = 2
+text = "Reset Data"
+
+[node name="TickTimer" type="Timer" parent="CanvasLayer/World HUD"]
+unique_name_in_owner = true
+autostart = true
+
+[node name="RainbowSpiral" type="ColorRect" parent="CanvasLayer"]
+visible = false
+modulate = Color(1, 1, 1, 0)
+material = SubResource("ShaderMaterial_m0cxt")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Ocean" type="TileMapLayer" parent="."]
+tile_map_data = PackedByteArray("AAAGAB0ACAAFAAEAABAGAB4ACAAFAAIAABAHABsACAAFAAEAABAHABwACAAFAAEAABAHAB0ACAAFAAEAACAIABkACAAFAAEAABAIABoAAQAAAAEAAAAIABsACAAFAAEAACAIABwACAAFAAEAACAIAB0ACAAFAAEAABAJABcAAQAAAAEAAAAJABgAAQAAAAEAAAAJABkACAAFAAEAACAJABoACAAFAAEAACAJABsACAAFAAEAABAJABwACAAFAAEAABAJAB0ACAAEAAEAABAKABUACAAFAAEAABAKABYACAAFAAEAABAKABcACAAFAAEAACAKABgACAAFAAEAACAKABkACAAFAAEAABAKABoACAAFAAEAABAKABsACAAEAAEAABAKABwAAQABAAIAAAAKAB0ACAADAAEAABALABMACAAFAAEAABALABQACAAFAAEAABALABUACAAFAAEAACALABYACAAFAAEAACALABcACAAFAAEAABALABgACAAFAAEAABALABkACAAEAAEAABALABoAAQABAAIAAAALABsACAADAAEAABALABwACAADAAEAABALAB0ACAACAAEAABAMAA8ACAAEAAAAACAMABEACAAFAAEAABAMABIACAAFAAEAABAMABMACAAFAAEAACAMABQACAAFAAEAACAMABUACAAFAAEAABAMABYACAAFAAEAABAMABcACAAEAAEAABAMABgAAQABAAIAAAAMABkACAADAAEAABAMABoACAADAAEAABAMABsACAACAAEAABAMABwAAQADAAIAAAAMAB0ACAABAAEAABANAA8ACAAEAAAAACANABAACAAFAAEAABANABEACAAEAAAAACANABIACAAFAAEAACANABMACAAFAAEAABANABQACAAFAAEAABANABUACAAEAAEAABANABYAAQABAAIAAAANABcACAADAAEAABANABgACAADAAEAABANABkACAACAAEAABANABoAAQADAAIAAAANABsACAABAAEAABANABwACAABAAEAABANAB0ACAAAAAEAABAOAA8ACAAEAAAAACAOABAACAAEAAAAAAAOABEACAAEAAAAACAOABIACAAFAAAAABAOABMACAAEAAEAABAOABQAAQABAAIAAAAOABUACAADAAEAABAOABYACAADAAEAABAOABcACAACAAEAABAOABgAAQADAAIAAAAOABkACAABAAEAABAOABoACAABAAEAABAOABsACAAAAAEAABAOABwACAAAAAEAABAPAA4ACAAEAAAAAAAPAA8ACAAEAAAAACAPABAACAAEAAAAAAAPABEACAAEAAAAACAPABIACAAEAAAAAAAPABMACAAEAAEAAAAPABQACAADAAAAABAPABUACAACAAEAABAPABYAAQADAAIAAAAPABcACAABAAEAABAPABgACAABAAEAABAPABkACAAAAAEAABAPABoACAAAAAEAABAQAA4ACAAEAAAAAAAQAA8ACAAEAAAAACAQABAACAAEAAAAAAAQABEACAAEAAAAACAQABIACAAEAAAAAAAQABMACAAEAAEAABAQABQACAACAAAAAAAQABUACAACAAEAAAAQABYACAABAAAAABAQABcACAAAAAEAABAQABgACAAAAAEAABARAA4ACAAEAAAAAAARAA8ACAAEAAAAACARABAACAAEAAAAAAARABEACAAEAAAAACARABIACAAEAAAAAAARABMACAAEAAEAAAARABQACAACAAAAAAARABUACAACAAEAABARABYACAAAAAAAAAARABcACAAAAAEAAAASAA4ACAAEAAAAAAASAA8ACAAEAAAAACASABAACAAEAAAAAAASABEACAAEAAAAACASABIACAAEAAAAAAASABMAAQABAAAAACASABQACAACAAAAAAASABUACAACAAEAAAASABYACAAAAAAAAAASABcACAAAAAEAABATAA4ACAAEAAAAAAATAA8ACAAEAAAAACATABAACAAEAAAAAAATABEACAAEAAAAACATABIACAAEAAAAAAATABMAAQABAAAAACATABQACAACAAAAAAATABcACAAAAAEAAAAUAA4ACAAEAAAAAAAUAA8ACAAEAAAAACAUABAACAAEAAAAAAAUABEACAAEAAAAACAUABIACAAEAAAAAAAVAA8ACAAEAAAAACAVABAACAAEAAAAAAAGAB8ACAAFAAEAADAHAB4ACAAFAAEAAAAHAB8ACAAFAAEAAAAHACAACAAFAAEAADAHACEACAAFAAEAADAIAB4ACAAFAAIAABAIAB8ACAAFAAEAADAIACAACAAFAAEAAAAIACEACAAFAAEAAAAIACIACAAFAAEAADAIACMACAAFAAEAADAJAB4AAQABAAIAAAAJAB8ACAAEAAEAADAJACAACAAFAAEAADAJACEACAAFAAEAADAJACIACAAFAAEAAAAJACMACAAFAAEAAAAJACQACAAFAAEAADAJACUACAAFAAEAADAKAB4ACAADAAIAABAKAB8ACAADAAEAADAKACAAAQABAAIAAAAKACEACAAEAAEAADAKACIACAAFAAEAADAKACMACAAFAAEAADAKACQACAAFAAEAAAAKACUACAAFAAEAAAAKACYACAAFAAEAADAKACcACAAFAAEAADALAB4AAQADAAIAAAALAB8ACAACAAEAADALACAACAADAAEAADALACEACAADAAEAADALACIAAQABAAIAAAALACMACAAEAAEAADALACQACAAFAAEAADALACUACAAFAAEAADALACYACAAFAAEAAAALACcACAAFAAEAAAALACgACAAFAAEAADALACkACAAFAAEAADAMAB4ACAABAAIAABAMAB8ACAABAAEAADAMACAAAQADAAIAAAAMACEACAACAAEAADAMACIACAADAAEAADAMACMACAADAAEAADAMACQAAQABAAIAAAAMACUACAAEAAEAADAMACYACAAFAAEAADAMACcACAAFAAEAADAMACgACAAFAAEAAAAMACkACAAFAAEAAAAMACoACAAFAAEAADAMACsACAAFAAEAADANAA4ACAAEAAAAAAANAB4ACAAAAAIAABANAB8ACAAAAAEAADANACAACAABAAEAADANACEACAABAAEAADANACIAAQADAAIAAAANACMACAACAAEAADANACQACAADAAEAADANACUACAADAAEAADANACYAAQABAAIAAAANACcACAAEAAEAADANACgACAAFAAEAADANACkAAQAAAAEAACANACoACAAFAAEAAAANACsACAAFAAEAAAANACwACAAEAAAAACANAC0ACAAFAAEAABAOAA4ACAAEAAAAAAAOACAACAAAAAEAADAOACEACAAAAAEAADAOACIACAABAAEAADAOACMACAABAAEAADAOACQAAQADAAIAAAAOACUACAACAAEAADAOACYACAADAAEAADAOACcACAADAAEAADAOACgAAQABAAIAAAAOACkACAAEAAEAADAOACoACAAFAAAAADAOACsACAAEAAAAAAAOACwACAAEAAAAACAOAC0ACAAEAAAAAAAPACIACAAAAAEAADAPACMACAAAAAEAADAPACQACAABAAEAADAPACUACAABAAEAADAPACYAAQADAAIAAAAPACcACAACAAEAADAPACgACAADAAAAADAPACkACAAEAAEAACAPACoACAAEAAAAACAPACsACAAEAAAAAAAPACwACAAEAAAAACAPAC0ACAAEAAAAAAAQACQACAAAAAEAADAQACUACAAAAAEAADAQACYACAABAAAAADAQACcACAACAAEAACAQACgACAACAAAAACAQACkACAAEAAEAADAQACoACAAEAAAAACAQACsACAAEAAAAAAAQACwACAAEAAAAACAQAC0ACAAEAAAAAAARACUACAAAAAEAACARACYACAAAAAAAACARACcACAACAAEAADARACgACAACAAAAACARACkACAAEAAEAACARACoACAAEAAAAACARACsACAAEAAAAAAARACwACAAEAAAAACARAC0ACAAEAAAAAAASACUACAAAAAEAADASACYACAAAAAAAACASACcACAACAAEAACASACgACAACAAAAACASACkACAAEAAEAADASACoACAAEAAAAACASACsACAAEAAAAAAASACwACAAEAAAAACASAC0ACAAEAAAAAAATABUACAACAAEAABATABYACAAAAAAAAAATACUACAAAAAEAACATACYACAAAAAAAACATACcACAACAAEAADATACgACAACAAAAACATACkACAAEAAEAACATACoACAAEAAAAACATACsACAAEAAAAAAATACwACAAEAAAAACATAC0ACAAEAAAAAAAUABMAAQABAAAAACAUABQACAACAAAAAAAUABUACAACAAEAAAAUABYACAAAAAAAAAAUABcACAAAAAEAABAUACUACAAAAAEAADAUACYACAAAAAAAACAUACcACAACAAEAACAUACgACAACAAAAACAUACkACAAEAAEAADAUACoACAAEAAAAACAUACsACAAEAAAAAAAUACwACAAEAAAAACAUAC0ACAAEAAAAAAAVABEACAAEAAAAACAVABIACAAEAAAAAAAVABMAAQABAAAAACAVABQACAACAAAAAAAVABUACAACAAEAABAVABYACAAAAAAAAAAVABcACAAAAAEAAAAVACUACAAAAAEAACAVACYACAAAAAAAACAVACcACAACAAEAADAVACgACAACAAAAACAVACkACAAEAAEAACAVACoACAAEAAAAACAVACsACAAEAAAAAAAVACwACAAEAAAAACAVAC0ACAAEAAAAAAAWAA8ACAAEAAAAACAWABAACAAEAAAAAAAWABEACAAEAAAAACAWABIAAQABAAAAAAAWABMAAQABAAAAACAWABQACAACAAAAAAAWABUACAACAAEAAAAWABYACAAAAAAAAAAWABcACAAAAAEAABAWACUACAAAAAEAADAWACYACAAAAAAAACAWACcACAACAAEAACAWACgACAACAAAAACAWACkACAAEAAEAADAWACoACAAEAAAAACAWACsACAAEAAAAAAAWACwACAAEAAAAACAWAC0ACAAEAAAAAAAXAA8ACAAEAAAAACAXABAACAAEAAAAAAAXABEACAAEAAAAACAXABIAAQABAAAAAAAXABMAAQABAAAAACAXABQACAACAAAAAAAXABUACAACAAEAABAXABYACAAAAAAAAAAXABcACAAAAAEAAAAXACUACAAAAAEAACAXACYACAAAAAAAACAXACcACAACAAEAADAXACgACAACAAAAACAXACkACAAEAAEAACAXACoACAAEAAAAACAXACsACAAEAAAAAAAXACwACAAEAAAAACAXAC0ACAAEAAAAAAAYAA4ACAAEAAAAAAAYAA8ACAAEAAAAACAYABAACAAEAAAAAAAYABEACAAEAAAAACAYABIACAAEAAAAAAAYABMACAAEAAEAABAYABQAAQAAAAEAAAAYABUACAACAAEAAAAYABYACAABAAAAAAAYABcACAABAAEAAAAYABgACAAAAAEAAAAYABkACAAAAAEAAAAYACMACAAAAAEAACAYACQACAAAAAEAACAYACUACAABAAEAACAYACYACAABAAAAACAYACcACAACAAEAACAYACgACAACAAAAACAYACkACAAEAAEAADAYACoACAAEAAAAACAYACsACAAEAAAAAAAYACwACAAEAAAAACAYAC0ACAAEAAAAAAAZAA4ACAAEAAAAAAAZAA8ACAAEAAAAACAZABAACAAEAAAAAAAZABEACAAEAAAAACAZABIACAAEAAAAAAAZABMACAAEAAEAAAAZABQAAQAAAAEAADAZABUACAADAAEAAAAZABYACAACAAEAAAAZABcACAACAAEAAAAZABgACAABAAEAAAAZABkACAABAAEAAAAZABoACAAAAAEAAAAZABsACAAAAAEAAAAZACEACAAAAAEAACAZACIACAAAAAEAACAZACMACAABAAEAACAZACQACAABAAEAACAZACUACAACAAEAACAZACYAAQADAAIAABAZACcACAADAAEAACAZACgAAQACAAAAADAZACkACAAEAAEAACAZACoACAAEAAAAACAZACsACAAEAAAAAAAZACwACAAEAAAAACAZAC0ACAAEAAAAAAAaAA4ACAAEAAAAAAAaAA8ACAAEAAAAACAaABAACAAEAAAAAAAaABEACAAEAAAAACAaABIACAAFAAAAAAAaABMACAAFAAEAAAAaABQAAQABAAIAABAaABUACAAEAAEAAAAaABYACAADAAEAAAAaABcACAADAAEAAAAaABgACAACAAEAAAAaABkACAACAAEAAAAaABoACAABAAEAAAAaABsACAABAAEAAAAaABwACAAAAAEAAAAaAB0ACAAAAAEAAAAaAB8ACAAAAAEAACAaACAACAAAAAEAACAaACEACAABAAEAACAaACIACAABAAEAACAaACMACAACAAEAACAaACQAAQADAAIAABAaACUACAADAAEAACAaACYACAADAAEAACAaACcAAQABAAEAADAaACgAAQABAAIAABAaACkACAAFAAEAACAaACoACAAFAAAAACAaACsACAAEAAAAAAAaACwACAAEAAAAACAaAC0ACAAEAAAAAAAbAA4ACAAEAAAAAAAbAA8ACAAEAAAAACAbABAACAAFAAEAAAAbABEACAAFAAEAAAAbABIAAQAAAAEAACAbABMACAAFAAEAADAbABQACAAFAAEAAAAbABUACAAFAAEAAAAbABYAAQABAAIAABAbABcACAAEAAEAAAAbABgACAADAAEAAAAbABkACAADAAEAAAAbABoACAACAAEAAAAbABsACAACAAEAAAAbABwACAABAAEAAAAbAB0ACAABAAEAAAAbAB4ACAAAAAIAAAAbAB8ACAABAAEAACAbACAACAABAAEAACAbACEACAACAAEAACAbACIAAQADAAIAABAbACMACAADAAEAACAbACQACAADAAEAACAbACUAAQABAAEAADAbACYAAQABAAIAABAbACcACAAFAAEAACAbACgACAAFAAEAACAbACkACAAFAAEAABAbACoACAAFAAEAABAbACsACAAFAAEAACAbACwACAAEAAAAACAbAC0ACAAEAAAAAAAcABIACAAFAAEAAAAcABMACAAFAAEAAAAcABQACAAFAAEAADAcABUACAAFAAEAADAcABYACAAFAAEAAAAcABcACAAFAAEAAAAcABgAAQABAAIAABAcABkACAAEAAEAAAAcABoACAADAAEAAAAcABsACAADAAEAAAAcABwACAACAAEAAAAcAB0ACAACAAEAAAAcAB4ACAABAAIAAAAcAB8ACAACAAEAACAcACAAAQADAAIAABAcACEACAADAAEAACAcACIACAADAAEAACAcACMAAQABAAIAABAcACQAAQABAAIAABAcACUACAAFAAEAACAcACYACAAFAAEAACAcACcACAAFAAEAABAcACgACAAFAAEAABAcACkACAAFAAEAACAcACoACAAFAAEAACAdABQACAAFAAEAAAAdABUACAAFAAEAAAAdABYACAAFAAEAADAdABcACAAFAAEAADAdABgACAAFAAEAAAAdABkACAAFAAEAAAAdABoAAQABAAIAABAdABsACAAEAAEAAAAdABwACAADAAEAAAAdAB0ACAADAAEAAAAdAB4ACAACAAIAAAAdAB8ACAADAAEAACAdACAACAADAAEAACAdACMACAAFAAEAACAdACQACAAFAAEAACAdACUACAAFAAEAABAdACYACAAFAAEAABAdACcACAAFAAEAACAdACgACAAFAAEAACAeABYACAAFAAEAAAAeABcACAAFAAEAAAAeABgACAAFAAEAADAeABkACAAFAAEAADAeABoACAAFAAEAAAAeABsACAAFAAEAAAAeABwAAQABAAIAABAeAB0ACAAEAAEAAAAeAB4ACAADAAIAAAAeAB8AAQABAAEAADAeACAAAQABAAIAABAeACEACAAFAAEAACAeACIACAAFAAEAACAeACMACAAFAAEAABAeACQACAAFAAEAABAeACUACAAFAAEAACAeACYACAAFAAEAACAfABgACAAFAAEAAAAfABkACAAFAAEAAAAfABoACAAFAAEAADAfABsACAAFAAEAADAfABwACAAFAAEAAAAfAB0ACAAFAAEAAAAfAB4ACAAEAAIAAAAfAB8ACAAFAAEAACAfACAACAAFAAEAACAfACEACAAFAAEAABAfACIACAAFAAEAABAfACMACAAFAAEAACAfACQACAAFAAEAACAgABoACAAFAAEAAAAgABsACAAFAAEAAAAgABwACAAFAAEAADAgAB0ACAAFAAEAADAgAB4ACAAFAAIAAAAgAB8ACAAFAAEAABAgACAACAAFAAEAABAgACEACAAFAAEAACAgACIACAAFAAEAACAhABwACAAFAAEAAAAhAB0ACAAFAAEAAAAhAB4ACAAFAAIAABAhAB8ACAAFAAEAACAhACAACAAFAAEAACAiAB4ACAAFAAEAAAAcACwAAQAAAAEAAAAcACsAAQAAAAEAAAAdACoAAQAAAAEAAAAdACkAAQAAAAEAAAAeACgAAQAAAAEAAAAeACcAAQAAAAEAAAAfACYAAQAAAAEAAAAfACUAAQAAAAEAAAAgACQAAQAAAAEAAAAgACMAAQAAAAEAAAAhACIAAQAAAAEAAAAhACEAAQAAAAEAAAAiACAAAQAAAAEAAAAiAB8AAQAAAAEAAAAcABAAAQAAAAEAACAcABEAAQAAAAEAACAdABIAAQAAAAEAACAdABMAAQAAAAEAACAeABQAAQAAAAEAACAeABUAAQAAAAEAACAfABYAAQAAAAEAACAfABcAAQAAAAEAACAgABgAAQAAAAEAACAgABkAAQAAAAEAACAhABoAAQAAAAEAACAhABsAAQAAAAEAACAiABwAAQAAAAEAACAiAB0AAQAAAAEAACAMABAAAQAAAAEAADALABEAAQAAAAEAADALABIAAQAAAAEAADAKABMAAQAAAAEAADAKABQAAQAAAAEAADAJABUAAQAAAAEAADAJABYAAQAAAAEAADAIABcAAQAAAAEAADAIABgAAQAAAAEAADAHABkAAQAAAAEAADAHABoAAQAAAAEAADAGABsAAQAAAAEAADAGABwAAQAAAAEAADAGACAAAQAAAAEAABAGACEAAQAAAAEAABAHACIAAQAAAAEAABAHACMAAQAAAAEAABAIACQAAQAAAAEAABAIACUAAQAAAAEAABAJACYAAQAAAAEAABAJACcAAQAAAAEAABAKACgAAQAAAAEAABAKACkAAQAAAAEAABALACoAAQAAAAEAABALACsAAQAAAAEAABAMACwAAQAAAAEAABAMAC0AAQAAAAEAABAFAB8AAQAAAAEAABAFAB0AAQAAAAEAADAVAA4ACAAEAAAAAAAWAA4ACAAEAAAAAAAXAA4ACAAEAAAAAAAOAB4AAQAAAAUAAAAaAB4AAQAAAAUAABARABgAAQAAAAMAAAAXABgAAQAAAAMAABAXACQAAQAAAAMAADARACQAAQAAAAMAACAQABkAAQAAAAQAAAAQABoAAQAAAAQAAAAPABsAAQAAAAQAAAAPABwAAQAAAAQAAAAOAB0AAQAAAAQAAAAXABkAAQAAAAQAABAYABoAAQAAAAQAABAYABsAAQAAAAQAABAZABwAAQAAAAQAABAZAB0AAQAAAAQAABAZAB8AAQAAAAQAADAZACAAAQAAAAQAADAYACEAAQAAAAQAADAYACIAAQAAAAQAADAXACMAAQAAAAQAADAOAB8AAQAAAAQAACAPACAAAQAAAAQAACAPACEAAQAAAAQAACAQACIAAQAAAAQAACAQACMAAQAAAAQAACASABgAAQABAAMAAAATABgAAQABAAMAAAAUABgAAQABAAMAAAAVABgAAQABAAMAAAAWABgAAQABAAMAAAASACQAAQABAAMAACATACQAAQABAAMAACAUACQAAQABAAMAACAVACQAAQABAAMAACAWACQAAQABAAMAACAPAB0AAQABAAQAAAAQABsAAQABAAQAAAARABkAAQABAAQAAAAWABkAAQABAAQAABAXABsAAQABAAQAABAYAB0AAQABAAQAABAYAB8AAQABAAQAADAXACEAAQABAAQAADAWACMAAQABAAQAADARACMAAQABAAQAACAQACEAAQABAAQAACAPAB8AAQABAAQAACAPAB4AAQABAAUAAAAZAB4AAQABAAUAABAYABwAAQABAAUAABAXABoAAQABAAUAABARABoAAQABAAUAAAAQABwAAQABAAUAAAAQACAAAQABAAUAACARACIAAQABAAUAACAXACIAAQABAAUAADAYACAAAQABAAUAADASACMAAQABAAQAADAUACMAAQABAAQAADATACMAAQABAAQAACAVACMAAQABAAQAACASABkAAQABAAQAABAVABkAAQABAAQAAAATABkAAQABAAQAAAAUABkAAQABAAQAABASABoAAQACAAMAAAAWABoAAQACAAMAABAWACIAAQACAAMAADASACIAAQACAAMAACAQAB4AAQACAAUAAAAYAB4AAQACAAUAABARABsAAQACAAQAAAARABwAAQACAAQAAAAQAB0AAQACAAQAAAAWABsAAQACAAQAABAXABwAAQACAAQAABAXAB0AAQACAAQAABAXAB8AAQACAAQAADAXACAAAQACAAQAADAWACEAAQACAAQAADARACEAAQACAAQAACARACAAAQACAAQAACAQAB8AAQACAAQAACATABoAAQADAAMAAAAUABoAAQADAAMAAAAVABoAAQADAAMAAAATACIAAQADAAMAACAUACIAAQADAAMAACAVACIAAQADAAMAACASABsAAQADAAQAAAAVABsAAQADAAQAABAVACEAAQADAAQAADASACEAAQADAAQAACATACEAAQADAAQAADAUACEAAQADAAQAACAUABsAAQADAAQAAAATABsAAQADAAQAABARAB4AAQADAAUAAAAXAB4AAQADAAUAABAWABwAAQADAAUAABASABwAAQADAAUAAAASACAAAQADAAUAAAAWACAAAQADAAUAABARAB0AAQADAAQAAAARAB8AAQADAAQAACAWAB8AAQADAAQAADAWAB0AAQADAAQAABATABwAAQAEAAMAAAAVABwAAQAEAAMAABAVACAAAQAEAAMAADATACAAAQAEAAMAACASAB0AAQAEAAQAAAAVAB0AAQAEAAQAABAVAB8AAQAEAAQAADASAB8AAQAEAAQAACAUABwAAQAFAAMAAAAUACAAAQAFAAMAACATAB0AAQAFAAQAAAAUAB0AAQAFAAQAABAUAB8AAQAFAAQAADATAB8AAQAFAAQAACATAB4AAQAFAAUAAAAVAB4AAQAFAAUAABASAB4AAQAEAAUAAAAWAB4AAQAEAAUAABAUAB4AAgADAAEAAAAdACIAAQABAAIAABAdACEAAQABAAEAADAjAB4AAQAAAAIAABAFAB4AAQAAAAIAAAAlABIACAAEAAAAAAAlABQACAAEAAAAAAAlABYACAAEAAAAAAAlABEACAAEAAAAAAAmABIACAAEAAAAAAAlABMACAAEAAAAACAmABQACAAEAAAAAAAlABUACAAEAAAAACAmABYACAAEAAAAAAAmABEACAAEAAAAAAAnABIACAAEAAAAAAAmABMACAAEAAAAACAnABQACAAEAAAAAAAmABUACAAEAAAAACAnABYACAAFAAAAAAAnABEACAAEAAAAAAAoABIACAAEAAAAAAAnABMACAAEAAAAACAoABQACAAFAAEAAAAnABUACAAEAAAAACAoABYACAAFAAEAADAnABcACAAFAAEAAAAoABgACAAFAAEAAAAoABEACAAEAAAAAAApABIACAAEAAAAAAAoABMACAAEAAAAACApABQAAQAAAAEAACAoABUACAAFAAEAAAApABYACAAFAAEAAAAoABcACAAFAAEAADApABgACAAFAAEAADAoABkACAAFAAEAAAApABoACAAFAAEAAAApABMACAAEAAAAACAqABQACAAFAAEAAAApABUAAQAAAAEAACAqABYAAQAAAAEAACApABcACAAFAAEAAAAqABgACAAFAAEAAAApABkACAAFAAEAADAqABoACAAFAAEAADApABsACAAFAAEAAAAqABwACAAFAAEAAAAqABUACAAFAAEAAAArABYACAAFAAEAAAAqABcAAQAAAAEAACArABgAAQAAAAEAACAqABkACAAFAAEAAAArABoACAAFAAEAAAAqABsACAAFAAEAADArABwACAAFAAEAADAqAB0ACAAFAAEAAAArAB4ACAAFAAEAAAArABcACAAFAAEAAAAsABgACAAFAAEAAAArABkAAQAAAAEAACAsABoAAQAAAAEAACArABsACAAFAAEAAAAsABwACAAFAAEAAAArAB0ACAAFAAEAADAsABkACAAFAAEAAAAtABoACAAFAAEAAAAsABsAAQAAAAEAACApABEACAAEAAAAAAAqABIACAAEAAAAAAAqABMACAAEAAAAACArABQAAQAAAAEAACArABUAAQAAAAEAACAsABYAAQAAAAEAACAsAB4AAQABAAIAABAsABcAAQAAAAEAACAtABgAAQAAAAEAACAtABwACAAFAAEAADAsAB0ACAAFAAEAAAAtABkAAQAAAAEAACAuABoAAQAAAAEAACAtABsACAAFAAEAAAAmABcACAAEAAEAAAAsAB8ACAAEAAEAAAAtAB0ACAAFAAEAADAtAB4ACAAFAAEAAAAuABsAAQAAAAEAACAuABwACAAFAAEAAAAkABMACAAEAAAAACAkABUACAAEAAAAACAkABcACAAEAAEAAAAlABcACAAEAAEAABAnABgAAQABAAIAABAnABkACAAEAAEAAAAoABoAAQABAAIAABAoABsACAAEAAEAAAApABwAAQABAAIAABApAB0ACAAEAAEAAAAqAB4AAQABAAIAABAqAB8ACAAEAAEAAAA=")
+tile_set = SubResource("TileSet_tlwt5")
+
+[node name="Map" type="TileMapLayer" parent="."]
+material = SubResource("ShaderMaterial_j34ew")
+tile_map_data = PackedByteArray("AAAUAB4AAAAAAAAAAAATAB4AAQAFAAIAAAAVAB4AAQAFAAIAABATAB0AAQAFAAEAAAAUAB0AAQAFAAEAABAUAB8AAQAFAAEAADATAB8AAQAFAAEAACASAB0AAQAEAAEAAAAVAB0AAQAEAAEAABAVABwAAQAEAAAAABAUABwAAQAFAAAAAAATABwAAQAEAAAAAAASAB4AAQAEAAIAAAAWAB4AAQAEAAIAABAVAB8AAQAEAAEAADASAB8AAQAEAAEAACAUACAAAQAFAAAAACAVACAAAQAEAAAAADATACAAAQAEAAAAACAZAB4AAAAAAAAAAAAYAB4AAQAFAAIAAAAYAB0AAQAFAAEAAAAZAB0AAAAAAAAAAAAaAB4AAAAAAAAAAAAYAB8AAQAFAAEAACAZAB8AAAAAAAAAAAAXAB4AAQAEAAIAAAAbAB4AAAAAAAAAAAAaAB0AAAAAAAAAAAAaAB8AAAAAAAAAAAAYABwAAQAEAAAAAAAXAB0AAQAEAAEAAAAZABwAAQAFAAEAAAAaABwAAQAFAAEAAAAbABwAAQAFAAEAABAbAB0AAQAFAAEAABAcAB4AAQAFAAIAABAZACAAAQAFAAEAACAbACAAAQAFAAEAADAbAB8AAQAFAAEAADAaACAAAQAFAAEAADAZABsAAQAFAAAAAAAaABsAAQAFAAAAAAAZACEAAQAFAAAAACAaACEAAQAFAAAAACAYABsAAQAEAAAAAAAbABsAAQAEAAAAABAcABwAAQAEAAEAABAcAB0AAQAEAAEAABAcAB8AAQAEAAEAADAcACAAAQAEAAEAADAYACAAAQAEAAEAACAXAB8AAQAEAAEAACAYACEAAQAEAAAAACAbACEAAQAEAAAAADAWAB0AAAABAAEAAAAWABwAAAABAAEAAAAXABwAAAABAAEAAAAWAB8AAAABAAEAAAAXACAAAAABAAEAAAAWACAAAAABAAEAAAAdAB4AAQAEAAIAABAeAB4AAQAEAAIAAAAfAB4AAQAFAAIAAAAgAB4AAAAAAAAAAAAhAB4AAAAAAAAAAAAiAB4AAAAAAAAAAAAjAB4AAAAAAAAAAAAgAB0AAAAAAAAAAAAhAB0AAAAAAAAAAAAiAB0AAAAAAAAAAAAgAB8AAAAAAAAAAAAhAB8AAAAAAAAAAAAiAB8AAAAAAAAAAAAhABwAAAAAAAAAAAAiABwAAAAAAAAAAAAhACAAAAAAAAAAAAAiACAAAAAAAAAAAAAjABwAAAAAAAAAAAAjAB0AAAAAAAAAAAAkAB4AAAAAAAAAAAAjAB8AAAAAAAAAAAAjACAAAAAAAAAAAAAfAB8ACAAAAAEAADAfAB0ACAAAAAEAABAgABwACAAAAAEAABAgABsACAAAAAEAABAlAB4ACAAAAAIAAAAkAB0ACAAAAAEAAAAkABwACAAAAAEAAAAjABsACAAAAAEAAAAhABsACAAAAAEAAAAiABsACAAAAAEAABAkAB8ACAAAAAEAACAkACAACAAAAAEAACAjACEACAAAAAEAACAgACAACAAAAAEAADAgACEACAAAAAEAADAiACEACAAAAAEAADAhACEACAAAAAEAACAhABoACAAAAAAAAAAiABoACAAAAAAAAAAjABoACAAAAAAAAAAhACIACAAAAAAAACAiACIACAAAAAAAACAjACIACAAAAAAAACAkABoACAABAAAAAAAgABoACAABAAAAABAgACIACAABAAAAADAkACIACAABAAAAACAkABsACAABAAEAAAAlABwACAABAAEAAAAlAB0ACAABAAEAAAAmAB4ACAABAAIAAAAlAB8ACAABAAAAACAlACAACAABAAAAACAkACEACAABAAAAACAfABsAAQAEAAEAAAAfABwAAQAEAAEAAAAeAB0AAQAEAAEAAAAeAB8AAQAEAAEAACAfACAAAQAEAAEAACAfACEAAQAEAAEAACAdAB0AAAABAAEAAAAeABwAAAABAAEAAAAdABwAAAABAAEAAAAcABsAAAABAAEAAAAeABsAAAABAAEAAAAdAB8AAAABAAEAAAAdACAAAAABAAEAAAAcACEAAAABAAEAAAAeACAAAAABAAEAAAAeACEAAAABAAEAAAAfACIAAAABAAEAACAfACMACAACAAEAADAcACIACAACAAEAACAcABoACAACAAEAAAAfABoAAAABAAEAAAAfABkACAACAAEAABAeACIAAQADAAEAACAdACIAAQADAAEAADAeABoAAQADAAEAAAAdABoAAQADAAEAABAdABsAAAABAAEAAAAdACEAAAABAAEAAAAeABkAAQADAAEAAAAcABkACAACAAAAAAAdABkAAQACAAEAAAAdACMAAQACAAEAACAcACMACAACAAAAACAeACMAAQADAAEAACASABQACAAEAAAAAAASABUACAAEAAAAACASABYACAAEAAAAAAASABcACAAEAAAAACASABgAAQABAAAAAAASABkAAQABAAEAABASABoACAACAAAAAAASABsACAACAAEAAAATABQACAAEAAAAAAATABUACAAEAAAAACATABYACAAEAAAAAAATABcACAAEAAAAACATABgACAAEAAAAAAATABkAAQABAAEAABATABoACAACAAAAAAATABsACAACAAEAABAUABQACAAEAAAAAAAUABUACAAEAAAAACAUABYACAAEAAAAAAAUABcACAAEAAAAACAUABgACAAEAAAAAAAUABkAAQABAAEAAAAUABoACAACAAAAAAAUABsACAACAAEAAAAVABQACAAEAAAAAAAVABUACAAEAAAAACAVABYACAAEAAAAAAAVABcACAAEAAAAACAVABgACAAEAAAAAAAVABkAAQABAAEAABAVABoACAACAAAAAAAVABsACAACAAEAABAWABQACAAEAAAAAAAWABUACAAEAAAAACAWABYACAAEAAAAAAAWABcACAAEAAAAACAWABgACAAEAAAAAAAWABkAAQABAAEAAAAWABoACAACAAAAAAAWABsACAACAAEAAAAXABQACAAEAAAAAAAXABUACAAEAAAAACAXABYACAAEAAAAAAAXABcACAAEAAAAACAXABgAAQABAAEAAAAXABkAAQACAAAAAAAXABoAAQADAAAAAAAXABsACAACAAEAABAgABIACAAEAAAAAAAgABMACAAEAAAAACAgABQACAAEAAAAAAAgABUACAAEAAAAACAgABYACAAEAAAAAAAgABcACAAEAAEAABAgABgACAACAAAAAAAgABkACAACAAEAAAAhABIACAAEAAAAAAAhABMACAAEAAAAACAhABQACAAEAAAAAAAhABUACAAEAAAAACAhABYACAAEAAAAAAAhABcACAAEAAEAAAAhABgACAACAAAAAAAhABkACAACAAEAABAiABIACAAEAAAAAAAiABMACAAEAAAAACAiABQACAAEAAAAAAAiABUACAAEAAAAACAiABYACAAEAAAAAAAiABcACAAEAAEAABAiABgACAACAAAAAAAiABkACAACAAEAAAAjABIACAAEAAAAAAAjABMACAAEAAAAACAjABQACAAEAAAAAAAjABUACAAEAAAAACAjABYACAAEAAAAAAAjABcACAAEAAEAAAAjABgACAACAAAAAAAjABkACAACAAEAABAkABIACAAEAAAAAAAkABMACAAEAAAAACAkABQACAAEAAAAAAAkABUACAAEAAAAACAkABYACAAEAAAAAAAkABcACAAEAAEAABAkABgACAACAAAAAAAkABkACAACAAEAAAAlABIACAAEAAAAAAAlABMACAAEAAAAACAlABQACAAEAAAAAAAlABUACAAEAAAAACAlABYACAAEAAAAAAAlABcAAQACAAAAABAlABgACAACAAAAAAAlABkAAQADAAEAABAYABMACAAEAAAAAAAZABQACAAEAAAAACAYABUACAAEAAAAAAAZABYACAAEAAAAACAYABcACAAEAAAAAAAZABgACAAEAAEAABAYABkACAACAAAAAAAZABoACAACAAEAAAAZABMACAAEAAAAAAAaABQACAAEAAAAACAZABUACAAEAAAAAAAaABYACAAEAAAAACAZABcACAAEAAAAAAAaABgACAAEAAEAAAAZABkACAACAAAAAAAaABoACAACAAEAABAaABMACAAEAAAAAAAbABQACAAEAAAAACAaABUACAAEAAAAAAAbABYACAAEAAAAACAaABcACAAEAAAAAAAbABgACAAEAAEAABAaABkACAACAAAAAAAbABoACAACAAEAAAAbABMACAAEAAAAAAAcABQACAAEAAAAAAAbABUACAAEAAAAAAAcABYAAQAAAAAAADAbABcACAAEAAAAAAAcABgACAAEAAEAAAAbABkACAACAAAAAAAcABMACAAEAAAAACAdABQACAAEAAAAAAAcABUACAAEAAAAACAdABYAAQAAAAAAAAAcABcAAQABAAAAAAAdABgAAQABAAEAAAAdABMACAAEAAAAACAeABQACAAEAAAAAAAdABUACAAEAAAAACAeABYACAAEAAAAAAAdABcAAQABAAEAAAAeABgAAQACAAAAAAAcABIACAAEAAAAAAAdABIACAAEAAAAAAAeABIACAAEAAAAAAAeABMACAAEAAAAACAeABUACAAEAAAAACAeABcAAQABAAEAABAfABIACAAEAAAAAAAfABMACAAEAAAAACAfABQACAAEAAAAAAAfABUACAAEAAAAACAfABYACAAEAAAAAAAfABcAAQABAAEAAAAfABgAAQADAAAAAAAYABoAAQADAAEAAAAYABgAAQABAAEAAAAYABYAAQABAAAAACAcACoACAAEAAAAACAdACoACAAEAAAAACAeACoACAAEAAAAACAfACoACAAEAAAAACAgACoACAAEAAAAACAhACoACAAEAAAAACAiACoACAAEAAAAACAjACoACAAEAAAAACAkACoACAAEAAAAACAlACoACAAEAAAAACAYACkACAAEAAAAACAZACkACAAEAAAAACAaACkACAAEAAAAACAbACkACAAEAAAAACAcACkACAAEAAAAAAAdACkACAAEAAAAAAAeACkACAAEAAAAAAAfACkACAAEAAAAAAAgACkACAAEAAAAAAAhACkACAAEAAAAAAAiACkACAAEAAAAAAAjACkACAAEAAAAAAAkACkACAAEAAAAAAAlACkACAAEAAAAAAASACgACAAEAAAAACATACgACAAEAAAAACAUACgACAAEAAAAACAVACgACAAEAAAAACAWACgACAAEAAAAACAXACgACAAEAAAAACAZACgACAAEAAAAAAAaACgACAAEAAAAAAAbACgACAAEAAAAAAAcACgACAAEAAAAACAdACgACAAEAAAAACAeACgACAAEAAAAACAfACgACAAEAAAAACAgACgACAAEAAAAACAhACgACAAEAAAAACAiACgACAAEAAAAACAjACgACAAEAAAAACAkACgACAAEAAAAACAlACgACAAEAAAAACASACcACAAEAAAAAAATACcACAAEAAAAAAAUACcACAAEAAAAAAAVACcACAAEAAAAAAAWACcACAAEAAAAAAAXACcACAAEAAAAAAAYACcACAAEAAAAACAZACcACAAEAAAAACAaACcACAAEAAAAACAbACcACAAEAAAAACAcACcACAAEAAAAAAAdACcACAAEAAAAAAAeACcACAAEAAAAAAAfACcACAAEAAAAAAAgACcACAAEAAAAAAAhACcACAAEAAAAAAAiACcACAAEAAAAAAAjACcACAAEAAAAAAAkACcACAAEAAAAAAAlACcACAAEAAAAAAASACYACAAEAAAAACATACYACAAEAAAAACAUACYACAAEAAAAACAVACYACAAEAAAAACAWACYACAAEAAAAACAXACYACAAEAAAAACAYACYAAQABAAAAAAAZACYACAAEAAAAAAAaACYACAAEAAAAAAAbACYACAAEAAAAAAAcACYAAQAAAAAAABAdACYAAQAAAAAAACAeACYACAAEAAAAACAfACYACAAEAAAAACAgACYACAAEAAAAACAhACYACAAEAAAAACAiACYACAAEAAAAACAjACYACAAEAAAAACAkACYACAAEAAAAACAlACYAAQABAAEAACASACUACAAEAAAAAAATACUACAAEAAAAAAAUACUACAAEAAAAAAAVACUACAAEAAAAAAAWACUACAAEAAAAAAAXACUACAAEAAAAAAAYACUACAAEAAAAACAZACUACAAEAAAAACAaACUACAAEAAAAACAbACUACAAEAAAAACAcACUAAQABAAAAACAdACUAAQABAAEAACAeACUAAQABAAEAADAfACUAAQABAAEAACAgACUAAQABAAEAADAhACUAAQABAAEAACAiACUAAQABAAEAADAjACUAAQABAAEAACAkACUAAQABAAEAACAlACUAAQACAAAAADASACQAAQABAAAAACATACQACAAEAAAAACAUACQAAQABAAAAACAVACQACAAEAAAAACAWACQACAAEAAAAACAXACQAAQABAAEAACAYACQAAQABAAEAADAZACQAAQABAAEAACAaACQAAQABAAEAADAbACQAAQABAAEAACAcACQAAQABAAEAADAdACQAAQABAAEAACAeACQAAQACAAAAACAfACQAAQADAAAAACAgACQACAACAAAAACAhACQACAACAAAAACAiACQACAACAAAAACAjACQACAACAAAAACAkACQACAACAAAAACAlACQACAACAAAAACASACMAAQABAAEAADATACMAAQABAAEAADAUACMAAQABAAEAACAVACMAAQABAAEAADAWACMAAQABAAEAACAXACMAAQACAAAAACAYACMACAACAAAAACAZACMACAACAAAAACAaACMACAACAAAAACAbACMACAACAAAAACAgACMACAACAAEAACAhACMACAACAAEAADAiACMACAACAAEAACAjACMACAACAAEAADAkACMACAACAAEAACAlACMACAACAAEAADASACIACAACAAAAACATACIACAACAAAAACAUACIACAACAAAAACAVACIACAACAAAAACAWACIACAACAAAAACAXACIAAQADAAAAACAYACIAAQADAAEAACAZACIACAACAAEAACAaACIACAACAAEAADAbACIACAACAAEAACASACEACAACAAEAACATACEACAACAAEAADAUACEACAACAAEAACAVACEACAACAAEAADAWACEACAACAAEAACAXACEACAACAAEAADASABwAAAABAAEAAAARAB0AAAABAAEAAAARAB4AAAABAAEAAAARAB8AAAABAAEAAAASACAAAAABAAEAAAAlACIAAAABAAEAAAAlACEAAAABAAEAAAAmACAAAAABAAEAAAAmAB8AAAABAAEAAAAnAB4AAAABAAEAAAAmAB0AAAABAAEAAAAmABwAAAABAAEAAAAlABsAAAABAAEAAAAlABoAAAABAAEAAAARABsAAQADAAEAAAARABwAAQADAAEAAAAQAB0AAQADAAEAAAAQAB8AAQADAAEAACARACAAAQADAAEAACARACEAAQADAAEAACAmACIAAQADAAEAADAmACEAAQADAAEAADAnACAAAQADAAEAADAnAB8AAQADAAEAADAmABoAAQADAAEAABAmABsAAQADAAEAABAnABwAAQADAAEAABAnAB0AAQADAAEAABAQAB4AAQADAAIAAAAoAB4AAQADAAIAABARABoAAQACAAAAAAAQABsAAQACAAEAAAAQABwAAQACAAEAAAAPAB0AAQACAAEAAAAPAB8AAQACAAEAACAQACAAAQACAAEAACAQACEAAQACAAEAACARACIAAQACAAAAACAmACMAAQACAAEAADAnACIAAQACAAEAADAnACEAAQACAAEAADAoACAAAQACAAEAADAoAB0AAQACAAEAABAoABwAAQACAAEAABAnABsAAQACAAEAABAnABoAAQACAAEAABAmABkAAQACAAEAABARABkAAQABAAEAABARACMAAQABAAEAACAmACQAAQACAAAAADAmABgAAQACAAAAABAoAB8AAQACAAEAADAPAB4AAQACAAIAAAApAB4AAQACAAIAABAmACYAAQABAAEAADAmACUAAQABAAEAADAnACQAAQABAAEAADAnACMAAQABAAEAADAoACIAAQABAAEAADAoACEAAQABAAEAADApACAAAQABAAEAADApAB0ACAAEAAEAAAApABwAAQABAAIAABAoABsACAAEAAEAAAAoABoAAQABAAIAABAnABkACAAEAAEAAAAnABgAAQABAAIAABAmABcACAAEAAEAAAAmABYACAAEAAAAAAARABgAAQABAAAAAAAQABkAAQABAAEAAAAQABoAAQABAAEAAAAPABsAAQABAAEAAAAPABwAAQABAAEAAAAOAB0AAQABAAEAAAAOAB8AAQABAAEAACAPACAAAQABAAEAACAPACEAAQABAAEAACAQACIAAQABAAEAACAQACMAAQABAAEAACARACQAAQABAAAAACAQABcAAQABAAAAACAQABgAAQABAAEAAAAPABkACAAEAAEAABAPABoAAQABAAIAAAAOABsACAAEAAEAABAOABwAAQABAAIAAAAOACAAAQAAAAEAACAOACEAAQAAAAEAACAPACIAAQAAAAEAACAPACMAAQAAAAEAACAQACQAAQAAAAEAACAQACUAAQABAAAAAAAmACcAAQAAAAEAADAnACYAAQAAAAEAADAnACUAAQAAAAEAADAoACQAAQAAAAEAADAoACMAAQAAAAEAADApACIAAQAAAAEAADApACEAAQAAAAEAADAqABwACAAFAAEAAAApABsACAAFAAEAAAApABoACAAFAAEAAAAoABkACAAFAAEAAAAoABgACAAFAAEAAAAnABcACAAFAAEAAAAnABYACAAFAAAAAAAmABUACAAEAAAAACApAB8AAQABAAIAABAqAB4AAQABAAIAABAOAB4AAQABAAIAAAANAB0AAQABAAEAAAANAB8AAQAAAAEAACAqAB0ACAAFAAEAAAAqAB8AAQAAAAEAADAqACAAAQAAAAEAADANAB4AAQAAAAIAAAArAB4ACAAFAAEAAAAmABQACAAEAAAAAAAmACgAAQABAAAAACARABcAAQABAAAAACARACUAAQABAAAAAAALABgAAQAAAAEAAAAMABYAAQAAAAEAAAALABcAAQAAAAEAAAAMABgAAQAAAAEAADALABkAAQAAAAEAADAMABoACAAFAAEAABANABQAAQAAAAEAAAAMABUAAQAAAAEAAAANABYAAQAAAAEAADAMABcAAQAAAAEAADANABgACAAFAAEAABAMABkACAAFAAEAABANABoACAAFAAEAACAMABsACAAFAAEAACANABwACAAFAAEAABAOABIAAQAAAAEAAAANABMAAQAAAAEAAAAOABQAAQAAAAEAADANABUAAQAAAAEAADAOABYACAAFAAEAABANABcACAAFAAEAABAOABgACAAFAAEAACANABkACAAFAAEAACAOABoACAAFAAEAABANABsACAAFAAEAABAOABEACAAEAAAAAAAPABIACAAEAAAAAAAOABMACAAEAAAAACAPABQACAAFAAEAABAOABUACAAFAAEAABAPABYACAAFAAEAACAOABcACAAFAAEAACAPABgACAAFAAEAABAOABkACAAFAAEAABAPABEACAAEAAAAAAAQABIACAAEAAAAAAAPABMACAAEAAAAACAQABQACAAEAAAAAAAPABUACAAEAAAAACAQABYACAAFAAAAABAPABcACAAFAAEAABAQABEACAAEAAAAAAARABIACAAEAAAAAAAQABMACAAEAAAAACARABQACAAEAAAAAAAQABUACAAEAAAAACARABYACAAEAAAAAAARABMACAAEAAAAACARABUACAAEAAAAACAmABIACAAEAAAAAAAmABMACAAEAAAAACAnABIACAAEAAAAAAAnABMACAAEAAAAACAnABQACAAEAAAAAAAnABUACAAEAAAAACAoABIACAAEAAAAAAAoABMACAAEAAAAACAoABQACAAFAAEAAAAoABUACAAFAAEAAAAoABYACAAFAAEAADAoABcACAAFAAEAADApABIACAAEAAAAAAApABMACAAEAAAAACApABQAAQAAAAEAACApABUAAQAAAAEAACApABYACAAFAAEAAAApABcACAAFAAEAAAApABgACAAFAAEAADApABkACAAFAAEAADAqABIACAAEAAAAAAAqABMACAAEAAAAACAqABQACAAFAAEAAAAqABUACAAFAAEAAAAqABYAAQAAAAEAACAqABcAAQAAAAEAACAqABgACAAFAAEAAAAqABkACAAFAAEAAAAqABoACAAFAAEAADAqABsACAAFAAEAADArABQAAQAAAAEAACArABUAAQAAAAEAACArABYACAAFAAEAAAArABcACAAFAAEAAAArABgAAQAAAAEAACArABkAAQAAAAEAACArABoACAAFAAEAAAArABsACAAFAAEAAAArABwACAAFAAEAADArAB0ACAAFAAEAADAsABYAAQAAAAEAACAsABcAAQAAAAEAACAsABgACAAFAAEAAAAsABkACAAFAAEAAAAsABoAAQAAAAEAACAsABsAAQAAAAEAACAsABwACAAFAAEAAAAsAB0ACAAFAAEAAAAsAB4AAQAAAAEAACAtABgAAQAAAAEAACAtABkAAQAAAAEAACAtABoACAAFAAEAAAAtABsACAAFAAEAAAAtABwACAAFAAEAADAtAB0ACAAFAAEAADAtAB4ACAAFAAEAAAAuABoAAQAAAAEAACAuABsAAQAAAAEAACAuABwACAAFAAEAAAArAB8AAQAAAAEAAAArACAAAQAAAAEAAAAqACEAAQAAAAEAAAAqACIAAQAAAAEAAAApACMAAQAAAAEAAAApACQAAQAAAAEAAAAoACUAAQAAAAEAAAAoACYAAQAAAAEAAAAnACcAAQAAAAEAAAAnACgAAQAAAAEAAAAnACkAAQAAAAEAADAoACgAAQAAAAEAADAoACcAAQAAAAEAADApACYAAQAAAAEAADApACUAAQAAAAEAADAqACQAAQAAAAEAADAqACMAAQAAAAEAADArACIAAQAAAAEAADArACEAAQAAAAEAADAsACAAAQAAAAEAADAsAB8AAQAAAAEAADAoACoAAQAAAAEAAAAoACkAAQAAAAEAAAApACgAAQAAAAEAAAApACcAAQAAAAEAAAAqACYAAQAAAAEAAAAqACUAAQAAAAEAAAArACQAAQAAAAEAAAArACMAAQAAAAEAAAAsACIAAQAAAAEAAAAsACEAAQAAAAEAAAAtACAAAQAAAAEAAAAtAB8AAQAAAAEAAAAuAB4AAQAAAAEAAAAoACsAAQAAAAEAADApACoAAQAAAAEAADApACkAAQAAAAEAADAqACgAAQAAAAEAADAqACcAAQAAAAEAADArACYAAQAAAAEAADArACUAAQAAAAEAADAsACQAAQAAAAEAADAsACMAAQAAAAEAADAtACIAAQAAAAEAADAtACEAAQAAAAEAADAuACAAAQAAAAEAADAuAB8AAQAAAAEAADAvAB4AAQAAAAEAADAuAB0AAQAAAAEAABAvABwAAQAAAAEAACAYABQAAQAAAAEAADAKABkAAQAAAAEAAAAKABoAAQAAAAEAAAAJABsAAQAAAAEAAAAJABwAAQAAAAEAAAAIAB0AAQAAAAEAAAAJAB0AAQAAAAEAADAKABwAAQAAAAEAADAKABsAAQAAAAEAADALABoAAQAAAAEAADAMABwAAQAAAAEAADALAB0AAQAAAAEAADALABsAAQAAAAEAAAALABwAAQAAAAEAAAAKAB0AAQAAAAEAAAAMAB0AAQAAAAEAAAAMAB4AAQAAAAEAABAMAB8AAQAAAAEAABANACAAAQAAAAEAABANACEAAQAAAAEAABAOACIAAQAAAAEAABAOACMAAQAAAAEAABAPACQAAQAAAAEAABAPACUAAQAAAAEAABARACYAAQABAAAAACAQACYAAQABAAAAACAPACYAAQAAAAAAACAOACUAAQAAAAEAACAOACQAAQAAAAEAACANACMAAQAAAAEAACANACIAAQAAAAEAACAMACEAAQAAAAEAACALACEAAQAAAAEAACAMACAAAQAAAAEAACALAB8AAQAAAAEAACA=")
+tile_set = SubResource("TileSet_tlwt5")
+
+[node name="Shroomie" type="CharacterBody2D" parent="."]
+unique_name_in_owner = true
+visible = false
+position = Vector2(648, 648)
+script = ExtResource("11_fnv45")
+
+[node name="TileMenu" type="Control" parent="Shroomie"]
+unique_name_in_owner = true
+visible = false
+z_index = 1
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+focus_mode = 1
+mouse_filter = 2
+mouse_default_cursor_shape = 2
+theme = ExtResource("4_tftsi")
+script = ExtResource("12_fwnsf")
+metadata/_edit_use_anchors_ = true
+
+[node name="Top" type="TextureButton" parent="Shroomie/TileMenu"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -16.0
+offset_top = -50.0
+offset_right = 16.0
+offset_bottom = -22.0
+grow_horizontal = 2
+focus_neighbor_left = NodePath("../Left")
+focus_neighbor_top = NodePath(".")
+focus_neighbor_right = NodePath("../Right")
+focus_neighbor_bottom = NodePath("../Bottom")
+mouse_default_cursor_shape = 2
+action_mode = 0
+texture_normal = ExtResource("13_x7u5b")
+texture_focused = ExtResource("14_tyo1i")
+stretch_mode = 0
+
+[node name="Action" type="Label" parent="Shroomie/TileMenu/Top"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.761
+anchor_top = 0.5
+anchor_right = -0.761
+anchor_bottom = 0.5
+offset_left = -0.692999
+offset_top = -36.826
+offset_right = 81.307
+offset_bottom = -15.826
+theme = ExtResource("4_tftsi")
+text = "Connect"
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[node name="Cost" type="Label" parent="Shroomie/TileMenu/Top"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.761
+anchor_top = 0.5
+anchor_right = -0.761
+anchor_bottom = 0.5
+offset_left = 0.307001
+offset_top = -52.826
+offset_right = 73.307
+offset_bottom = -31.826
+theme = ExtResource("4_tftsi")
+text = "-100"
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[node name="Right" type="TextureButton" parent="Shroomie/TileMenu"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = 18.0
+offset_top = -14.0
+offset_right = 50.0
+offset_bottom = 14.0
+grow_horizontal = 0
+grow_vertical = 2
+focus_neighbor_left = NodePath("../Left")
+focus_neighbor_top = NodePath("../Top")
+focus_neighbor_right = NodePath(".")
+focus_neighbor_bottom = NodePath("../Bottom")
+action_mode = 0
+texture_normal = ExtResource("15_ch43e")
+texture_focused = ExtResource("16_ltrov")
+stretch_mode = 0
+
+[node name="Cost" type="Label" parent="Shroomie/TileMenu/Right"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 1.838
+anchor_right = 0.5
+anchor_bottom = 1.838
+offset_left = 21.955
+offset_top = -37.29
+offset_right = 114.955
+offset_bottom = -18.29
+theme = ExtResource("4_tftsi")
+text = "-100"
+vertical_alignment = 1
+
+[node name="Action" type="Label" parent="Shroomie/TileMenu/Right"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 1.838
+anchor_right = 0.5
+anchor_bottom = 1.838
+offset_left = 19.955
+offset_top = -57.29
+offset_right = 91.955
+offset_bottom = -35.29
+theme = ExtResource("4_tftsi")
+text = "Grow"
+vertical_alignment = 1
+
+[node name="Bottom" type="TextureButton" parent="Shroomie/TileMenu"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -16.0
+offset_top = 18.0
+offset_right = 16.0
+offset_bottom = 46.0
+grow_horizontal = 2
+grow_vertical = 0
+focus_neighbor_left = NodePath("../Left")
+focus_neighbor_top = NodePath("../Top")
+focus_neighbor_right = NodePath("../Right")
+action_mode = 0
+texture_normal = ExtResource("13_x7u5b")
+texture_focused = ExtResource("14_tyo1i")
+stretch_mode = 0
+flip_v = true
+
+[node name="Action" type="Label" parent="Shroomie/TileMenu/Bottom"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = -0.729
+anchor_right = 0.5
+anchor_bottom = -0.729
+offset_left = -28.045
+offset_top = 52.586
+offset_right = 30.955
+offset_bottom = 90.586
+theme = ExtResource("4_tftsi")
+text = "Close"
+horizontal_alignment = 1
+
+[node name="Cost" type="Label" parent="Shroomie/TileMenu/Bottom"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = -0.729
+anchor_right = 0.5
+anchor_bottom = -0.729
+offset_left = -28.045
+offset_top = 69.586
+offset_right = 30.955
+offset_bottom = 86.586
+theme = ExtResource("4_tftsi")
+text = "-100"
+horizontal_alignment = 1
+
+[node name="Left" type="TextureButton" parent="Shroomie/TileMenu"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = -50.0
+offset_top = -14.0
+offset_right = -18.0
+offset_bottom = 14.0
+grow_vertical = 2
+focus_neighbor_left = NodePath(".")
+focus_neighbor_top = NodePath("../Top")
+focus_neighbor_right = NodePath("../Right")
+focus_neighbor_bottom = NodePath("../Bottom")
+action_mode = 0
+texture_normal = ExtResource("15_ch43e")
+texture_focused = ExtResource("16_ltrov")
+stretch_mode = 0
+flip_h = true
+
+[node name="Action" type="Label" parent="Shroomie/TileMenu/Left"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 1.709
+anchor_top = 0.5
+anchor_right = 1.709
+anchor_bottom = 0.5
+offset_left = -133.688
+offset_top = -23.0
+offset_right = -57.688
+offset_bottom = -3.0
+theme = ExtResource("4_tftsi")
+text = "Play"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Cost" type="Label" parent="Shroomie/TileMenu/Left"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 1.709
+anchor_top = 0.5
+anchor_right = 1.709
+anchor_bottom = 0.5
+offset_left = -134.733
+offset_top = -3.826
+offset_right = -58.733
+offset_bottom = 16.174
+theme = ExtResource("4_tftsi")
+text = "-100"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="HUD" type="CanvasLayer" parent="Shroomie"]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Shroomie"]
+texture_filter = 1
+position = Vector2(1, -11)
+sprite_frames = ExtResource("17_sgd8w")
+animation = &"idle"
+autoplay = "idle"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Shroomie"]
+position = Vector2(0, -7)
+shape = SubResource("CircleShape2D_m7aoq")
+one_way_collision = true
+
+[node name="Camera2D" type="Camera2D" parent="Shroomie"]
+zoom = Vector2(2.5, 2.5)
+limit_top = 300
+limit_bottom = 850
+
+[connection signal="timeout" from="CanvasLayer/World HUD/HBoxContainer/Message/Timer" to="CanvasLayer/World HUD/HBoxContainer/Message" method="_on_timer_timeout"]
+[connection signal="pressed" from="CanvasLayer/World HUD/Controls/BackToStartScreen" to="." method="_on_back_to_start_screen_pressed"]
+[connection signal="pressed" from="CanvasLayer/World HUD/Controls/ResetData" to="." method="_on_reset_data_pressed"]
+[connection signal="timeout" from="CanvasLayer/World HUD/TickTimer" to="." method="_on_timer_timeout"]
+[connection signal="pressed" from="Shroomie/TileMenu/Top" to="Shroomie/TileMenu" method="_on_top_pressed"]
+[connection signal="pressed" from="Shroomie/TileMenu/Right" to="Shroomie/TileMenu" method="_on_right_pressed"]
+[connection signal="pressed" from="Shroomie/TileMenu/Bottom" to="Shroomie/TileMenu" method="_on_bottom_pressed"]
+[connection signal="pressed" from="Shroomie/TileMenu/Left" to="Shroomie/TileMenu" method="_on_left_pressed"]

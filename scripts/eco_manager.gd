@@ -3,13 +3,7 @@ extends Node
 signal energy_gained(e: float, f: float, d: float, c: float)
 
 func _ready() -> void:
-	# Initialize ticker
-	var timer := Timer.new()
-	timer.wait_time = 1.0
-	timer.one_shot = false
-	timer.autostart = true
-	add_child(timer)
-	timer.timeout.connect(_on_tick)
+	Global.tick.connect(_on_tick)
 
 func _on_tick() -> void:
 	var g = 0
@@ -37,7 +31,7 @@ func add_energy(g, a = 0, p = 0, t = 0):
 	save_data.energy_p += p
 	save_data.energy_t += t
 	Save.save_game()
-	emit_signal(Global.TICK_SIGNAL, g,a,p,t)
+	emit_signal("energy_gained", g,a,p,t)
 
 func subtract_energy(g, a = 0, p = 0, t = 0):
 	save_data.energy_g -= g
@@ -45,3 +39,4 @@ func subtract_energy(g, a = 0, p = 0, t = 0):
 	save_data.energy_p -= p
 	save_data.energy_t -= t
 	Save.save_game()
+	

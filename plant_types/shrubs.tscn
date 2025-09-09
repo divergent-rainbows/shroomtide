@@ -37,16 +37,13 @@ sources/1 = SubResource("TileSetAtlasSource_qm5cq")
 [node name="PlantTile" type="Node2D"]
 
 [node name="Dead" type="TileMapLayer" parent="."]
-visible = false
 tile_map_data = PackedByteArray(0, 0, 255, 255, 255, 255, 0, 0, 0, 0, 0, 0, 0, 0)
 tile_set = SubResource("TileSet_hnfrt")
 
 [node name="Healing" type="TileMapLayer" parent="."]
-visible = false
 tile_map_data = PackedByteArray(0, 0, 255, 255, 255, 255, 0, 0, 0, 0, 0, 0, 0, 0)
 tile_set = SubResource("TileSet_qm5cq")
 
 [node name="Recovered" type="TileMapLayer" parent="."]
-visible = false
 tile_map_data = PackedByteArray(0, 0, 255, 255, 255, 255, 1, 0, 0, 0, 0, 0, 0, 0)
 tile_set = SubResource("TileSet_ie7tp")

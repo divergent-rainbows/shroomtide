@@ -4,5 +4,5 @@
 
 [resource]
 default_font = ExtResource("1_cg8wq")
-Label/font_sizes/font_size = 16
+Label/font_sizes/font_size = 25
 RichTextLabel/font_sizes/normal_font_size = 25

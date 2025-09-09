@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=4 uid="uid://c3dhtno1emkj1"]
+[gd_scene load_steps=30 format=4 uid="uid://c3dhtno1emkj1"]
 
 [ext_resource type="Texture2D" uid="uid://dv5hgh4i02cdj" path="res://assets/basic-hex-32x28-Sheet.png" id="1_f3sb7"]
 [ext_resource type="Script" uid="uid://dajmoyc7by1ky" path="res://world/world.gd" id="1_i7141"]
@@ -14,6 +14,9 @@
 [ext_resource type="Texture2D" uid="uid://dtn7sbqp4e6py" path="res://assets/pixel_art/hex-arrow3.png" id="7_3ljsx"]
 [ext_resource type="Shader" uid="uid://ddxnpsvbejf1u" path="res://shaders/waves.gdshader" id="7_ysn08"]
 [ext_resource type="Texture2D" uid="uid://bixpvdq8q3o4j" path="res://assets/pixel_art/ocean-hex-tileset.png" id="13_gi7ib"]
+[ext_resource type="Script" uid="uid://cr13520qlud2a" path="res://addons/touch_screen_joystick/touch_screen_joystick.gd" id="13_m0cxt"]
+[ext_resource type="Texture2D" uid="uid://bdrg0pufwmid8" path="res://assets/transparent-flattop-hex.png" id="14_p2iis"]
+[ext_resource type="Texture2D" uid="uid://bpd1akedvdm8h" path="res://assets/solid-flattop-hex.png" id="15_p2iis"]
 [ext_resource type="Script" uid="uid://dk2u0ri6onvnj" path="res://world/inspector_view.gd" id="19_j34ew"]
 [ext_resource type="Script" uid="uid://b17fkfsurc8h3" path="res://world/world_shroom.gd" id="21_j7vgi"]
 [ext_resource type="SpriteFrames" uid="uid://cip00qxsau0mi" path="res://animation/idle_shroomie.tres" id="22_inp7a"]
@@ -100,19 +103,25 @@ texture_region_size = Vector2i(32, 28)
 2:0/0 = 0
 3:0/0 = 0
 4:0/0 = 0
+4:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(0, -14, -16, -7, -16, 7, 0, 14, 16, 7, 16, -7)
 5:0/0 = 0
+5:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(0, -14, -16, -7, -16, 7, 0, 14, 16, 7, 16, -7)
 0:1/0 = 0
 1:1/0 = 0
 2:1/0 = 0
 3:1/0 = 0
 4:1/0 = 0
+4:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(0, -14, -16, -7, -16, 7, 0, 14, 16, 7, 16, -7)
 5:1/0 = 0
+5:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(0, -14, -16, -7, -16, 7, -2.49901, 8.83245, 9.16802, 9.98899, 11.8712, 2.6988, 16, -7)
 0:2/0 = 0
 1:2/0 = 0
 2:2/0 = 0
 3:2/0 = 0
 4:2/0 = 0
+4:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(0, -14, -16, -7, -16, 7, 0, 14, 16, 7, 16, -7)
 5:2/0 = 0
+5:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(0, -14, -16, -7, -16, 7, 0, 14, 16, 7, 16, -7)
 0:3/0 = 0
 1:3/0 = 0
 2:3/0 = 0
@@ -186,6 +195,7 @@ use_texture_padding = false
 [sub_resource type="TileSet" id="TileSet_tlwt5"]
 tile_shape = 3
 tile_size = Vector2i(32, 28)
+physics_layer_0/collision_layer = 1
 sources/8 = SubResource("TileSetAtlasSource_llyeo")
 sources/1 = SubResource("TileSetAtlasSource_2tavo")
 sources/2 = SubResource("TileSetAtlasSource_0pnie")
@@ -751,14 +761,229 @@ shader_parameter/rainbow_speed = 1.0
 shader_parameter/rainbow_saturation = 0.8
 shader_parameter/rainbow_strength = 0.5
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_m7aoq"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ysn08"]
+size = Vector2(16, 6.5)
 
 [node name="World" type="Node2D"]
 script = ExtResource("1_i7141")
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="HUD" type="CanvasLayer" parent="."]
 
-[node name="World HUD" type="Control" parent="CanvasLayer"]
+[node name="TileMenu" type="Control" parent="HUD"]
+unique_name_in_owner = true
+z_index = 1
+layout_mode = 3
+anchors_preset = 0
+focus_mode = 1
+mouse_filter = 2
+mouse_default_cursor_shape = 2
+theme = ExtResource("2_m0cxt")
+script = ExtResource("3_j34ew")
+metadata/_edit_use_anchors_ = true
+
+[node name="Top" type="TextureButton" parent="HUD/TileMenu"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -16.0
+offset_top = -80.0
+offset_right = 16.0
+offset_bottom = -52.0
+grow_horizontal = 2
+grow_vertical = 0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+focus_neighbor_left = NodePath("../Left")
+focus_neighbor_top = NodePath(".")
+focus_neighbor_right = NodePath("../Right")
+focus_neighbor_bottom = NodePath("../Bottom")
+mouse_default_cursor_shape = 2
+action_mode = 0
+texture_normal = ExtResource("4_p2iis")
+texture_focused = ExtResource("5_aysyn")
+stretch_mode = 0
+
+[node name="Action" type="Label" parent="HUD/TileMenu/Top"]
+layout_mode = 2
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -65.0
+offset_top = -60.0
+offset_right = 66.0
+offset_bottom = -34.0
+text = "Connect"
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[node name="Cost" type="Label" parent="HUD/TileMenu/Top"]
+layout_mode = 2
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -65.0
+offset_top = -30.0
+offset_right = 66.0
+offset_bottom = -4.0
+grow_horizontal = 2
+grow_vertical = 0
+theme = ExtResource("2_m0cxt")
+text = "-100"
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[node name="Bottom" type="TextureButton" parent="HUD/TileMenu"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -16.0
+offset_top = 52.0
+offset_right = 16.0
+offset_bottom = 80.0
+grow_horizontal = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+focus_neighbor_left = NodePath("../Left")
+focus_neighbor_top = NodePath("../Top")
+focus_neighbor_right = NodePath("../Right")
+action_mode = 0
+texture_normal = ExtResource("4_p2iis")
+texture_focused = ExtResource("5_aysyn")
+stretch_mode = 0
+flip_v = true
+
+[node name="Action" type="Label" parent="HUD/TileMenu/Bottom"]
+layout_mode = 2
+anchor_left = 0.5
+anchor_top = 1.143
+anchor_right = 0.5
+anchor_bottom = 1.143
+offset_left = -47.0
+offset_top = -0.00400162
+offset_right = 47.0
+offset_bottom = 25.996
+theme = ExtResource("2_m0cxt")
+text = "Close"
+horizontal_alignment = 1
+
+[node name="Cost" type="Label" parent="HUD/TileMenu/Bottom"]
+layout_mode = 2
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -47.0
+offset_top = 34.0
+offset_right = 47.0
+offset_bottom = 60.0
+theme = ExtResource("2_m0cxt")
+text = "-100"
+horizontal_alignment = 1
+
+[node name="Right" type="TextureButton" parent="HUD/TileMenu"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 52.0
+offset_top = -14.0
+offset_right = 84.0
+offset_bottom = 14.0
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+focus_neighbor_left = NodePath("../Left")
+focus_neighbor_top = NodePath("../Top")
+focus_neighbor_right = NodePath(".")
+focus_neighbor_bottom = NodePath("../Bottom")
+action_mode = 0
+texture_normal = ExtResource("6_o1net")
+texture_focused = ExtResource("7_3ljsx")
+stretch_mode = 0
+
+[node name="Labels" type="VBoxContainer" parent="HUD/TileMenu/Right"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = 20.0
+offset_top = -28.0
+offset_right = 140.0
+offset_bottom = 28.0
+grow_horizontal = 0
+grow_vertical = 2
+size_flags_horizontal = 4
+
+[node name="Action" type="Label" parent="HUD/TileMenu/Right/Labels"]
+layout_mode = 2
+theme = ExtResource("2_m0cxt")
+text = "Grow"
+vertical_alignment = 1
+
+[node name="Cost" type="Label" parent="HUD/TileMenu/Right/Labels"]
+layout_mode = 2
+theme = ExtResource("2_m0cxt")
+text = "-100"
+vertical_alignment = 1
+
+[node name="Left" type="TextureButton" parent="HUD/TileMenu"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -84.0
+offset_top = -14.0
+offset_right = -52.0
+offset_bottom = 14.0
+grow_horizontal = 0
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+focus_neighbor_left = NodePath(".")
+focus_neighbor_top = NodePath("../Top")
+focus_neighbor_right = NodePath("../Right")
+focus_neighbor_bottom = NodePath("../Bottom")
+action_mode = 0
+texture_normal = ExtResource("6_o1net")
+texture_focused = ExtResource("7_3ljsx")
+stretch_mode = 0
+flip_h = true
+
+[node name="Labels" type="VBoxContainer" parent="HUD/TileMenu/Left"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -172.0
+offset_top = -28.0
+offset_right = -92.0
+offset_bottom = 28.0
+grow_horizontal = 0
+grow_vertical = 2
+
+[node name="Action" type="Label" parent="HUD/TileMenu/Left/Labels"]
+layout_mode = 2
+theme = ExtResource("2_m0cxt")
+text = "Play"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Cost" type="Label" parent="HUD/TileMenu/Left/Labels"]
+layout_mode = 2
+theme = ExtResource("2_m0cxt")
+text = "-100"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="World HUD" type="Control" parent="HUD"]
 z_index = 5
 texture_filter = 1
 layout_mode = 3
@@ -773,7 +998,7 @@ theme = SubResource("Theme_mad0u")
 script = ExtResource("4_036b0")
 metadata/_edit_use_anchors_ = true
 
-[node name="Header" type="HBoxContainer" parent="CanvasLayer/World HUD"]
+[node name="Header" type="HBoxContainer" parent="HUD/World HUD"]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.05
@@ -783,13 +1008,13 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Stats" type="VBoxContainer" parent="CanvasLayer/World HUD/Header"]
+[node name="Stats" type="VBoxContainer" parent="HUD/World HUD/Header"]
 custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 0
 
-[node name="TimeDisplay" type="RichTextLabel" parent="CanvasLayer/World HUD/Header/Stats"]
+[node name="TimeDisplay" type="RichTextLabel" parent="HUD/World HUD/Header/Stats"]
 clip_contents = false
 layout_mode = 2
 size_flags_vertical = 3
@@ -803,7 +1028,7 @@ context_menu_enabled = true
 vertical_alignment = 1
 metadata/_edit_use_anchors_ = true
 
-[node name="Resource" type="RichTextLabel" parent="CanvasLayer/World HUD/Header/Stats"]
+[node name="Resource" type="RichTextLabel" parent="HUD/World HUD/Header/Stats"]
 clip_contents = false
 layout_mode = 2
 size_flags_vertical = 3
@@ -816,7 +1041,7 @@ context_menu_enabled = true
 vertical_alignment = 1
 metadata/_edit_use_anchors_ = true
 
-[node name="Title" type="Label" parent="CanvasLayer/World HUD/Header"]
+[node name="Title" type="Label" parent="HUD/World HUD/Header"]
 layout_mode = 2
 size_flags_horizontal = 10
 size_flags_vertical = 3
@@ -824,7 +1049,7 @@ theme = ExtResource("5_dwbse")
 text = "FungIsland"
 horizontal_alignment = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/World HUD"]
+[node name="MessageContainer" type="HBoxContainer" parent="HUD/World HUD"]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.3
@@ -837,7 +1062,7 @@ grow_horizontal = 2
 size_flags_horizontal = 3
 alignment = 1
 
-[node name="Message" type="Control" parent="CanvasLayer/World HUD/HBoxContainer"]
+[node name="Message" type="Control" parent="HUD/World HUD/MessageContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -845,7 +1070,7 @@ size_flags_vertical = 3
 script = ExtResource("19_j34ew")
 metadata/_edit_use_anchors_ = true
 
-[node name="Label" type="RichTextLabel" parent="CanvasLayer/World HUD/HBoxContainer/Message"]
+[node name="Label" type="RichTextLabel" parent="HUD/World HUD/MessageContainer/Message"]
 visible = false
 layout_mode = 1
 anchors_preset = 15
@@ -865,11 +1090,11 @@ vertical_alignment = 1
 justification_flags = 160
 metadata/_edit_use_anchors_ = true
 
-[node name="Timer" type="Timer" parent="CanvasLayer/World HUD/HBoxContainer/Message"]
+[node name="Timer" type="Timer" parent="HUD/World HUD/MessageContainer/Message"]
 wait_time = 2.085
 one_shot = true
 
-[node name="GameOverScreen" type="VBoxContainer" parent="CanvasLayer/World HUD"]
+[node name="GameOverScreen" type="VBoxContainer" parent="HUD/World HUD"]
 visible = false
 layout_mode = 1
 anchors_preset = -1
@@ -882,7 +1107,7 @@ grow_vertical = 2
 mouse_filter = 2
 alignment = 1
 
-[node name="GameOver" type="Label" parent="CanvasLayer/World HUD/GameOverScreen"]
+[node name="GameOver" type="Label" parent="HUD/World HUD/GameOverScreen"]
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.65
@@ -891,13 +1116,13 @@ text = "Game Over!"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="FinalTime" type="Label" parent="CanvasLayer/World HUD/GameOverScreen"]
+[node name="FinalTime" type="Label" parent="HUD/World HUD/GameOverScreen"]
 layout_mode = 2
 theme = ExtResource("2_m0cxt")
 text = "00:00"
 horizontal_alignment = 1
 
-[node name="FinalMessage" type="Label" parent="CanvasLayer/World HUD/GameOverScreen"]
+[node name="FinalMessage" type="Label" parent="HUD/World HUD/GameOverScreen"]
 custom_minimum_size = Vector2(0, 200)
 layout_mode = 2
 size_flags_vertical = 3
@@ -907,7 +1132,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 2
 
-[node name="Controls" type="HBoxContainer" parent="CanvasLayer/World HUD"]
+[node name="Controls" type="HBoxContainer" parent="HUD/World HUD"]
 layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
@@ -916,15 +1141,19 @@ offset_top = -40.0
 offset_right = 40.0
 grow_vertical = 0
 
-[node name="BackToStartScreen" type="Button" parent="CanvasLayer/World HUD/Controls"]
+[node name="BackToStartScreen" type="Button" parent="HUD/World HUD/Controls"]
 layout_mode = 2
 text = "Back"
 
-[node name="ResetData" type="Button" parent="CanvasLayer/World HUD/Controls"]
+[node name="ResetData" type="Button" parent="HUD/World HUD/Controls"]
 layout_mode = 2
 text = "Reset Data"
 
-[node name="RainbowSpiral" type="ColorRect" parent="CanvasLayer"]
+[node name="TickTimer" type="Timer" parent="HUD/World HUD"]
+unique_name_in_owner = true
+autostart = true
+
+[node name="RainbowSpiral" type="ColorRect" parent="HUD"]
 visible = false
 modulate = Color(1, 1, 1, 0)
 material = SubResource("ShaderMaterial_m0cxt")
@@ -935,279 +1164,60 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
+[node name="Joystick" type="Control" parent="HUD"]
+layout_mode = 3
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+grow_vertical = 0
+script = ExtResource("13_m0cxt")
+deadzone = 7.0
+base_radius = 55.0
+knob_radius = 50.0
+use_textures = true
+base_texture = ExtResource("14_p2iis")
+knob_texture = ExtResource("15_p2iis")
+knob_scale = Vector2(0.8, 0.8)
+back_color = Color(0, 0, 0, 1)
+use_input_actions = true
+
 [node name="Ocean" type="TileMapLayer" parent="."]
 tile_map_data = PackedByteArray("AAAGAB0ACAAFAAEAABAGAB4ACAAFAAIAABAHABsACAAFAAEAABAHABwACAAFAAEAABAHAB0ACAAFAAEAACAIABkACAAFAAEAABAIABoAAQAAAAEAAAAIABsACAAFAAEAACAIABwACAAFAAEAACAIAB0ACAAFAAEAABAJABcAAQAAAAEAAAAJABgAAQAAAAEAAAAJABkACAAFAAEAACAJABoACAAFAAEAACAJABsACAAFAAEAABAJABwACAAFAAEAABAJAB0ACAAEAAEAABAKABUACAAFAAEAABAKABYACAAFAAEAABAKABcACAAFAAEAACAKABgACAAFAAEAACAKABkACAAFAAEAABAKABoACAAFAAEAABAKABsACAAEAAEAABAKABwAAQABAAIAAAAKAB0ACAADAAEAABALABMACAAFAAEAABALABQACAAFAAEAABALABUACAAFAAEAACALABYACAAFAAEAACALABcACAAFAAEAABALABgACAAFAAEAABALABkACAAEAAEAABALABoAAQABAAIAAAALABsACAADAAEAABALABwACAADAAEAABALAB0ACAACAAEAABAMAA8ACAAEAAAAACAMABEACAAFAAEAABAMABIACAAFAAEAABAMABMACAAFAAEAACAMABQACAAFAAEAACAMABUACAAFAAEAABAMABYACAAFAAEAABAMABcACAAEAAEAABAMABgAAQABAAIAAAAMABkACAADAAEAABAMABoACAADAAEAABAMABsACAACAAEAABAMABwAAQADAAIAAAAMAB0ACAABAAEAABANAA8ACAAEAAAAACANABAACAAFAAEAABANABEACAAEAAAAACANABIACAAFAAEAACANABMACAAFAAEAABANABQACAAFAAEAABANABUACAAEAAEAABANABYAAQABAAIAAAANABcACAADAAEAABANABgACAADAAEAABANABkACAACAAEAABANABoAAQADAAIAAAANABsACAABAAEAABANABwACAABAAEAABANAB0ACAAAAAEAABAOAA8ACAAEAAAAACAOABAACAAEAAAAAAAOABEACAAEAAAAACAOABIACAAFAAAAABAOABMACAAEAAEAABAOABQAAQABAAIAAAAOABUACAADAAEAABAOABYACAADAAEAABAOABcACAACAAEAABAOABgAAQADAAIAAAAOABkACAABAAEAABAOABoACAABAAEAABAOABsACAAAAAEAABAOABwACAAAAAEAABAPAA4ACAAEAAAAAAAPAA8ACAAEAAAAACAPABAACAAEAAAAAAAPABEACAAEAAAAACAPABIACAAEAAAAAAAPABMACAAEAAEAAAAPABQACAADAAAAABAPABUACAACAAEAABAPABYAAQADAAIAAAAPABcACAABAAEAABAPABgACAABAAEAABAPABkACAAAAAEAABAPABoACAAAAAEAABAQAA4ACAAEAAAAAAAQAA8ACAAEAAAAACAQABAACAAEAAAAAAAQABEACAAEAAAAACAQABIACAAEAAAAAAAQABMACAAEAAEAABAQABQACAACAAAAAAAQABUACAACAAEAAAAQABYACAABAAAAABAQABcACAAAAAEAABAQABgACAAAAAEAABARAA4ACAAEAAAAAAARAA8ACAAEAAAAACARABAACAAEAAAAAAARABEACAAEAAAAACARABIACAAEAAAAAAARABMACAAEAAEAAAARABQACAACAAAAAAARABUACAACAAEAABARABYACAAAAAAAAAARABcACAAAAAEAAAASAA4ACAAEAAAAAAASAA8ACAAEAAAAACASABAACAAEAAAAAAASABEACAAEAAAAACASABIACAAEAAAAAAASABMACAAEAAEAABASABQACAACAAAAAAASABUACAACAAEAAAASABYACAAAAAAAAAASABcACAAAAAEAABATAA4ACAAEAAAAAAATAA8ACAAEAAAAACATABAACAAEAAAAAAATABEACAAEAAAAACATABIACAAEAAAAAAATABMACAAEAAEAAAATABQACAACAAAAAAATABcACAAAAAEAAAAUAA4ACAAEAAAAAAAUAA8ACAAEAAAAACAUABAACAAEAAAAAAAUABEACAAEAAAAACAUABIACAAEAAAAAAAVAA8ACAAEAAAAACAVABAACAAEAAAAAAAGAB8ACAAFAAEAADAHAB4ACAAFAAEAAAAHAB8ACAAFAAEAAAAHACAACAAFAAEAADAHACEACAAFAAEAADAIAB4ACAAFAAIAABAIAB8ACAAFAAEAADAIACAACAAFAAEAAAAIACEACAAFAAEAAAAIACIACAAFAAEAADAIACMACAAFAAEAADAJAB4AAQABAAIAAAAJAB8ACAAEAAEAADAJACAACAAFAAEAADAJACEACAAFAAEAADAJACIACAAFAAEAAAAJACMACAAFAAEAAAAJACQACAAFAAEAADAJACUACAAFAAEAADAKAB4ACAADAAIAABAKAB8ACAADAAEAADAKACAAAQABAAIAAAAKACEACAAEAAEAADAKACIACAAFAAEAADAKACMACAAFAAEAADAKACQACAAFAAEAAAAKACUACAAFAAEAAAAKACYACAAFAAEAADAKACcACAAFAAEAADALAB4AAQADAAIAAAALAB8ACAACAAEAADALACAACAADAAEAADALACEACAADAAEAADALACIAAQABAAIAAAALACMACAAEAAEAADALACQACAAFAAEAADALACUACAAFAAEAADALACYACAAFAAEAAAALACcACAAFAAEAAAALACgACAAFAAEAADALACkACAAFAAEAADAMAB4ACAABAAIAABAMAB8ACAABAAEAADAMACAAAQADAAIAAAAMACEACAACAAEAADAMACIACAADAAEAADAMACMACAADAAEAADAMACQAAQABAAIAAAAMACUACAAEAAEAADAMACYACAAFAAEAADAMACcACAAFAAEAADAMACgACAAFAAEAAAAMACkACAAFAAEAAAAMACoACAAFAAEAADAMACsACAAFAAEAADANAA4ACAAEAAAAAAANAB4ACAAAAAIAABANAB8ACAAAAAEAADANACAACAABAAEAADANACEACAABAAEAADANACIAAQADAAIAAAANACMACAACAAEAADANACQACAADAAEAADANACUACAADAAEAADANACYAAQABAAIAAAANACcACAAEAAEAADANACgACAAFAAEAADANACkAAQAAAAEAACANACoACAAFAAEAAAANACsACAAFAAEAAAANACwACAAEAAAAACANAC0ACAAFAAEAABAOAA4ACAAEAAAAAAAOACAACAAAAAEAADAOACEACAAAAAEAADAOACIACAABAAEAADAOACMACAABAAEAADAOACQAAQADAAIAAAAOACUACAACAAEAADAOACYACAADAAEAADAOACcACAADAAEAADAOACgAAQABAAIAAAAOACkACAAEAAEAADAOACoACAAFAAAAADAOACsACAAEAAAAAAAOACwACAAEAAAAACAOAC0ACAAEAAAAAAAPACIACAAAAAEAADAPACMACAAAAAEAADAPACQACAABAAEAADAPACUACAABAAEAADAPACYAAQADAAIAAAAPACcACAACAAEAADAPACgACAADAAAAADAPACkACAAEAAEAACAPACoACAAEAAAAACAPACsACAAEAAAAAAAPACwACAAEAAAAACAPAC0ACAAEAAAAAAAQACQACAAAAAEAADAQACUACAAAAAEAADAQACYACAABAAAAADAQACcACAACAAEAACAQACgACAACAAAAACAQACkACAAEAAEAADAQACoACAAEAAAAACAQACsACAAEAAAAAAAQACwACAAEAAAAACAQAC0ACAAEAAAAAAARACUACAAAAAEAACARACYACAAAAAAAACARACcACAACAAEAADARACgACAACAAAAACARACkACAAEAAEAACARACoACAAEAAAAACARACsACAAEAAAAAAARACwACAAEAAAAACARAC0ACAAEAAAAAAASACUACAAAAAEAADASACYACAAAAAAAACASACcACAACAAEAACASACgACAACAAAAACASACkACAAEAAEAADASACoACAAEAAAAACASACsACAAEAAAAAAASACwACAAEAAAAACASAC0ACAAEAAAAAAATABUACAACAAEAABATABYACAAAAAAAAAATACUACAAAAAEAACATACYACAAAAAAAACATACcACAACAAEAADATACgACAACAAAAACATACkACAAEAAEAACATACoACAAEAAAAACATACsACAAEAAAAAAATACwACAAEAAAAACATAC0ACAAEAAAAAAAUABMACAAEAAEAABAUABQACAACAAAAAAAUABUACAACAAEAAAAUABYACAAAAAAAAAAUABcACAAAAAEAABAUACUACAAAAAEAADAUACYACAAAAAAAACAUACcACAACAAEAACAUACgACAACAAAAACAUACkACAAEAAEAADAUACoACAAEAAAAACAUACsACAAEAAAAAAAUACwACAAEAAAAACAUAC0ACAAEAAAAAAAVABEACAAEAAAAACAVABIACAAEAAAAAAAVABMACAAEAAEAAAAVABQACAACAAAAAAAVABUACAACAAEAABAVABYACAAAAAAAAAAVABcACAAAAAEAAAAVACUACAAAAAEAACAVACYACAAAAAAAACAVACcACAACAAEAADAVACgACAACAAAAACAVACkACAAEAAEAACAVACoACAAEAAAAACAVACsACAAEAAAAAAAVACwACAAEAAAAACAVAC0ACAAEAAAAAAAWAA8ACAAEAAAAACAWABAACAAEAAAAAAAWABEACAAEAAAAACAWABIAAQABAAAAAAAWABMACAAEAAEAABAWABQACAACAAAAAAAWABUACAACAAEAAAAWABYACAAAAAAAAAAWABcACAAAAAEAABAWACUACAAAAAEAADAWACYACAAAAAAAACAWACcACAACAAEAACAWACgACAACAAAAACAWACkACAAEAAEAADAWACoACAAEAAAAACAWACsACAAEAAAAAAAWACwACAAEAAAAACAWAC0ACAAEAAAAAAAXAA8ACAAEAAAAACAXABAACAAEAAAAAAAXABEACAAEAAAAACAXABIAAQABAAAAAAAXABMACAAEAAEAAAAXABQACAACAAAAAAAXABUACAACAAEAABAXABYACAAAAAAAAAAXABcACAAAAAEAAAAXACUACAAAAAEAACAXACYACAAAAAAAACAXACcACAACAAEAADAXACgACAACAAAAACAXACkACAAEAAEAACAXACoACAAEAAAAACAXACsACAAEAAAAAAAXACwACAAEAAAAACAXAC0ACAAEAAAAAAAYAA4ACAAEAAAAAAAYAA8ACAAEAAAAACAYABAACAAEAAAAAAAYABEACAAEAAAAACAYABIACAAEAAAAAAAYABMACAAEAAEAABAYABQACAACAAAAAAAYABUACAACAAEAAAAYABYACAABAAAAAAAYABcACAABAAEAAAAYABgACAAAAAEAAAAYABkACAAAAAEAAAAYACMACAAAAAEAACAYACQACAAAAAEAACAYACUACAABAAEAACAYACYACAABAAAAACAYACcACAACAAEAACAYACgACAACAAAAACAYACkACAAEAAEAADAYACoACAAEAAAAACAYACsACAAEAAAAAAAYACwACAAEAAAAACAYAC0ACAAEAAAAAAAZAA4ACAAEAAAAAAAZAA8ACAAEAAAAACAZABAACAAEAAAAAAAZABEACAAEAAAAACAZABIACAAEAAAAAAAZABMACAAEAAEAAAAZABQACAADAAAAAAAZABUACAADAAEAAAAZABYACAACAAEAAAAZABcACAACAAEAAAAZABgACAABAAEAAAAZABkACAABAAEAAAAZABoACAAAAAEAAAAZABsACAAAAAEAAAAZACEACAAAAAEAACAZACIACAAAAAEAACAZACMACAABAAEAACAZACQACAABAAEAACAZACUACAACAAEAACAZACYAAQADAAIAABAZACcACAADAAEAACAZACgAAQACAAAAADAZACkACAAEAAEAACAZACoACAAEAAAAACAZACsACAAEAAAAAAAZACwACAAEAAAAACAZAC0ACAAEAAAAAAAaAA4ACAAEAAAAAAAaAA8ACAAEAAAAACAaABAACAAEAAAAAAAaABEACAAEAAAAACAaABIACAAFAAAAAAAaABMACAAFAAEAAAAaABQAAQABAAIAABAaABUACAAEAAEAAAAaABYACAADAAEAAAAaABcACAADAAEAAAAaABgACAACAAEAAAAaABkACAACAAEAAAAaABoACAABAAEAAAAaABsACAABAAEAAAAaABwACAAAAAEAAAAaAB0ACAAAAAEAAAAaAB8ACAAAAAEAACAaACAACAAAAAEAACAaACEACAABAAEAACAaACIACAABAAEAACAaACMACAACAAEAACAaACQAAQADAAIAABAaACUACAADAAEAACAaACYACAADAAEAACAaACcAAQABAAEAADAaACgAAQABAAIAABAaACkACAAFAAEAACAaACoACAAFAAAAACAaACsACAAEAAAAAAAaACwACAAEAAAAACAaAC0ACAAEAAAAAAAbAA4ACAAEAAAAAAAbAA8ACAAEAAAAACAbABAACAAFAAEAAAAbABEACAAFAAEAAAAbABIACAAFAAEAADAbABMACAAFAAEAADAbABQACAAFAAEAAAAbABUACAAFAAEAAAAbABYAAQABAAIAABAbABcACAAEAAEAAAAbABgACAADAAEAAAAbABkACAADAAEAAAAbABoACAACAAEAAAAbABsACAACAAEAAAAbABwACAABAAEAAAAbAB0ACAABAAEAAAAbAB4ACAAAAAIAAAAbAB8ACAABAAEAACAbACAACAABAAEAACAbACEACAACAAEAACAbACIAAQADAAIAABAbACMACAADAAEAACAbACQACAADAAEAACAbACUAAQABAAEAADAbACYAAQABAAIAABAbACcACAAFAAEAACAbACgACAAFAAEAACAbACkACAAFAAEAABAbACoACAAFAAEAABAbACsACAAFAAEAACAbACwACAAEAAAAACAbAC0ACAAEAAAAAAAcABIACAAFAAEAAAAcABMACAAFAAEAAAAcABQACAAFAAEAADAcABUACAAFAAEAADAcABYACAAFAAEAAAAcABcACAAFAAEAAAAcABgAAQABAAIAABAcABkACAAEAAEAAAAcABoACAADAAEAAAAcABsACAADAAEAAAAcABwACAACAAEAAAAcAB0ACAACAAEAAAAcAB4ACAABAAIAAAAcAB8ACAACAAEAACAcACAAAQADAAIAABAcACEACAADAAEAACAcACIACAADAAEAACAcACMAAQABAAIAABAcACQAAQABAAIAABAcACUACAAFAAEAACAcACYACAAFAAEAACAcACcACAAFAAEAABAcACgACAAFAAEAABAcACkACAAFAAEAACAcACoACAAFAAEAACAdABQACAAFAAEAAAAdABUACAAFAAEAAAAdABYACAAFAAEAADAdABcACAAFAAEAADAdABgACAAFAAEAAAAdABkACAAFAAEAAAAdABoAAQABAAIAABAdABsACAAEAAEAAAAdABwACAADAAEAAAAdAB0ACAADAAEAAAAdAB4ACAACAAIAAAAdAB8ACAADAAEAACAdACAACAADAAEAACAdACMACAAFAAEAACAdACQACAAFAAEAACAdACUACAAFAAEAABAdACYACAAFAAEAABAdACcACAAFAAEAACAdACgACAAFAAEAACAeABYACAAFAAEAAAAeABcACAAFAAEAAAAeABgACAAFAAEAADAeABkACAAFAAEAADAeABoACAAFAAEAAAAeABsACAAFAAEAAAAeABwAAQABAAIAABAeAB0ACAAEAAEAAAAeAB4ACAADAAIAAAAeAB8AAQABAAEAADAeACAAAQABAAIAABAeACEACAAFAAEAACAeACIACAAFAAEAACAeACMACAAFAAEAABAeACQACAAFAAEAABAeACUACAAFAAEAACAeACYACAAFAAEAACAfABgACAAFAAEAAAAfABkACAAFAAEAAAAfABoACAAFAAEAADAfABsACAAFAAEAADAfABwACAAFAAEAAAAfAB0ACAAFAAEAAAAfAB4ACAAEAAIAAAAfAB8ACAAFAAEAACAfACAACAAFAAEAACAfACEACAAFAAEAABAfACIACAAFAAEAABAfACMACAAFAAEAACAfACQACAAFAAEAACAgABoACAAFAAEAAAAgABsACAAFAAEAAAAgABwACAAFAAEAADAgAB0ACAAFAAEAADAgAB4ACAAFAAIAAAAgAB8ACAAFAAEAABAgACAACAAFAAEAABAgACEACAAFAAEAACAgACIACAAFAAEAACAhABwACAAFAAEAAAAhAB0ACAAFAAEAAAAhAB4ACAAFAAIAABAhAB8ACAAFAAEAACAhACAACAAFAAEAACAiAB4ACAAFAAEAAAAcACwAAQAAAAEAAAAcACsAAQAAAAEAAAAdACoAAQAAAAEAAAAdACkAAQAAAAEAAAAeACgAAQAAAAEAAAAeACcAAQAAAAEAAAAfACYAAQAAAAEAAAAfACUAAQAAAAEAAAAgACQAAQAAAAEAAAAgACMAAQAAAAEAAAAhACIAAQAAAAEAAAAhACEAAQAAAAEAAAAiACAAAQAAAAEAAAAiAB8AAQAAAAEAAAAcABAAAQAAAAEAACAcABEAAQAAAAEAACAdABIAAQAAAAEAACAdABMAAQAAAAEAACAeABQAAQAAAAEAACAeABUAAQAAAAEAACAfABYAAQAAAAEAACAfABcAAQAAAAEAACAgABgAAQAAAAEAACAgABkAAQAAAAEAACAhABoAAQAAAAEAACAhABsAAQAAAAEAACAiABwAAQAAAAEAACAiAB0AAQAAAAEAACAMABAAAQAAAAEAADALABEAAQAAAAEAADALABIAAQAAAAEAADAKABMAAQAAAAEAADAKABQAAQAAAAEAADAJABUAAQAAAAEAADAJABYAAQAAAAEAADAIABcAAQAAAAEAADAIABgAAQAAAAEAADAHABkAAQAAAAEAADAHABoAAQAAAAEAADAGABsAAQAAAAEAADAGABwAAQAAAAEAADAGACAAAQAAAAEAABAGACEAAQAAAAEAABAHACIAAQAAAAEAABAHACMAAQAAAAEAABAIACQAAQAAAAEAABAIACUAAQAAAAEAABAJACYAAQAAAAEAABAJACcAAQAAAAEAABAKACgAAQAAAAEAABAKACkAAQAAAAEAABALACoAAQAAAAEAABALACsAAQAAAAEAABAMACwAAQAAAAEAABAMAC0AAQAAAAEAABAFAB8AAQAAAAEAABAFAB0AAQAAAAEAADAVAA4ACAAEAAAAAAAWAA4ACAAEAAAAAAAXAA4ACAAEAAAAAAAOAB4AAQAAAAUAAAAaAB4AAQAAAAUAABARABgAAQAAAAMAAAAXABgAAQAAAAMAABAXACQAAQAAAAMAADARACQAAQAAAAMAACAQABkAAQAAAAQAAAAQABoAAQAAAAQAAAAPABsAAQAAAAQAAAAPABwAAQAAAAQAAAAOAB0AAQAAAAQAAAAXABkAAQAAAAQAABAYABoAAQAAAAQAABAYABsAAQAAAAQAABAZABwAAQAAAAQAABAZAB0AAQAAAAQAABAZAB8AAQAAAAQAADAZACAAAQAAAAQAADAYACEAAQAAAAQAADAYACIAAQAAAAQAADAXACMAAQAAAAQAADAOAB8AAQAAAAQAACAPACAAAQAAAAQAACAPACEAAQAAAAQAACAQACIAAQAAAAQAACAQACMAAQAAAAQAACASABgAAQABAAMAAAATABgAAQABAAMAAAAUABgAAQABAAMAAAAVABgAAQABAAMAAAAWABgAAQABAAMAAAASACQAAQABAAMAACATACQAAQABAAMAACAUACQAAQABAAMAACAVACQAAQABAAMAACAWACQAAQABAAMAACAPAB0AAQABAAQAAAAQABsAAQABAAQAAAARABkAAQABAAQAAAAWABkAAQABAAQAABAXABsAAQABAAQAABAYAB0AAQABAAQAABAYAB8AAQABAAQAADAXACEAAQABAAQAADAWACMAAQABAAQAADARACMAAQABAAQAACAQACEAAQABAAQAACAPAB8AAQABAAQAACAPAB4AAQABAAUAAAAZAB4AAQABAAUAABAYABwAAQABAAUAABAXABoAAQABAAUAABARABoAAQABAAUAAAAQABwAAQABAAUAAAAQACAAAQABAAUAACARACIAAQABAAUAACAXACIAAQABAAUAADAYACAAAQABAAUAADASACMAAQABAAQAADAUACMAAQABAAQAADATACMAAQABAAQAACAVACMAAQABAAQAACASABkAAQABAAQAABAVABkAAQABAAQAAAATABkAAQABAAQAAAAUABkAAQABAAQAABASABoAAQACAAMAAAAWABoAAQACAAMAABAWACIAAQACAAMAADASACIAAQACAAMAACAQAB4AAQACAAUAAAAYAB4AAQACAAUAABARABsAAQACAAQAAAARABwAAQACAAQAAAAQAB0AAQACAAQAAAAWABsAAQACAAQAABAXABwAAQACAAQAABAXAB0AAQACAAQAABAXAB8AAQACAAQAADAXACAAAQACAAQAADAWACEAAQACAAQAADARACEAAQACAAQAACARACAAAQACAAQAACAQAB8AAQACAAQAACATABoAAQADAAMAAAAUABoAAQADAAMAAAAVABoAAQADAAMAAAATACIAAQADAAMAACAUACIAAQADAAMAACAVACIAAQADAAMAACASABsAAQADAAQAAAAVABsAAQADAAQAABAVACEAAQADAAQAADASACEAAQADAAQAACATACEAAQADAAQAADAUACEAAQADAAQAACAUABsAAQADAAQAAAATABsAAQADAAQAABARAB4AAQADAAUAAAAXAB4AAQADAAUAABAWABwAAQADAAUAABASABwAAQADAAUAAAASACAAAQADAAUAAAAWACAAAQADAAUAABARAB0AAQADAAQAAAARAB8AAQADAAQAACAWAB8AAQADAAQAADAWAB0AAQADAAQAABATABwAAQAEAAMAAAAVABwAAQAEAAMAABAVACAAAQAEAAMAADATACAAAQAEAAMAACASAB0AAQAEAAQAAAAVAB0AAQAEAAQAABAVAB8AAQAEAAQAADASAB8AAQAEAAQAACAUABwAAQAFAAMAAAAUACAAAQAFAAMAACATAB0AAQAFAAQAAAAUAB0AAQAFAAQAABAUAB8AAQAFAAQAADATAB8AAQAFAAQAACATAB4AAQAFAAUAAAAVAB4AAQAFAAUAABASAB4AAQAEAAUAAAAWAB4AAQAEAAUAABAUAB4AAgADAAEAAAAdACIAAQABAAIAABAdACEAAQABAAEAADAjAB4AAQAAAAIAABAFAB4AAQAAAAIAAAA=")
 tile_set = SubResource("TileSet_tlwt5")
 
 [node name="Map" type="TileMapLayer" parent="."]
 material = SubResource("ShaderMaterial_j34ew")
-tile_map_data = PackedByteArray("AAAOAB0AAQAAAAQAAAAOAB4AAQAAAAUAAAAOAB8AAQAAAAQAACAPABsAAQAAAAQAAAAPABwAAQAAAAQAAAAPAB0AAQABAAQAAAAPAB4AAQABAAUAAAAPAB8AAQABAAQAACAPACAAAQAAAAQAACAPACEAAQAAAAQAACAQABkAAQAAAAQAAAAQABoAAQAAAAQAAAAQABsAAQABAAQAAAAQABwAAQABAAUAAAAQAB0AAQACAAQAAAAQAB4AAQACAAUAAAAQAB8AAQACAAQAACAQACAAAQABAAUAACAQACEAAQABAAQAACAQACIAAQAAAAQAACAQACMAAQAAAAQAACARABgAAQAAAAMAAAARABkAAQABAAQAAAARABoAAQABAAUAAAARABsAAQACAAQAAAARABwAAQACAAQAAAARAB0AAQADAAQAAAARAB4AAQADAAUAAAARAB8AAQADAAQAACARACAAAQACAAQAACARACEAAQACAAQAACARACIAAQABAAUAACARACMAAQABAAQAACARACQAAQAAAAMAACASABgAAQABAAMAAAASABkAAQABAAQAABASABoAAQACAAMAAAASABsAAQADAAQAAAASABwAAQADAAUAAAASAB0AAQAEAAQAAAASAB4AAQAEAAUAAAASAB8AAQAEAAQAACASACAAAQADAAUAAAASACEAAQADAAQAACASACIAAQACAAMAACASACMAAQABAAQAADASACQAAQABAAMAACATABgAAQABAAMAAAATABkAAQABAAQAAAATABoAAQADAAMAAAATABsAAQADAAQAABATABwAAQAEAAMAAAATAB0AAQAFAAQAAAATAB4AAQAFAAUAAAATAB8AAQAFAAQAACATACAAAQAEAAMAACATACEAAQADAAQAADATACIAAQADAAMAACATACMAAQABAAQAACATACQAAQABAAMAACAUABgAAQABAAMAAAAUABkAAQABAAQAABAUABoAAQADAAMAAAAUABsAAQADAAQAAAAUABwAAQAFAAMAAAAUAB0AAQAFAAQAABAUAB4AAgADAAEAAAAUAB8AAQAFAAQAADAUACAAAQAFAAMAACAUACEAAQADAAQAACAUACIAAQADAAMAACAUACMAAQABAAQAADAUACQAAQABAAMAACAVABgAAQABAAMAAAAVABkAAQABAAQAAAAVABoAAQADAAMAAAAVABsAAQADAAQAABAVABwAAQAEAAMAABAVAB0AAQAEAAQAABAVAB4AAQAFAAUAABAVAB8AAQAEAAQAADAVACAAAQAEAAMAADAVACEAAQADAAQAADAVACIAAQADAAMAACAVACMAAQABAAQAACAVACQAAQABAAMAACAWABgAAQABAAMAAAAWABkAAQABAAQAABAWABoAAQACAAMAABAWABsAAQACAAQAABAWABwAAQADAAUAABAWAB0AAQADAAQAABAWAB4AAQAEAAUAABAWAB8AAQADAAQAADAWACAAAQADAAUAABAWACEAAQACAAQAADAWACIAAQACAAMAADAWACMAAQABAAQAADAWACQAAQABAAMAACAXABgAAQAAAAMAABAXABkAAQAAAAQAABAXABoAAQABAAUAABAXABsAAQABAAQAABAXABwAAQACAAQAABAXAB0AAQACAAQAABAXAB4AAQADAAUAABAXAB8AAQACAAQAADAXACAAAQACAAQAADAXACEAAQABAAQAADAXACIAAQABAAUAADAXACMAAQAAAAQAADAXACQAAQAAAAMAADAYABoAAQAAAAQAABAYABsAAQAAAAQAABAYABwAAQABAAUAABAYAB0AAQABAAQAABAYAB4AAQACAAUAABAYAB8AAQABAAQAADAYACAAAQABAAUAADAYACEAAQAAAAQAADAYACIAAQAAAAQAADAZABwAAQAAAAQAABAZAB0AAQAAAAQAABAZAB4AAQABAAUAABAZAB8AAQAAAAQAADAZACAAAQAAAAQAADAaAB4AAQAAAAUAABA=")
+tile_map_data = PackedByteArray("AAAOAB0AAQAAAAQAAAAOAB4AAQAAAAUAAAAOAB8AAQAAAAQAACAPABsAAQAAAAQAAAAPABwAAQAAAAQAAAAPAB0AAQABAAQAAAAPAB4AAQABAAUAAAAPAB8AAQABAAQAACAPACAAAQAAAAQAACAPACEAAQAAAAQAACAQABkAAQAAAAQAAAAQABoAAQAAAAQAAAAQABsAAQABAAQAAAAQABwAAQABAAUAAAAQAB0AAQACAAQAAAAQAB4AAQACAAUAAAAQAB8AAQACAAQAACAQACAAAQABAAUAACAQACEAAQABAAQAACAQACIAAQAAAAQAACAQACMAAQAAAAQAACARABgAAQAAAAMAAAARABkAAQABAAQAAAARABoAAQABAAUAAAARABsAAQACAAQAAAARABwAAQACAAQAAAARAB0AAQADAAQAAAARAB4AAQADAAUAAAARAB8AAQADAAQAACARACAAAQACAAQAACARACEAAQACAAQAACARACIAAQABAAUAACARACMAAQABAAQAACARACQAAQAAAAMAACASABgAAQABAAMAAAASABkAAQABAAQAABASABoAAQACAAMAAAASABsAAQADAAQAAAASABwAAQADAAQAAAASAB0AAQAEAAQAAAASAB4AAQAEAAUAAAASAB8AAQAEAAQAACASACAAAQADAAQAACASACEAAQADAAQAACASACIAAQACAAMAACASACMAAQABAAQAADASACQAAQABAAMAACATABgAAQABAAMAAAATABkAAQABAAQAAAATABoAAQADAAMAAAATABsAAQADAAQAABATABwAAQAEAAMAAAATAB0AAQAFAAQAAAATAB4AAQAFAAUAAAATAB8AAQAFAAQAACATACAAAQAEAAMAACATACEAAQADAAQAADATACIAAQADAAMAACATACMAAQABAAQAACATACQAAQABAAMAACAUABgAAQABAAMAAAAUABkAAQABAAQAABAUABoAAQADAAMAAAAUABsAAQADAAQAAAAUABwAAQAFAAMAAAAUAB0AAQAFAAQAABAUAB4AAgADAAEAAAAUAB8AAQAFAAQAADAUACAAAQAFAAMAACAUACEAAQADAAQAACAUACIAAQADAAMAACAUACMAAQABAAQAADAUACQAAQABAAMAACAVABgAAQABAAMAAAAVABkAAQABAAQAAAAVABoAAQADAAMAAAAVABsAAQADAAQAABAVABwAAQAEAAMAABAVAB0AAQAEAAQAABAVAB4AAQAFAAUAABAVAB8AAQAEAAQAADAVACAAAQAEAAMAADAVACEAAQADAAQAADAVACIAAQADAAMAACAVACMAAQABAAQAACAVACQAAQABAAMAACAWABgAAQABAAMAAAAWABkAAQABAAQAABAWABoAAQACAAMAABAWABsAAQACAAQAABAWABwAAQADAAQAABAWAB0AAQADAAQAABAWAB4AAQAEAAUAABAWAB8AAQADAAQAADAWACAAAQADAAQAADAWACEAAQACAAQAADAWACIAAQACAAMAADAWACMAAQABAAQAADAWACQAAQABAAMAACAXABgAAQAAAAMAABAXABkAAQAAAAQAABAXABoAAQABAAUAABAXABsAAQABAAQAABAXABwAAQACAAQAABAXAB0AAQACAAQAABAXAB4AAQADAAUAABAXAB8AAQACAAQAADAXACAAAQACAAQAADAXACEAAQABAAQAADAXACIAAQABAAUAADAXACMAAQAAAAQAADAXACQAAQAAAAMAADAYABoAAQAAAAQAABAYABsAAQAAAAQAABAYABwAAQABAAUAABAYAB0AAQABAAQAABAYAB4AAQACAAUAABAYAB8AAQABAAQAADAYACAAAQABAAUAADAYACEAAQAAAAQAADAYACIAAQAAAAQAADAZABwAAQAAAAQAABAZAB0AAQAAAAQAABAZAB4AAQABAAUAABAZAB8AAQAAAAQAADAZACAAAQAAAAQAADAaAB4AAQAAAAUAABAQABcAAQAFAAEAAAASABcAAQAFAAEAAAAUABcAAQAFAAEAAAAWABcAAQAFAAEAAAAQABgAAQAFAAEAAAAPABkAAQAFAAEAAAAPABoAAQAFAAEAAAAOABsAAQAFAAEAAAAOABwAAQAFAAEAAAANAB0AAQAFAAEAAAANAB8AAQAFAAEAACAOACAAAQAFAAEAACAOACEAAQAFAAEAACAPACIAAQAFAAEAACAPACMAAQAFAAEAACAQACQAAQAFAAEAACAQACUAAQAFAAEAACASACUAAQAFAAEAACAUACUAAQAFAAEAACAWACUAAQAFAAEAACARACUAAQAFAAEAADATACUAAQAFAAEAADAVACUAAQAFAAEAADAXACUAAQAFAAEAADAYACQAAQAFAAEAADAYACMAAQAFAAEAADAZACIAAQAFAAEAADAZACEAAQAFAAEAADAaACAAAQAFAAEAADAaAB8AAQAFAAEAADAaAB0AAQAFAAEAABAaABwAAQAFAAEAABAZABsAAQAFAAEAABAZABoAAQAFAAEAABAYABkAAQAFAAEAABAYABgAAQAFAAEAABAXABcAAQAFAAEAABAVABcAAQAFAAEAABATABcAAQAFAAEAABARABcAAQAFAAEAABANAB4AAQAFAAIAAAAbAB4AAQAFAAIAABA=")
 tile_set = SubResource("TileSet_tlwt5")
 
-[node name="Shroomie" type="CharacterBody2D" parent="."]
+[node name="Shroomie" type="CharacterBody2D" parent="Map" groups=["player"]]
 unique_name_in_owner = true
-position = Vector2(648, 648)
+y_sort_enabled = true
+position = Vector2(655, 686)
 script = ExtResource("21_j7vgi")
 
-[node name="TileMenu" type="Control" parent="Shroomie"]
-unique_name_in_owner = true
-visible = false
-z_index = 1
-layout_mode = 3
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-grow_horizontal = 2
-grow_vertical = 2
-focus_mode = 1
-mouse_filter = 2
-mouse_default_cursor_shape = 2
-theme = ExtResource("2_m0cxt")
-script = ExtResource("3_j34ew")
-metadata/_edit_use_anchors_ = true
+[node name="HUD" type="CanvasLayer" parent="Map/Shroomie"]
 
-[node name="Top" type="TextureButton" parent="Shroomie/TileMenu"]
-unique_name_in_owner = true
-layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -16.0
-offset_top = -50.0
-offset_right = 16.0
-offset_bottom = -22.0
-grow_horizontal = 2
-focus_neighbor_left = NodePath("../Left")
-focus_neighbor_top = NodePath(".")
-focus_neighbor_right = NodePath("../Right")
-focus_neighbor_bottom = NodePath("../Bottom")
-mouse_default_cursor_shape = 2
-action_mode = 0
-texture_normal = ExtResource("4_p2iis")
-texture_focused = ExtResource("5_aysyn")
-stretch_mode = 0
-
-[node name="Action" type="Label" parent="Shroomie/TileMenu/Top"]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = -0.761
-anchor_top = 0.5
-anchor_right = -0.761
-anchor_bottom = 0.5
-offset_left = -0.692999
-offset_top = -36.826
-offset_right = 81.307
-offset_bottom = -15.826
-theme = ExtResource("2_m0cxt")
-text = "Connect"
-horizontal_alignment = 1
-vertical_alignment = 2
-
-[node name="Cost" type="Label" parent="Shroomie/TileMenu/Top"]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = -0.761
-anchor_top = 0.5
-anchor_right = -0.761
-anchor_bottom = 0.5
-offset_left = 0.307001
-offset_top = -52.826
-offset_right = 73.307
-offset_bottom = -31.826
-theme = ExtResource("2_m0cxt")
-text = "-100"
-horizontal_alignment = 1
-vertical_alignment = 2
-
-[node name="Right" type="TextureButton" parent="Shroomie/TileMenu"]
-layout_mode = 1
-anchors_preset = 6
-anchor_left = 1.0
-anchor_top = 0.5
-anchor_right = 1.0
-anchor_bottom = 0.5
-offset_left = 18.0
-offset_top = -14.0
-offset_right = 50.0
-offset_bottom = 14.0
-grow_horizontal = 0
-grow_vertical = 2
-focus_neighbor_left = NodePath("../Left")
-focus_neighbor_top = NodePath("../Top")
-focus_neighbor_right = NodePath(".")
-focus_neighbor_bottom = NodePath("../Bottom")
-action_mode = 0
-texture_normal = ExtResource("6_o1net")
-texture_focused = ExtResource("7_3ljsx")
-stretch_mode = 0
-
-[node name="Cost" type="Label" parent="Shroomie/TileMenu/Right"]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.5
-anchor_top = 1.838
-anchor_right = 0.5
-anchor_bottom = 1.838
-offset_left = 21.955
-offset_top = -37.29
-offset_right = 114.955
-offset_bottom = -18.29
-theme = ExtResource("2_m0cxt")
-text = "-100"
-vertical_alignment = 1
-
-[node name="Action" type="Label" parent="Shroomie/TileMenu/Right"]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.5
-anchor_top = 1.838
-anchor_right = 0.5
-anchor_bottom = 1.838
-offset_left = 19.955
-offset_top = -57.29
-offset_right = 91.955
-offset_bottom = -35.29
-theme = ExtResource("2_m0cxt")
-text = "Grow"
-vertical_alignment = 1
-
-[node name="Bottom" type="TextureButton" parent="Shroomie/TileMenu"]
-layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -16.0
-offset_top = 18.0
-offset_right = 16.0
-offset_bottom = 46.0
-grow_horizontal = 2
-grow_vertical = 0
-focus_neighbor_left = NodePath("../Left")
-focus_neighbor_top = NodePath("../Top")
-focus_neighbor_right = NodePath("../Right")
-action_mode = 0
-texture_normal = ExtResource("4_p2iis")
-texture_focused = ExtResource("5_aysyn")
-stretch_mode = 0
-flip_v = true
-
-[node name="Action" type="Label" parent="Shroomie/TileMenu/Bottom"]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.5
-anchor_top = -0.729
-anchor_right = 0.5
-anchor_bottom = -0.729
-offset_left = -28.045
-offset_top = 52.586
-offset_right = 30.955
-offset_bottom = 90.586
-theme = ExtResource("2_m0cxt")
-text = "Close"
-horizontal_alignment = 1
-
-[node name="Cost" type="Label" parent="Shroomie/TileMenu/Bottom"]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.5
-anchor_top = -0.729
-anchor_right = 0.5
-anchor_bottom = -0.729
-offset_left = -28.045
-offset_top = 69.586
-offset_right = 30.955
-offset_bottom = 86.586
-theme = ExtResource("2_m0cxt")
-text = "-100"
-horizontal_alignment = 1
-
-[node name="Left" type="TextureButton" parent="Shroomie/TileMenu"]
-layout_mode = 1
-anchors_preset = 4
-anchor_top = 0.5
-anchor_bottom = 0.5
-offset_left = -50.0
-offset_top = -14.0
-offset_right = -18.0
-offset_bottom = 14.0
-grow_vertical = 2
-focus_neighbor_left = NodePath(".")
-focus_neighbor_top = NodePath("../Top")
-focus_neighbor_right = NodePath("../Right")
-focus_neighbor_bottom = NodePath("../Bottom")
-action_mode = 0
-texture_normal = ExtResource("6_o1net")
-texture_focused = ExtResource("7_3ljsx")
-stretch_mode = 0
-flip_h = true
-
-[node name="Action" type="Label" parent="Shroomie/TileMenu/Left"]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 1.709
-anchor_top = 0.5
-anchor_right = 1.709
-anchor_bottom = 0.5
-offset_left = -133.688
-offset_top = -23.0
-offset_right = -57.688
-offset_bottom = -3.0
-theme = ExtResource("2_m0cxt")
-text = "Play"
-horizontal_alignment = 2
-vertical_alignment = 1
-
-[node name="Cost" type="Label" parent="Shroomie/TileMenu/Left"]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 1.709
-anchor_top = 0.5
-anchor_right = 1.709
-anchor_bottom = 0.5
-offset_left = -134.733
-offset_top = -3.826
-offset_right = -58.733
-offset_bottom = 16.174
-theme = ExtResource("2_m0cxt")
-text = "-100"
-horizontal_alignment = 2
-vertical_alignment = 1
-
-[node name="HUD" type="CanvasLayer" parent="Shroomie"]
-
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Shroomie"]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Map/Shroomie"]
 texture_filter = 1
 position = Vector2(1, -11)
 sprite_frames = ExtResource("22_inp7a")
 animation = &"idle"
 autoplay = "idle"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Shroomie"]
-position = Vector2(0, -7)
-shape = SubResource("CircleShape2D_m7aoq")
-one_way_collision = true
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Map/Shroomie"]
+position = Vector2(0, -0.75)
+shape = SubResource("RectangleShape2D_ysn08")
 
-[node name="Camera2D" type="Camera2D" parent="Shroomie"]
-zoom = Vector2(2.5, 2.5)
-limit_top = 300
-limit_bottom = 850
+[node name="Camera2D" type="Camera2D" parent="Map/Shroomie"]
+drag_horizontal_enabled = true
+drag_vertical_enabled = true
 
-[node name="TickTimer" type="Timer" parent="."]
-autostart = true
-
-[node name="SprintTimer" type="Timer" parent="."]
-autostart = true
-
-[connection signal="timeout" from="CanvasLayer/World HUD/HBoxContainer/Message/Timer" to="CanvasLayer/World HUD/HBoxContainer/Message" method="_on_timer_timeout"]
-[connection signal="pressed" from="CanvasLayer/World HUD/Controls/BackToStartScreen" to="." method="_on_back_to_start_screen_pressed"]
-[connection signal="pressed" from="CanvasLayer/World HUD/Controls/ResetData" to="." method="_on_reset_data_pressed"]
-[connection signal="pressed" from="Shroomie/TileMenu/Top" to="Shroomie/TileMenu" method="_on_top_pressed"]
-[connection signal="pressed" from="Shroomie/TileMenu/Right" to="Shroomie/TileMenu" method="_on_right_pressed"]
-[connection signal="pressed" from="Shroomie/TileMenu/Bottom" to="Shroomie/TileMenu" method="_on_bottom_pressed"]
-[connection signal="pressed" from="Shroomie/TileMenu/Left" to="Shroomie/TileMenu" method="_on_left_pressed"]
-[connection signal="timeout" from="TickTimer" to="." method="_on_timer_timeout"]
-[connection signal="timeout" from="SprintTimer" to="." method="_on_sprint_timer_timeout"]
+[connection signal="pressed" from="HUD/TileMenu/Top" to="HUD/TileMenu" method="_on_top_pressed"]
+[connection signal="pressed" from="HUD/TileMenu/Bottom" to="HUD/TileMenu" method="_on_bottom_pressed"]
+[connection signal="pressed" from="HUD/TileMenu/Right" to="HUD/TileMenu" method="_on_right_pressed"]
+[connection signal="pressed" from="HUD/TileMenu/Left" to="HUD/TileMenu" method="_on_left_pressed"]
+[connection signal="timeout" from="HUD/World HUD/MessageContainer/Message/Timer" to="HUD/World HUD/MessageContainer/Message" method="_on_timer_timeout"]
+[connection signal="pressed" from="HUD/World HUD/Controls/BackToStartScreen" to="." method="_on_back_to_start_screen_pressed"]
+[connection signal="pressed" from="HUD/World HUD/Controls/ResetData" to="." method="_on_reset_data_pressed"]
+[connection signal="timeout" from="HUD/World HUD/TickTimer" to="." method="_on_timer_timeout"]

@@ -18,23 +18,21 @@ const G_SYMBOL = "G"
 const COMPOUND_SUCCESS = "complete"
 
 func _ready():
-	update()
+	_update()
+	Global.tick.connect(_update)
+	Global.game_complete.connect(_show_end_of_game)
 
-func update():
-	update_timer()
-	
+func _update():
+	_update_timer()
 	var amount_g = save_data.energy_g
-	
 	g.text = "%s: %.1f" % [G_SYMBOL, amount_g]
-	if save_data.energy_g > Global.G_MAX:
-		g.text = "%s - %s" % [G_SYMBOL, COMPOUND_SUCCESS]
 
-func update_timer():
+func _update_timer():
 	var minutes = Save.data.run_time / 60
 	var seconds = int(Save.data.run_time) % 60
 	timer_label.text = "%02d:%02d" % [minutes, seconds]
 	
-func show_end_of_game():
+func _show_end_of_game():
 	timer_label.hide()
 	g.hide()
 

@@ -6,7 +6,7 @@ enum BtnPos {TOP, BTM, LEFT, RIGHT}
 enum {DISPLAY, EXECUTE, COST_FN}
 # UI Nodes 
 enum {ACTION_LABEL, COST_LABEL}
-
+ 
 # Inspector message
 const REVIVE_SUCCESS = "Plant is revived!"
 const GROWTH_SUCCESS = "Plant grew a new leaf!"
@@ -27,12 +27,12 @@ const NOT_ENOUGH_RES = "Not enough energy..."
 		COST_LABEL: $Top/Cost
 	},
 	BtnPos.LEFT: {
-		ACTION_LABEL: $Left/Action,
-		COST_LABEL: $Left/Cost,
+		ACTION_LABEL: $Left/Labels/Action,
+		COST_LABEL: $Left/Labels/Cost,
 	},	
 	BtnPos.RIGHT: {
-		ACTION_LABEL: $Right/Action,
-		COST_LABEL: $Right/Cost,
+		ACTION_LABEL: $Right/Labels/Action,
+		COST_LABEL: $Right/Labels/Cost,
 	},
 	BtnPos.BTM: {
 		ACTION_LABEL: $Bottom/Action,
@@ -70,8 +70,12 @@ func _ready() -> void:
 	for health_state_config in ACTION_CONFIG.keys():
 		ACTION_CONFIG[health_state_config][BtnPos.BTM] = ACTION_BACK
 	
+	# Scale buttons based on camera zoom
+	_scale_buttons_for_zoom()
+	
 	# Connect screen input for menu interaction
 	InputManager.tap_at_position.connect(_on_screen_tap)
+	Global.game_complete.connect(execute_back)
 	
 func _process(_delta: float) -> void: 
 	pd = Global.current_plant_data
@@ -123,24 +127,17 @@ func _on_screen_tap(screen_pos: Vector2) -> void:
 	
 	# If no button was tapped, close the menu
 	if not button_tapped:
-		_close_menu()
+		execute_back()
 
 func _is_button_tapped(button: Control, screen_pos: Vector2) -> bool:
 	# Check if the screen position is within the button's global rect
 	var button_rect = button.get_global_rect()
-	var vp = get_viewport()
-	var canvas_pos = vp.get_canvas_transform().affine_inverse() * screen_pos
-	return button_rect.has_point(canvas_pos)
+	return button_rect.has_point(screen_pos)
 
 func _execute_button_action(btn_pos: BtnPos) -> void:
 	var available_actions = ACTION_CONFIG[pd.get_health_status()]
 	if btn_pos in available_actions:
 		available_actions[btn_pos][EXECUTE].call()
-
-func _close_menu() -> void:
-	# Same logic as the Back button
-	Global.control_override = false
-	self.hide()
 	
 func set_action(b: BtnPos, h: Global.HealthStatus) -> void:
 	var menu_state = ACTION_CONFIG[h]
@@ -192,7 +189,7 @@ func execute_inspect():
 	
 ### Grow Leaf
 var ACTION_GROW_LEAF = {
-	DISPLAY: 'Grow Leaf',
+	DISPLAY: 'Grow',
 	EXECUTE: Callable(self, "execute_grow_leaf"),
 	COST_FN: func(p: PlantData): return p.get_new_leaf_cost()
 }
@@ -246,4 +243,24 @@ var ACTION_BACK = {
 }
 func execute_back():
 	Global.control_override = false
+	Global.current_plant_data = null
 	self.hide()
+
+func _scale_buttons_for_zoom():
+	var scale_factor = Global.CAMERA_ZOOM * 0.85
+	for btn_pos in button_nodes:
+		var button = button_nodes[btn_pos]
+		
+		# Scale button size
+		button.size = button.size * scale_factor
+		
+		# Adjust position based on anchor direction
+		match btn_pos:
+			BtnPos.TOP:
+				button.position.y -= button.size.y * 0.5  # Move up from center anchor
+			BtnPos.BTM:
+				button.position.y += button.size.y * 0.5  # Move down from center anchor  
+			BtnPos.LEFT:
+				button.position.x -= button.size.x * 0.5  # Move left from left anchor
+			BtnPos.RIGHT:
+				button.position.x += button.size.x * 0.5  # Move right from right anchor
