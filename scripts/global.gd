@@ -19,8 +19,8 @@ const RIGHT_LANE_X = 435.0
 const CAMERA_ZOOM = 3.5
 var current_scene = null
 var current_coords = Vector2i(20, 28)
+var control_anchor = Vector2(0, 0)
 
-var current_plant_data = null
 var control_override = false
 var sprint_timer: Timer
 
@@ -39,10 +39,11 @@ func _resize_and_relocate_window():
 	DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
 	DisplayServer.window_set_position(target_pos)
 	
-func _deferred_goto_scene(path):
+func _deferred_goto_scene(path, plant_data: PlantData):
 	current_scene.free()	
 	var s = ResourceLoader.load(path)
 	current_scene = s.instantiate()
+	current_scene.set("plant_data", plant_data)
 	get_tree().root.add_child(current_scene)
 	get_tree().current_scene = current_scene
 
@@ -72,8 +73,5 @@ func _check_game_complete_by_plant_health() -> bool:
 func convert_pixel_height_to_meters(y):
 	return abs(y) / 320.0
 
-func goto_scene(path):
-	_deferred_goto_scene.call_deferred(path)
-
-func load_plant_data(plant_id):
-	current_plant_data = save_data.plants[plant_id]
+func goto_scene(path, plant_data = null):
+	_deferred_goto_scene.call_deferred(path, plant_data)
