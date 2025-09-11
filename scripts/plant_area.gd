@@ -1,5 +1,8 @@
 extends Area2D
 
+signal player_entered(tile: Area2D)
+signal player_exited(tile: Area2D)
+
 @export var plant_data: PlantData
 
 @onready var shroomie := $"../../Map/Shroomie"
@@ -26,9 +29,6 @@ func _ready():
 func _process(_delta):
 	if plant_data.get_health_status() != current_plant_state:
 		update_growth_stage()
-	if Global.current_plant_data == null \
-	 or Global.current_plant_data.id != plant_data.id:
-		selector.hide()
 
 func update_growth_stage():
 	for tile in tile_states.values():
@@ -37,20 +37,11 @@ func update_growth_stage():
 	current_plant_state = plant_data.get_health_status()
 
 func _on_body_entered(body: Node2D) -> void:
-	#start timer
 	if body.is_in_group("player"):
-		player_in_range = true
-		Global.load_plant_data(plant_data.id)
+		player_entered.emit(self)
 		selector.show()
-		await get_tree().create_timer(0.5).timeout 
-		is_selected = true
-		Global.control_override = true
-		tile_menu.global_position = \
-			get_global_transform_with_canvas().origin \
-			- Vector2(28, 60) # global_offset
-		tile_menu.show()
-		tile_menu_top.grab_focus()
-	
-func _on_body_exited(_body: Node2D) -> void:
-	player_in_range = false
-	is_selected = false
+
+func _on_body_exited(body: Node2D) -> void:
+	if body.is_in_group("player"):
+		selector.hide()
+		player_exited.emit(self)

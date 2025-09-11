@@ -48,10 +48,15 @@ static func initialize_plant_data() -> void:
 	Save.data.serialize_plant_data()
 
 func instantiate_and_place_plant_on_tile(plant: PlantData, tile_coords: Vector2i):
+	var tile_control =  %TileMenu
 	var new_plant_area := TILE.instantiate()
 	new_plant_area.add_child(plant.visual_scene.instantiate())
 	new_plant_area.plant_data = plant
-	new_plant_area.tile_menu = %TileMenu
+	new_plant_area.tile_menu = tile_control
+	new_plant_area.player_entered.connect(tile_control.on_player_entered_tile)
+	new_plant_area.player_exited.connect(tile_control.on_player_exited_tile)
+	new_plant_area.player_entered.connect(shroomie.on_player_entered_tile)
+	new_plant_area.player_exited.connect(shroomie.on_player_exited_tile)
 	map.add_child(new_plant_area)
 	new_plant_area.position = map.map_to_local(tile_coords)
 

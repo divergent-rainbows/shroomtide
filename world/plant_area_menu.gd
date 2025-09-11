@@ -7,6 +7,9 @@ enum {DISPLAY, EXECUTE, COST_FN}
 # UI Nodes 
 enum {ACTION_LABEL, COST_LABEL}
  
+const SHOW_DELAY := 0.6  # seconds to “dwell” before showing menu
+const MOVE_CANCEL_SPEED := 10.0  # optional: cancel if player is moving
+
 # Inspector message
 const REVIVE_SUCCESS = "Plant is revived!"
 const GROWTH_SUCCESS = "Plant grew a new leaf!"
@@ -62,72 +65,100 @@ const NOT_ENOUGH_RES = "Not enough energy..."
 
 @onready var message: Control = %Message
 @onready var shroomie := %Shroomie
-@onready var pd := Global.current_plant_data as PlantData
+@onready var pd : PlantData
 @onready var save_data := Save.data as SaveData
+
+var _current_tile: Area2D = null
+var _ticket: int = 0  # increments to invalidate pending timers
 
 func _ready() -> void:
 	# Add Back button to each menu state
 	for health_state_config in ACTION_CONFIG.keys():
 		ACTION_CONFIG[health_state_config][BtnPos.BTM] = ACTION_BACK
-	
-	# Scale buttons based on camera zoom
-	_scale_buttons_for_zoom()
-	
+	_setup_button_layout()
 	# Connect screen input for menu interaction
-	InputManager.tap_at_position.connect(_on_screen_tap)
 	Global.game_complete.connect(execute_back)
+	InputManager.on_screen_touch.connect(_on_screen_tap)
+	InputManager.move_left.connect(action_simulator("ui_left"))
+	InputManager.move_right.connect(action_simulator("ui_right"))
+	InputManager.move_up.connect(action_simulator("ui_up"))
+	InputManager.move_down.connect(action_simulator("ui_down"))
 	
 func _process(_delta: float) -> void: 
-	pd = Global.current_plant_data
 	if pd != null: 
 		var health = pd.get_health_status()
 		for btn in BtnPos.values():
 			set_action(btn, health) 
 			set_cost(btn)
 
+func on_player_entered_tile(tile: Area2D) -> void:
+	_start_dwell_timer(tile)
+
+func on_player_exited_tile(tile: Area2D) -> void:
+	if _current_tile == tile:
+		_current_tile = null
+		_ticket += 1  # invalidate any awaiting timer
+		hide()
+
+func _start_dwell_timer(tile: Area2D) -> void:
+	_ticket += 1
+	var my_ticket := _ticket
+	
+	# wait and check if ticket changed before showing menu
+	_current_tile = tile
+	await get_tree().create_timer(SHOW_DELAY).timeout
+	if my_ticket == _ticket:
+		_lock_in_show_menu(tile)
+
+func _lock_in_show_menu(tile):
+	pd = _current_tile.plant_data if _current_tile != null else null
+	global_position = Global.control_anchor
+	show()
+	_animate_buttons_from_center()
+	button_nodes[BtnPos.TOP].grab_focus()
+
 func _on_left_pressed() -> void:
-	pd = Global.current_plant_data
-	var available_actions = ACTION_CONFIG[pd.get_health_status()]
-	if BtnPos.LEFT in available_actions:
-		available_actions[BtnPos.LEFT][EXECUTE].call()
+	if pd != null: 
+		var available_actions = ACTION_CONFIG[pd.get_health_status()]
+		if BtnPos.LEFT in available_actions:
+			available_actions[BtnPos.LEFT][EXECUTE].call()
 
 func _on_right_pressed() -> void:
-	pd = Global.current_plant_data
-	var available_actions = ACTION_CONFIG[pd.get_health_status()]
-	if BtnPos.RIGHT in available_actions:
-		available_actions[BtnPos.RIGHT][EXECUTE].call()
+	if pd != null: 
+		var available_actions = ACTION_CONFIG[pd.get_health_status()]
+		if BtnPos.RIGHT in available_actions:
+			available_actions[BtnPos.RIGHT][EXECUTE].call()
 
 func _on_bottom_pressed() -> void:
-	pd = Global.current_plant_data
-	var available_actions = ACTION_CONFIG[pd.get_health_status()]
-	if BtnPos.BTM in available_actions:
-		available_actions[BtnPos.BTM][EXECUTE].call()
+	if pd != null: 
+		var available_actions = ACTION_CONFIG[pd.get_health_status()]
+		if BtnPos.BTM in available_actions:
+			available_actions[BtnPos.BTM][EXECUTE].call()
 
 func _on_top_pressed() -> void:
-	pd = Global.current_plant_data
-	var available_actions = ACTION_CONFIG[pd.get_health_status()]
-	if BtnPos.TOP in available_actions:
-		available_actions[BtnPos.TOP][EXECUTE].call()
+	if pd != null: 
+		var available_actions = ACTION_CONFIG[pd.get_health_status()]
+		if BtnPos.TOP in available_actions:
+			available_actions[BtnPos.TOP][EXECUTE].call()
 
 # Screen Input Handler
-func _on_screen_tap(screen_pos: Vector2) -> void:
-	if not visible:
+func _on_screen_tap(event) -> void:
+	var screen_pos = event.position
+	if not visible or not event.pressed:
 		return
 	
-	var button_tapped = false
-	
-	# Check which button was tapped using screen coordinates
-	for btn_pos in button_nodes:
-		var button = button_nodes[btn_pos]
-		if button.visible and _is_button_tapped(button, screen_pos):
-			button.grab_focus()
-			_execute_button_action(btn_pos)
-			button_tapped = true
-			break
-	
-	# If no button was tapped, close the menu
-	if not button_tapped:
-		execute_back()
+	if event.pressed:
+		var button_pressed = false
+		# Check which button was tapped using screen coordinates
+		for btn_pos in button_nodes:
+			var button = button_nodes[btn_pos]
+			if button.visible and _is_button_tapped(button, screen_pos):
+				button.grab_focus()
+				_execute_button_action(btn_pos)
+				button_pressed = true
+				break
+		if not button_pressed:
+			execute_back()
 
 func _is_button_tapped(button: Control, screen_pos: Vector2) -> bool:
 	# Check if the screen position is within the button's global rect
@@ -161,6 +192,13 @@ func set_cost(b:BtnPos) -> void:
 
 func format_cost(c):
 	return "-%d" % c
+	
+func action_simulator(action: String) -> Callable:
+	return func():
+		var ev := InputEventAction.new()
+		ev.action = action
+		ev.pressed = true
+		Input.parse_input_event(ev) 
 
 # ACTIONS
 ### Connect
@@ -170,14 +208,13 @@ var ACTION_CONNECT = {
 	COST_FN: func(p: PlantData): return p.get_connect_cost()
 }
 func execute_connect():
-	pd = Global.current_plant_data
 	save_data = Save.data
 	if not pd.is_in_network and save_data.energy_g > pd.network_cost:
 		Eco.subtract_energy(pd.network_cost)
 		pd.is_in_network = true
-		message.show_inspection(CONNECT_SUCCESS)
-	else:
-		message.show_inspection(NOT_ENOUGH_RES) # assumes not pd.is_in_net_work
+		#message.show_inspection(CONNECT_SUCCESS)
+	#else:
+		#message.show_inspection(NOT_ENOUGH_RES) # assumes not pd.is_in_net_work
 
 ### Inspect
 var ACTION_INSPECT = {
@@ -194,7 +231,6 @@ var ACTION_GROW_LEAF = {
 	COST_FN: func(p: PlantData): return p.get_new_leaf_cost()
 }
 func execute_grow_leaf():
-	pd = Global.current_plant_data
 	var side = [Global.LeafPosition.Left, Global.LeafPosition.Right]
 	var new_leaf_cost = pd.get_new_leaf_cost()
 	if save_data.energy_g > new_leaf_cost:
@@ -211,12 +247,11 @@ var ACTION_NURTURE = {
 	COST_FN: func(p: PlantData): return p.get_nurture_cost()
 }
 func execute_nurture():
-	pd = Global.current_plant_data
 	var cost = pd.get_nurture_cost()
 	if save_data.energy_g >= cost:
 		Eco.subtract_energy(cost)
 		Global.control_override = false
-		Global.goto_scene(Global.PLATFORMER_SCENE_PATH)
+		Global.goto_scene(Global.PLATFORMER_SCENE_PATH, _current_tile.plant_data)
 	else: 
 		message.show_inspection(NOT_ENOUGH_RES)
 
@@ -227,7 +262,6 @@ var ACTION_REVIVE = {
 	COST_FN: func(p: PlantData): return p.get_revive_cost()
 }
 func execute_revive():
-	pd = Global.current_plant_data
 	var cost = pd.get_revive_cost()
 	if save_data.energy_g >= cost:
 		Eco.subtract_energy(cost)
@@ -243,24 +277,61 @@ var ACTION_BACK = {
 }
 func execute_back():
 	Global.control_override = false
-	Global.current_plant_data = null
+	_current_tile = null
+	shroomie._cancel_dwell()
 	self.hide()
 
-func _scale_buttons_for_zoom():
+func _setup_button_layout():
 	var scale_factor = Global.CAMERA_ZOOM * 0.85
+	var button_distance = 50 * scale_factor
+	
+	# Set button positions centered around origin
+	var button_positions = {
+		BtnPos.TOP: Vector2(0, -button_distance),
+		BtnPos.RIGHT: Vector2(button_distance, 0),
+		BtnPos.BTM: Vector2(0, button_distance),
+		BtnPos.LEFT: Vector2(-button_distance, 0)
+	}
+	
+	# Use fixed button size to ensure consistent centering
+	var base_button_size = Vector2(32, 28)  # Approximate original button size
+	var scaled_button_size = base_button_size * scale_factor
+	
 	for btn_pos in button_nodes:
 		var button = button_nodes[btn_pos]
-		
-		# Scale button size
-		button.size = button.size * scale_factor
-		
-		# Adjust position based on anchor direction
-		match btn_pos:
-			BtnPos.TOP:
-				button.position.y -= button.size.y * 0.5  # Move up from center anchor
-			BtnPos.BTM:
-				button.position.y += button.size.y * 0.5  # Move down from center anchor  
-			BtnPos.LEFT:
-				button.position.x -= button.size.x * 0.5  # Move left from left anchor
-			BtnPos.RIGHT:
-				button.position.x += button.size.x * 0.5  # Move right from right anchor
+		button.size = scaled_button_size
+		# Center the button on its position by offsetting by half its size
+		button.position = button_positions[btn_pos] - (scaled_button_size * 0.5)
+
+func _animate_buttons_from_center():
+	var scale_factor = Global.CAMERA_ZOOM * 0.85
+	var button_distance = 35 * scale_factor
+	var animation_duration = 0.3
+	
+	# Final positions
+	var final_positions = {
+		BtnPos.TOP: Vector2(0, -button_distance),
+		BtnPos.RIGHT: Vector2(button_distance, 0),
+		BtnPos.BTM: Vector2(0, button_distance),
+		BtnPos.LEFT: Vector2(-button_distance, 0)
+	}
+	
+	# Use same sizing logic as setup
+	var base_button_size = Vector2(32, 28)
+	var scaled_button_size = base_button_size * scale_factor
+	
+	# Start all buttons at center
+	for btn_pos in button_nodes:
+		var button = button_nodes[btn_pos]
+		button.size = scaled_button_size
+		button.position = -scaled_button_size * 0.5  # Center at origin
+		button.modulate.a = 0.0
+	
+	# Animate each button to its final position
+	for btn_pos in button_nodes:
+		var button = button_nodes[btn_pos]
+		var final_pos = final_positions[btn_pos] - (scaled_button_size * 0.5)
+		var tween = create_tween()
+		tween.set_parallel(true)
+		tween.tween_property(button, "position", final_pos, animation_duration)
+		tween.tween_property(button, "modulate:a", 1.0, animation_duration)

@@ -5,7 +5,7 @@ const START_Y = 15
 const NORMAL_JUMP_HEIGHT = 6 
 const CHARGED_JUMP_HEIGHT = 8
 
-@onready var plant_data = Global.current_plant_data
+@export var plant_data: PlantData
 @onready var leaf_tileset: TileSet = load("res://assets/level_pallette.tres")
 @onready var leaf_map: TileMapLayer = $Leaves
 @onready var player: CharacterBody2D = $LevelShroomie
@@ -46,7 +46,7 @@ func _process(_delta: float) -> void:
 	calc_leaves_healed()
 	if is_game_over():
 		if not stats_shown:
-			hud.show_run_stats()
+			hud.show_run_stats(plant_data)
 			stats_shown = true
 			game_over_accept_ready = true
 
@@ -89,10 +89,9 @@ func generate_leaves(leaf_positions: Array[Global.LeafPosition]):
 				
 # Ran after run
 func update_stats():
-	var pd = Global.current_plant_data
-	pd.height_reached = max( 
+	plant_data.height_reached = max( 
 		Global.convert_pixel_height_to_meters(run_height), 
-		pd.height_reached
+		plant_data.height_reached
 	) 
-	pd.leaves_reached = max(leaves_healed.size(), pd.leaves_reached)
-	pd.total_runs += 1
+	plant_data.leaves_reached = max(leaves_healed.size(), plant_data.leaves_reached)
+	plant_data.total_runs += 1

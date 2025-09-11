@@ -42,14 +42,14 @@ func update_timer_appearance():
 func update_record_height(y):
 	high_score.text = "%s: \n%.1fm" % [RIGHT_LABEL, y]
 	
-func show_run_stats():
+func show_run_stats(plant_data):
 	time_label.hide()
 	height_label.hide()
 	high_score.hide()
 	if timer.time_left == 0:
 		post_run_message.text =  TIMEOUT
 	else:
-		var earned = Global.current_plant_data.get_nurture_reward()
+		var earned = plant_data.get_nurture_reward()
 		Eco.add_energy(earned)
 		energy_gained.text = "Energy gained: %d" % earned
 		post_run_message.text = RUN_SUCCESS
