@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=4 uid="uid://hh6biw3cwduh"]
+[gd_scene load_steps=8 format=3 uid="uid://hh6biw3cwduh"]
 
 [ext_resource type="Texture2D" uid="uid://bl1ufvt42y4p5" path="res://assets/pixel_art/plant_tree/hex_tree1.png" id="1_aysvb"]
 [ext_resource type="Texture2D" uid="uid://bfjgp8vg6wh3d" path="res://assets/pixel_art/plant_tree/hex_tree2.png" id="2_0rs8p"]
@@ -6,87 +6,42 @@
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_aysvb"]
 texture = ExtResource("1_aysvb")
-texture_region_size = Vector2i(16, 14)
-1:1/0 = 0
-2:1/0 = 0
-3:1/0 = 0
-1:2/0 = 0
-2:2/0 = 0
-3:2/0 = 0
-1:3/0 = 0
-2:3/0 = 0
-1:4/0 = 0
-2:4/0 = 0
-3:4/0 = 0
-1:5/0 = 0
-2:5/0 = 0
-3:5/0 = 0
+texture_region_size = Vector2i(64, 84)
+0:0/0 = 0
+0:0/0/y_sort_origin = 29
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_0rs8p"]
 texture = ExtResource("2_0rs8p")
-texture_region_size = Vector2i(16, 14)
-1:0/0 = 0
-2:0/0 = 0
-0:1/0 = 0
-1:1/0 = 0
-2:1/0 = 0
-3:1/0 = 0
-0:2/0 = 0
-1:2/0 = 0
-2:2/0 = 0
-0:3/0 = 0
-1:3/0 = 0
-2:3/0 = 0
-0:4/0 = 0
-1:4/0 = 0
-2:4/0 = 0
-1:5/0 = 0
-2:5/0 = 0
+texture_region_size = Vector2i(64, 84)
+0:0/0 = 0
+0:0/0/y_sort_origin = 29
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_dmo4f"]
 texture = ExtResource("3_dmo4f")
-texture_region_size = Vector2i(16, 14)
+texture_region_size = Vector2i(64, 84)
 0:0/0 = 0
-1:0/0 = 0
-2:0/0 = 0
-3:0/0 = 0
-0:1/0 = 0
-1:1/0 = 0
-2:1/0 = 0
-3:1/0 = 0
-0:2/0 = 0
-1:2/0 = 0
-2:2/0 = 0
-3:2/0 = 0
-0:3/0 = 0
-1:3/0 = 0
-2:3/0 = 0
-3:3/0 = 0
-0:4/0 = 0
-1:4/0 = 0
-2:4/0 = 0
-1:5/0 = 0
-2:5/0 = 0
+0:0/0/y_sort_origin = 29
 
 [sub_resource type="TileSet" id="TileSet_l3l3h"]
-tile_size = Vector2i(16, 14)
-sources/3 = SubResource("TileSetAtlasSource_aysvb")
-sources/4 = SubResource("TileSetAtlasSource_0rs8p")
-sources/5 = SubResource("TileSetAtlasSource_dmo4f")
+tile_size = Vector2i(64, 84)
+sources/2 = SubResource("TileSetAtlasSource_aysvb")
+sources/3 = SubResource("TileSetAtlasSource_0rs8p")
+sources/4 = SubResource("TileSetAtlasSource_dmo4f")
 
 [node name="PlantTile" type="Node2D"]
+y_sort_enabled = true
 
 [node name="Dead" type="TileMapLayer" parent="."]
-position = Vector2(0, -16)
-tile_map_data = PackedByteArray("AAD/////AwABAAMAAAD///7/AwABAAIAAAD//wAAAwABAAQAAAAAAP7/AwACAAIAAAAAAP//AwACAAMAAAAAAAAAAwACAAQAAAD///3/AwABAAEAAAD//wEAAwABAAUAAAAAAP3/AwACAAEAAAAAAAEAAwACAAUAAAABAP3/AwADAAEAAAABAP7/AwADAAIAAAABAAAAAwADAAQAAAABAAEAAwADAAUAAAA=")
+position = Vector2(-32, 15)
+tile_map_data = PackedByteArray(0, 0, 0, 0, 255, 255, 2, 0, 0, 0, 0, 0, 0, 0)
 tile_set = SubResource("TileSet_l3l3h")
 
 [node name="Healing" type="TileMapLayer" parent="."]
-position = Vector2(4, -16)
-tile_map_data = PackedByteArray("AAD/////BAABAAMAAAD///7/BAABAAIAAAD//wAABAABAAQAAAAAAP7/BAACAAIAAAAAAP//BAACAAMAAAAAAAAABAACAAQAAAD///3/BAABAAEAAAD//wEABAABAAUAAAAAAP3/BAACAAEAAAAAAAEABAACAAUAAAABAP3/BAADAAEAAAD+//3/BAAAAAEAAAD+//7/BAAAAAIAAAD+////BAAAAAMAAAD+/wAABAAAAAQAAAD///z/BAABAAAAAAAAAPz/BAACAAAAAAA=")
+position = Vector2(-27, 14)
+tile_map_data = PackedByteArray(0, 0, 0, 0, 255, 255, 3, 0, 0, 0, 0, 0, 0, 0)
 tile_set = SubResource("TileSet_l3l3h")
 
 [node name="Recovered" type="TileMapLayer" parent="."]
-position = Vector2(4, -18)
-tile_map_data = PackedByteArray("AAD/////BQABAAMAAAD///7/BQABAAIAAAD//wAABQABAAQAAAAAAP7/BQACAAIAAAAAAP//BQACAAMAAAAAAAAABQACAAQAAAD+//z/BQAAAAAAAAD+//3/BQAAAAEAAAD+//7/BQAAAAIAAAD+////BQAAAAMAAAD+/wAABQAAAAQAAAD///z/BQABAAAAAAD///3/BQABAAEAAAD//wEABQABAAUAAAAAAPz/BQACAAAAAAAAAP3/BQACAAEAAAAAAAEABQACAAUAAAABAPz/BQADAAAAAAABAP3/BQADAAEAAAABAP7/BQADAAIAAAABAP//BQADAAMAAAA=")
+position = Vector2(-27, 14)
+tile_map_data = PackedByteArray(0, 0, 0, 0, 255, 255, 4, 0, 0, 0, 0, 0, 0, 0)
 tile_set = SubResource("TileSet_l3l3h")
