@@ -156,7 +156,6 @@ func draw_texture_joystick() -> void:
 		var base_size := base_texture.get_size() * base_scale
 		draw_texture_rect(base_texture, Rect2(size / 2.0 - (base_size / 2.0), base_size), false)
 		
-	
 	# Knob
 	if knob_texture:
 		var knob_size := knob_texture.get_size() * knob_scale
@@ -167,28 +166,21 @@ func draw_debug() -> void:
 	draw_circle(size / 2.0, deadzone, deadzone_debug_color, false, 5.0)
 	draw_circle(size / 2.0, base_radius, base_debug_color, false, 5.0)
 
-func _input(event: InputEvent) -> void:	
-	if event is InputEventScreenTouch:
-		on_screen_touch(event)
-		
-	elif event is InputEventScreenDrag:
-		on_screen_drag(event)
+func _ready() -> void:
+	InputManager.on_screen_touch.connect(on_screen_touch)
+	InputManager.on_screen_drag.connect(on_screen_drag)
 
 ## Called when the joystick is touched
 func on_screen_touch(event : InputEventScreenTouch) -> void:
-
-	var has_point := get_global_rect().has_point(event.position)
-	
-	if event.pressed and event_index == -1:
+	if event.pressed and event_index == -1 and not Global.control_override:
 		position = event.position
+		Global.control_anchor = event.position
 		show()
 		event_index = event.index
 		touch_knob(event.position, event.index)
 	else:
 		release_knob(event.index)
 		hide()
-		
-	
 
 ## Called when the joystick is pressed and 
 ## moves the knob to the current touch position
@@ -251,6 +243,11 @@ func trigger_actions() -> void:
 	# -PI 	-> ZERO	 crosses Vector2.UP
 	# ZERO 	-> PI	 crosses Vector2.DOWN
 	match angle:
+		_ when angle > PI/2 or angle < -PI/2:
+			InputManager.on_change_direction.emit(Global.CardinalDirection.West)
+		_ when angle > -PI/2 or angle < PI/2:
+			InputManager.on_change_direction.emit(Global.CardinalDirection.East)
+	match angle:
 		_ when angle >= -PI/6 and angle < PI/6:
 			InputManager.move_right.emit()
 		_ when angle >= -5*PI/6 and angle < -PI/6:
@@ -259,11 +256,6 @@ func trigger_actions() -> void:
 			InputManager.move_left.emit()
 		_ when angle >= PI/6 and angle < 5*PI/6:
 			InputManager.move_down.emit()
-	match angle:
-		_ when angle > PI/2 or angle < -PI/2:
-			InputManager.on_change_direction.emit(Global.CardinalDirection.West)
-		_ when angle > -PI/2 or angle < PI/2:
-			InputManager.on_change_direction.emit(Global.CardinalDirection.East)
 
 
 
