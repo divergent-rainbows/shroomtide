@@ -8,14 +8,15 @@ func _ready():
 	_on_resize()
 	get_tree().root.size_changed.connect(_on_resize)
 	_flash_start_button()
-	InputManager.tap_at_position.connect(_on_screen_tap)
+	InputManager.on_screen_touch.connect(_on_screen_tap)
 	InputManager.accept.connect(_on_accept)
 	
 func _on_resize():
 	var s := get_viewport().get_visible_rect().size
 	vine.position = s * 0.5 
 
-func _on_screen_tap(screen_pos: Vector2) -> void:
+func _on_screen_tap(event) -> void:
+	var screen_pos = event.position
 	_activate_shader_effect_at(screen_pos)
 	await get_tree().create_timer(0.9).timeout
 	Global.goto_scene(Global.WORLD_SCENE_PATH)
