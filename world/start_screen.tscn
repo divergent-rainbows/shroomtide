@@ -19,8 +19,9 @@ script = ExtResource("1_ncxyx")
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="Parallax2D" type="Parallax2D" parent="CanvasLayer"]
+scroll_scale = Vector2(0.8, 0.8)
 repeat_size = Vector2(900, 1200)
-autoscroll = Vector2(80, -40)
+autoscroll = Vector2(50, 40)
 repeat_times = 5
 screen_offset = Vector2(0, 200)
 
@@ -62,7 +63,7 @@ size_flags_horizontal = 4
 size_flags_vertical = 10
 theme = ExtResource("2_pevhg")
 theme_override_font_sizes/normal_font_size = 35
-text = "FungIsland"
+text = "Shroomtide"
 fit_content = true
 autowrap_mode = 0
 horizontal_alignment = 1

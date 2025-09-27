@@ -1013,7 +1013,7 @@ metadata/_edit_use_anchors_ = true
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.05
-anchor_top = 0.02
+anchor_top = 0.05
 anchor_right = 0.95
 anchor_bottom = 1.0
 grow_horizontal = 2
@@ -1057,7 +1057,7 @@ layout_mode = 2
 size_flags_horizontal = 10
 size_flags_vertical = 3
 theme = ExtResource("5_dwbse")
-text = "FungIsland"
+text = "Shroomtide"
 horizontal_alignment = 2
 
 [node name="MessageContainer" type="HBoxContainer" parent="HUD/World HUD"]
