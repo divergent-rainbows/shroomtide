@@ -8,7 +8,7 @@ class_name StalkData
 # Plant can be composed of multiple spawns
 @export var max_spawns := 1
 @export var spawns: Array[Array] = []
-@export var JITTER: float = 1
+@export var JITTER: float = 0.5
 
 # Spawn can be composed of multiple foliage
 # represented by an int that corresponds to 
@@ -92,6 +92,11 @@ func update_visuals():
 				"here"
 				blade.frame = 0
 				blade.hide()
+		# set stem frame
+		if spawns.size() > i:
+			var num_blades = spawns[i].size()
+			if num_blades > 0:
+				stem.frame = spawns[i].size() - 1
 
 ## Apply growth logic to the active spawn instances.
 ## Default = do nothing.
@@ -127,7 +132,6 @@ func show_new_blade(spawn_idx):
 	var spawn = spawns[spawn_idx]
 	if calc_spawn_level(spawn_idx) in blade_emerge_stage:
 		spawn.append(1) # new blade
-		stem.frame += 1
 
 # Show new spawns by incrementing the first foliage
 func show_new_spawns():

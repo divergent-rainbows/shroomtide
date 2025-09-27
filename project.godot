@@ -10,7 +10,7 @@ config_version=5
 
 [application]
 
-config/name="FungIsland"
+config/name="Shroomtide"
 run/main_scene="uid://v3dq1lurbu55"
 config/features=PackedStringArray("4.4", "GL Compatibility")
 config/icon="uid://8ijj171bi58y"
