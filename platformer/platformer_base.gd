@@ -35,7 +35,7 @@ func _ready():
 	left_lane = leaf_map.local_to_map(Vector2(Global.LEFT_LANE_X, 0)).x
 	right_lane = leaf_map.local_to_map(Vector2(Global.RIGHT_LANE_X, 0)).x
 	generate_leaves(plant_data.leaves)
-	hud.update_record_height(plant_data.height_reached)
+	#hud.update_record_height(plant_data.height_reached)
 	timer.wait_time = plant_data.get_nurture_time()
 	timer.start()
 	InputManager.accept.connect(_on_accept_pressed)
@@ -52,7 +52,6 @@ func _process(_delta: float) -> void:
 
 func _on_accept_pressed():
 	if game_over_accept_ready:
-		update_stats()
 		Global.goto_scene(Global.WORLD_SCENE_PATH)
 
 func is_game_over():
@@ -86,12 +85,3 @@ func generate_leaves(leaf_positions: Array[Global.LeafPosition]):
 				var pos = Vector2i(right_lane - OFFSET_X, START_Y - offset_y)
 				leaf_map.set_pattern(pos, platform_tile_pattern)
 				offset_y += NORMAL_JUMP_HEIGHT
-				
-# Ran after run
-func update_stats():
-	plant_data.height_reached = max( 
-		Global.convert_pixel_height_to_meters(run_height), 
-		plant_data.height_reached
-	) 
-	plant_data.leaves_reached = max(leaves_healed.size(), plant_data.leaves_reached)
-	plant_data.total_runs += 1

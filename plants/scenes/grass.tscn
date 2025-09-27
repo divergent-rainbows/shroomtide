@@ -1,0 +1,27 @@
+[gd_scene load_steps=2 format=3 uid="uid://dfhxcj0lrhj76"]
+
+[ext_resource type="PackedScene" uid="uid://dn8xb032bwyjn" path="res://plants/scenes/grass_spawn.tscn" id="1_q81rb"]
+
+[node name="PlantTile" type="Node2D"]
+z_as_relative = false
+y_sort_enabled = true
+
+[node name="GrassSpawn5" parent="." instance=ExtResource("1_q81rb")]
+z_as_relative = false
+position = Vector2(0, 10)
+
+[node name="GrassSpawn4" parent="." instance=ExtResource("1_q81rb")]
+z_as_relative = false
+position = Vector2(-12, 4)
+
+[node name="GrassSpawn3" parent="." instance=ExtResource("1_q81rb")]
+z_as_relative = false
+position = Vector2(11, 5)
+
+[node name="GrassSpawn2" parent="." instance=ExtResource("1_q81rb")]
+z_as_relative = false
+position = Vector2(-9, -4)
+
+[node name="GrassSpawn" parent="." instance=ExtResource("1_q81rb")]
+z_as_relative = false
+position = Vector2(10, -4)

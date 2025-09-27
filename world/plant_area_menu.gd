@@ -7,7 +7,7 @@ enum {DISPLAY, EXECUTE, COST_FN}
 # UI Nodes 
 enum {ACTION_LABEL, COST_LABEL}
  
-const SHOW_DELAY := 0.6  # seconds to “dwell” before showing menu
+const SHOW_DELAY_DWELL_TIME := 0.6  # seconds to “dwell” before showing menu
 const MOVE_CANCEL_SPEED := 10.0  # optional: cancel if player is moving
 
 # Inspector message
@@ -83,39 +83,145 @@ func _ready() -> void:
 	InputManager.move_right.connect(action_simulator("ui_right"))
 	InputManager.move_up.connect(action_simulator("ui_up"))
 	InputManager.move_down.connect(action_simulator("ui_down"))
-	
-func _process(_delta: float) -> void: 
+
+func _update_menu()-> void:
 	if pd != null: 
 		var health = pd.get_health_status()
 		for btn in BtnPos.values():
 			set_action(btn, health) 
 			set_cost(btn)
-
+	
 func on_player_entered_tile(tile: Area2D) -> void:
+	_update_menu()
 	_start_dwell_timer(tile)
 
 func on_player_exited_tile(tile: Area2D) -> void:
 	if _current_tile == tile:
 		_current_tile = null
 		_ticket += 1  # invalidate any awaiting timer
-		hide()
+		execute_back()
 
 func _start_dwell_timer(tile: Area2D) -> void:
 	_ticket += 1
 	var my_ticket := _ticket
 	
 	# wait and check if ticket changed before showing menu
-	_current_tile = tile
-	await get_tree().create_timer(SHOW_DELAY).timeout
+	await get_tree().create_timer(SHOW_DELAY_DWELL_TIME).timeout
 	if my_ticket == _ticket:
 		_lock_in_show_menu(tile)
 
 func _lock_in_show_menu(tile):
+	_current_tile = tile
 	pd = _current_tile.plant_data if _current_tile != null else null
-	global_position = Global.control_anchor
-	show()
-	_animate_buttons_from_center()
+	_update_menu()
+	_animate_buttons_from_center() 
+	await _pan_camera_to_tile()
 	button_nodes[BtnPos.TOP].grab_focus()
+	show()
+
+func _unlock_hide_menu():
+	_current_tile = null
+	_animate_buttons_to_center() 
+	await _pan_camera_from_tile()
+	hide()
+
+func _pan_camera_to_tile():
+	var animation_duration := 0.3
+	var tween = create_tween()
+	tween.set_parallel(true).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	
+	var cam := get_viewport().get_camera_2d()
+	if cam:
+		var vp_h: float = get_viewport().get_visible_rect().size.y
+		var local_h := vp_h / cam.zoom.y / scale.y
+		#var world_shift_y: float = (vp_h * 0.5 - top_margin_px) / cam.zoom.y
+		var s := local_h * 0.05
+		var target_offset := Vector2(0, s)           # move focus toward top
+		var target_zoom: Vector2 = Vector2.ONE * (Global.CAMERA_ZOOM * 2.0)
+		tween.tween_property(cam, "global_position", _current_tile.global_position, animation_duration)
+		tween.tween_property(cam, "offset", target_offset, animation_duration)
+		tween.tween_property(cam, "zoom", target_zoom, animation_duration) 
+
+func _animate_buttons_from_center():
+	var scale_factor := Global.CAMERA_ZOOM * 0.85
+	var button_distance := 35 * scale_factor
+	var animation_duration := 0.3
+	
+	# Final positions
+	var final_positions = {
+		BtnPos.TOP: Vector2(0, -button_distance),
+		BtnPos.RIGHT: Vector2(button_distance, 0),
+		BtnPos.BTM: Vector2(0, button_distance),
+		BtnPos.LEFT: Vector2(-button_distance, 0)
+	}
+	
+	# Use same sizing logic as setup
+	var base_button_size := Vector2(32, 28)
+	var scaled_button_size := base_button_size * scale_factor
+	
+	# Start all buttons at center
+	for btn_pos in button_nodes:
+		var button = button_nodes[btn_pos]
+		button.size = scaled_button_size
+		button.position = -scaled_button_size * 0.5  # Center at origin
+		button.modulate.a = 0.0
+	
+	var tween = create_tween()
+	tween.set_parallel(true).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	
+	# Animate each button to its final position
+	for btn_pos in button_nodes:
+		var button = button_nodes[btn_pos]
+		var final_pos = final_positions[btn_pos] - (scaled_button_size * 0.5)
+		tween.tween_property(button, "position", final_pos, animation_duration)
+		tween.tween_property(button, "modulate:a", 1.0, animation_duration)
+	
+	await tween.finished
+
+
+func _pan_camera_from_tile():
+	var animation_duration := 0.3
+	var tween = create_tween()
+	tween.set_parallel(true).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	
+	var cam := get_viewport().get_camera_2d()
+	if cam:
+		 # move focus toward top
+		var target_zoom: Vector2 = Vector2.ONE * Global.CAMERA_ZOOM 
+		tween.tween_property(cam, "global_position", shroomie.global_position, animation_duration)
+		tween.tween_property(cam, "zoom", target_zoom, animation_duration) 
+	await tween.finished
+	hide()
+
+func _animate_buttons_to_center():
+	var scale_factor := Global.CAMERA_ZOOM * 0.85
+	var animation_duration := 0.3
+	
+	# Final positions
+	var final_positions = {
+		BtnPos.TOP: Vector2.ZERO,
+		BtnPos.RIGHT: Vector2.ZERO,
+		BtnPos.BTM: Vector2.ZERO,
+		BtnPos.LEFT: Vector2.ZERO,
+	}
+	
+	# Use same sizing logic as setup
+	var base_button_size := Vector2(32, 28)
+	var scaled_button_size := base_button_size * scale_factor
+	
+	var tween = create_tween()
+	tween.set_parallel(true).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	
+	# Animate each button to its final position
+	for btn_pos in button_nodes:
+		var button = button_nodes[btn_pos]
+		var final_pos = final_positions[btn_pos] - (scaled_button_size * 0.5)
+		tween.tween_property(button, "position", final_pos, animation_duration)
+		tween.tween_property(button, "modulate:a", 0.0, animation_duration)
+	
+	await tween.finished
+
+
 
 func _on_left_pressed() -> void:
 	if pd != null: 
@@ -169,7 +275,8 @@ func _execute_button_action(btn_pos: BtnPos) -> void:
 	var available_actions = ACTION_CONFIG[pd.get_health_status()]
 	if btn_pos in available_actions:
 		available_actions[btn_pos][EXECUTE].call()
-	
+	_update_menu()
+
 func set_action(b: BtnPos, h: Global.HealthStatus) -> void:
 	var menu_state = ACTION_CONFIG[h]
 	# Check if action applies to this plant
@@ -208,13 +315,13 @@ var ACTION_CONNECT = {
 	COST_FN: func(p: PlantData): return p.get_connect_cost()
 }
 func execute_connect():
-	save_data = Save.data
-	if not pd.is_in_network and save_data.energy_g > pd.network_cost:
-		Eco.subtract_energy(pd.network_cost)
-		pd.is_in_network = true
-		#message.show_inspection(CONNECT_SUCCESS)
-	#else:
-		#message.show_inspection(NOT_ENOUGH_RES) # assumes not pd.is_in_net_work
+	if pd.is_in_network:
+		message.show_inspection('Already in network')
+		return false
+	if pd.network():
+		message.show_inspection(GROWTH_SUCCESS)
+	else:
+		message.show_inspection(NOT_ENOUGH_RES)
 
 ### Inspect
 var ACTION_INSPECT = {
@@ -231,11 +338,7 @@ var ACTION_GROW_LEAF = {
 	COST_FN: func(p: PlantData): return p.get_new_leaf_cost()
 }
 func execute_grow_leaf():
-	var side = [Global.LeafPosition.Left, Global.LeafPosition.Right]
-	var new_leaf_cost = pd.get_new_leaf_cost()
-	if save_data.energy_g > new_leaf_cost:
-		pd.leaves.append(side.pick_random())
-		Eco.subtract_energy(new_leaf_cost)
+	if pd.grow():
 		message.show_inspection(GROWTH_SUCCESS)
 	else:
 		message.show_inspection(NOT_ENOUGH_RES)
@@ -262,10 +365,7 @@ var ACTION_REVIVE = {
 	COST_FN: func(p: PlantData): return p.get_revive_cost()
 }
 func execute_revive():
-	var cost = pd.get_revive_cost()
-	if save_data.energy_g >= cost:
-		Eco.subtract_energy(cost)
-		pd.is_revived = true
+	if pd.revive():
 		message.show_inspection(REVIVE_SUCCESS)
 	else: 
 		message.show_inspection(NOT_ENOUGH_RES)
@@ -277,9 +377,8 @@ var ACTION_BACK = {
 }
 func execute_back():
 	Global.control_override = false
-	_current_tile = null
-	shroomie._cancel_dwell()
-	self.hide()
+	shroomie.cancel_dwell()
+	_unlock_hide_menu()
 
 func _setup_button_layout():
 	var scale_factor = Global.CAMERA_ZOOM * 0.85
@@ -302,36 +401,3 @@ func _setup_button_layout():
 		button.size = scaled_button_size
 		# Center the button on its position by offsetting by half its size
 		button.position = button_positions[btn_pos] - (scaled_button_size * 0.5)
-
-func _animate_buttons_from_center():
-	var scale_factor = Global.CAMERA_ZOOM * 0.85
-	var button_distance = 35 * scale_factor
-	var animation_duration = 0.3
-	
-	# Final positions
-	var final_positions = {
-		BtnPos.TOP: Vector2(0, -button_distance),
-		BtnPos.RIGHT: Vector2(button_distance, 0),
-		BtnPos.BTM: Vector2(0, button_distance),
-		BtnPos.LEFT: Vector2(-button_distance, 0)
-	}
-	
-	# Use same sizing logic as setup
-	var base_button_size = Vector2(32, 28)
-	var scaled_button_size = base_button_size * scale_factor
-	
-	# Start all buttons at center
-	for btn_pos in button_nodes:
-		var button = button_nodes[btn_pos]
-		button.size = scaled_button_size
-		button.position = -scaled_button_size * 0.5  # Center at origin
-		button.modulate.a = 0.0
-	
-	# Animate each button to its final position
-	for btn_pos in button_nodes:
-		var button = button_nodes[btn_pos]
-		var final_pos = final_positions[btn_pos] - (scaled_button_size * 0.5)
-		var tween = create_tween()
-		tween.set_parallel(true)
-		tween.tween_property(button, "position", final_pos, animation_duration)
-		tween.tween_property(button, "modulate:a", 1.0, animation_duration)

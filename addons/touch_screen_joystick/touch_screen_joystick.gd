@@ -2,8 +2,6 @@
 ## Godot mobile games. It triggers input actions
 ## base on your touch and drag inputs.
 
-@tool
-@icon("res://addons/touch_screen_joystick/icon.png")
 extends Control
 class_name TouchScreenJoystick
 
@@ -167,13 +165,12 @@ func draw_debug() -> void:
 	draw_circle(size / 2.0, base_radius, base_debug_color, false, 5.0)
 
 func _ready() -> void:
-	InputManager.on_screen_touch.connect(on_screen_touch)
+	InputManager.on_screen_touch.connect(_on_screen_touch)
 	InputManager.on_screen_drag.connect(on_screen_drag)
 
 ## Called when the joystick is touched
-func on_screen_touch(event : InputEventScreenTouch) -> void:
+func _on_screen_touch(event : InputEventScreenTouch) -> void:
 	if event.pressed and event_index == -1 and not Global.control_override:
-		position = event.position
 		Global.control_anchor = event.position
 		show()
 		event_index = event.index
@@ -199,7 +196,7 @@ func release_knob(index : int) -> void:
 		reset_knob()
 		event_index = -1
 		is_pressing = false
-		on_release.emit()
+		InputManager.on_release.emit()
 		get_viewport().set_input_as_handled()
 
 ## Called when the joystick is dragged
@@ -215,18 +212,19 @@ func on_screen_drag(event : InputEventScreenDrag) -> void:
 ## Moves the knob position relative to the current touch position
 func move_knob(event_pos : Vector2) -> void:
 	var center := size / 2.0
-	var touch_pos := (event_pos - global_position) / scale
-	var distance := touch_pos.distance_to(center)
-	var angle := center.angle_to_point(touch_pos)
+	var delta_screen := event_pos - Global.control_anchor
+	var delta_local := delta_screen / scale
+	var distance := delta_local.length()
+	var angle: float = (center).angle_to_point(center + delta_local)  # direction from center toward finger
 	
 	if distance < base_radius:
-		knob_position = touch_pos
+		knob_position = center + delta_local
 	else:
 		knob_position.x = center.x + cos(angle) * base_radius
 		knob_position.y = center.y + sin(angle) * base_radius
 	
 	if distance > deadzone:
-		trigger_actions()
+		trigger_actions(distance)
 	else:
 		reset_actions()
 	
@@ -234,9 +232,15 @@ func move_knob(event_pos : Vector2) -> void:
 
 ## Triggers all the left, right, up, and down actions 
 ## based on the direction of the knob
-func trigger_actions() -> void:
+func trigger_actions(tilt) -> void:
 	if not use_input_actions: return
 	
+	var movement_type = 0
+	match tilt:
+		_ when tilt > 0 and tilt < 20:
+			movement_type = 0
+		_, _ when tilt > 20:
+			movement_type = 1
 	var direction := get_direction().normalized()
 	var angle := direction.angle()   
 
@@ -244,18 +248,22 @@ func trigger_actions() -> void:
 	# ZERO 	-> PI	 crosses Vector2.DOWN
 	match angle:
 		_ when angle > PI/2 or angle < -PI/2:
-			InputManager.on_change_direction.emit(Global.CardinalDirection.West)
+			if movement_type: InputManager.on_change_direction.emit(-1)
 		_ when angle > -PI/2 or angle < PI/2:
-			InputManager.on_change_direction.emit(Global.CardinalDirection.East)
+			if movement_type: InputManager.on_change_direction.emit(1)
 	match angle:
 		_ when angle >= -PI/6 and angle < PI/6:
-			InputManager.move_right.emit()
+			if movement_type: InputManager.move_right.emit()
+			else: InputManager.face_right.emit()
 		_ when angle >= -5*PI/6 and angle < -PI/6:
-			InputManager.move_up.emit()
+			if movement_type: InputManager.move_up.emit()
+			else: InputManager.face_up.emit()
 		_ when angle >= 5*PI/6 or angle < -5*PI/6:
-			InputManager.move_left.emit()
+			if movement_type: InputManager.move_left.emit()
+			else: InputManager.face_left.emit()
 		_ when angle >= PI/6 and angle < 5*PI/6:
-			InputManager.move_down.emit()
+			if movement_type: InputManager.move_down.emit()
+			else: InputManager.face_down.emit()
 
 
 

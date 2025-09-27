@@ -5,6 +5,10 @@ signal move_left
 signal move_right  
 signal move_up
 signal move_down
+signal face_left
+signal face_right  
+signal face_up
+signal face_down
 signal accept
 signal accept_released
 signal charge_jump
@@ -14,7 +18,9 @@ signal back
 signal reset
 signal on_screen_touch
 signal on_screen_drag
+signal on_release
 signal on_change_direction
+signal on_zoom
 
 # Game Mode Types
 enum GameMode {
@@ -66,9 +72,12 @@ func _input(event: InputEvent) -> void:
 			_handle_platformer_key_input(event)
 		_ when event is InputEventScreenDrag:
 			on_screen_drag.emit(event)
+		_ when event is InputEventMagnifyGesture:
+			on_zoom.emit(event.get_factor())
 
 func _handle_platformer_screen_input(event: InputEventScreenTouch) -> void:
-	charge_jump.emit() if event.pressed else jump_released.emit(event.position)
+	if event.pressed: charge_jump.emit() 
+	else: jump_released.emit(event.position)
 	accept.emit()
 
 func _handle_platformer_key_input(event: InputEventKey) -> void:
@@ -86,7 +95,7 @@ func _handle_platformer_key_input(event: InputEventKey) -> void:
 				simulate_jump_release(event)
 			held_keys.erase(event.as_text_keycode())
 
-func simulate_jump_release(event: InputEventKey) -> void: 
+func simulate_jump_release(_event: InputEventKey) -> void: 
 	var screen_mid_point = get_viewport().get_visible_rect().size.x / 2
 	var simulated_pos = Vector2(screen_mid_point,0)
 	# platformer script handles touch input based on

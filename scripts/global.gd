@@ -9,17 +9,16 @@ const WORLD_SCENE_PATH = "res://world/world.tscn"
 const START_SCREEN_PATH = "res://world/start_screen.tscn"
 const PLATFORMER_SCENE_PATH = "res://platformer/platformer.tscn"
 
-enum PlantType {Stalk, Shrub, Trees}
+enum PlantType {Stalk, Shrub, Trees, Grass}
 enum HealthStatus {Unknown, Dead, Healing, Recovered}
 enum LeafPosition {Left, Right}
-enum CardinalDirection {North, East, South, West}
 
-const LEFT_LANE_X = 226.0
-const RIGHT_LANE_X = 435.0
-const CAMERA_ZOOM = 3.5
+const LEFT_LANE_X := 226.0
+const RIGHT_LANE_X := 435.0
+const CAMERA_ZOOM := 3.5
 var current_scene = null
-var current_coords = Vector2i(20, 28)
-var control_anchor = Vector2(0, 0)
+var current_coords := Vector2i(20, 32)
+var control_anchor := Vector2(0, 0)
 
 var control_override = false
 var sprint_timer: Timer

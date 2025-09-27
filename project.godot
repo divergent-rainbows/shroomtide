@@ -13,7 +13,7 @@ config_version=5
 config/name="FungIsland"
 run/main_scene="uid://v3dq1lurbu55"
 config/features=PackedStringArray("4.4", "GL Compatibility")
-config/icon="res://icon.png"
+config/icon="uid://8ijj171bi58y"
 
 [autoload]
 
@@ -22,6 +22,10 @@ Save="*res://scripts/save_manager.gd"
 Eco="*res://scripts/eco_manager.gd"
 Global="*res://scripts/global.gd"
 InputManager="*res://scripts/input_manager.gd"
+
+[debug]
+
+gdscript/warnings/unused_signal=0
 
 [display]
 

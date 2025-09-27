@@ -1,0 +1,96 @@
+[gd_scene load_steps=13 format=3 uid="uid://cdb678m1upsxl"]
+
+[ext_resource type="Script" uid="uid://cf81un4t7q13x" path="res://scripts/plant_area.gd" id="1_flkrx"]
+[ext_resource type="Script" uid="uid://drvolyvlc40or" path="res://scripts/plant_data.gd" id="2_cllmc"]
+[ext_resource type="Texture2D" uid="uid://d3tus1wkh1fkw" path="res://animation/hex-selector-outline.png" id="3_suw5p"]
+
+[sub_resource type="PackedScene" id="PackedScene_flkrx"]
+
+[sub_resource type="Resource" id="Resource_cgr6h"]
+script = ExtResource("2_cllmc")
+id = 0
+type = 0
+is_in_network = false
+is_revived = false
+network_cost = 500
+revive_cost = 1500
+nurture_cost = 600
+leaf_cost_basis = 120
+initial_leaf_count = 0
+leaves = Array[int]([])
+g_rate = 0.0
+run_multiplier = 15
+max_num_leaves = 150
+tile = SubResource("PackedScene_flkrx")
+metadata/_custom_type_script = "uid://drvolyvlc40or"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_p2iis"]
+atlas = ExtResource("3_suw5p")
+region = Rect2(0, 0, 46, 37)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_aysyn"]
+atlas = ExtResource("3_suw5p")
+region = Rect2(46, 0, 46, 37)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o1net"]
+atlas = ExtResource("3_suw5p")
+region = Rect2(92, 0, 46, 37)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3ljsx"]
+atlas = ExtResource("3_suw5p")
+region = Rect2(138, 0, 46, 37)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gi7ib"]
+atlas = ExtResource("3_suw5p")
+region = Rect2(184, 0, 46, 37)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0pnie"]
+atlas = ExtResource("3_suw5p")
+region = Rect2(230, 0, 46, 37)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_llyeo"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_p2iis")
+}, {
+"duration": 0.7,
+"texture": SubResource("AtlasTexture_aysyn")
+}, {
+"duration": 0.5,
+"texture": SubResource("AtlasTexture_o1net")
+}, {
+"duration": 0.4,
+"texture": SubResource("AtlasTexture_3ljsx")
+}, {
+"duration": 0.3,
+"texture": SubResource("AtlasTexture_gi7ib")
+}, {
+"duration": 0.2,
+"texture": SubResource("AtlasTexture_0pnie")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="PlantArea" type="Area2D"]
+y_sort_enabled = true
+script = ExtResource("1_flkrx")
+plant_data = SubResource("Resource_cgr6h")
+
+[node name="Selector" type="AnimatedSprite2D" parent="."]
+visible = false
+show_behind_parent = true
+z_index = -1
+y_sort_enabled = true
+sprite_frames = SubResource("SpriteFrames_llyeo")
+autoplay = "default"
+frame_progress = 0.528553
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+scale = Vector2(1.05, 1.05)
+polygon = PackedVector2Array(-14, -6, -14, 8, 0, 13, 14, 8, 14, -6, 0, -12)
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_body_exited"]

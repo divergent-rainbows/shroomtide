@@ -1,0 +1,118 @@
+[gd_scene load_steps=10 format=3 uid="uid://dn8xb032bwyjn"]
+
+[ext_resource type="Texture2D" uid="uid://c4xvehhx26ja1" path="res://animation/grass-blade-3x15.png" id="1_x4gw6"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_th3t5"]
+atlas = ExtResource("1_x4gw6")
+region = Rect2(0, 0, 3, 15)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_slft3"]
+atlas = ExtResource("1_x4gw6")
+region = Rect2(4, 0, 3, 15)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rr4w0"]
+atlas = ExtResource("1_x4gw6")
+region = Rect2(8, 0, 3, 15)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gukhf"]
+atlas = ExtResource("1_x4gw6")
+region = Rect2(12, 0, 3, 15)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_615pe"]
+atlas = ExtResource("1_x4gw6")
+region = Rect2(16, 0, 3, 15)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jqmwr"]
+atlas = ExtResource("1_x4gw6")
+region = Rect2(20, 0, 3, 15)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cvfuq"]
+atlas = ExtResource("1_x4gw6")
+region = Rect2(24, 0, 3, 15)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ptsab"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_th3t5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_slft3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rr4w0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gukhf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_615pe")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jqmwr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cvfuq")
+}],
+"loop": false,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="GrassSpawn" type="Node2D"]
+z_as_relative = false
+y_sort_enabled = true
+
+[node name="Blade1" type="AnimatedSprite2D" parent="."]
+z_as_relative = false
+y_sort_enabled = true
+texture_filter = 1
+texture_repeat = 1
+position = Vector2(0.0490398, 0)
+sprite_frames = SubResource("SpriteFrames_ptsab")
+frame = 6
+offset = Vector2(0, -6)
+
+[node name="Blade2" type="AnimatedSprite2D" parent="."]
+z_as_relative = false
+y_sort_enabled = true
+texture_filter = 1
+texture_repeat = 1
+position = Vector2(-2.95096, 1)
+rotation = -0.261799
+sprite_frames = SubResource("SpriteFrames_ptsab")
+frame = 6
+offset = Vector2(0, -6)
+
+[node name="Blade3" type="AnimatedSprite2D" parent="."]
+z_as_relative = false
+y_sort_enabled = true
+texture_filter = 1
+texture_repeat = 1
+position = Vector2(3.04904, 1)
+rotation = 0.261799
+sprite_frames = SubResource("SpriteFrames_ptsab")
+frame = 6
+offset = Vector2(0, -6)
+
+[node name="Blade4" type="AnimatedSprite2D" parent="."]
+z_as_relative = false
+y_sort_enabled = true
+texture_filter = 1
+texture_repeat = 1
+position = Vector2(-5.95096, 0)
+rotation = -0.523599
+sprite_frames = SubResource("SpriteFrames_ptsab")
+frame = 6
+offset = Vector2(0, -6)
+
+[node name="Blade5" type="AnimatedSprite2D" parent="."]
+z_as_relative = false
+y_sort_enabled = true
+texture_filter = 1
+texture_repeat = 1
+position = Vector2(6.04904, 0)
+rotation = 0.523599
+sprite_frames = SubResource("SpriteFrames_ptsab")
+frame = 6
+offset = Vector2(0, -6)

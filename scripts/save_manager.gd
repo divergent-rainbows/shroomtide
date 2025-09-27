@@ -1,6 +1,7 @@
 extends Node
 
 const GAME_SAVE_PATH = "user://save_data.tres"
+const STARTING_ENERGY = 1000
 var data: SaveData 
 
 func _ready() -> void: 
@@ -9,7 +10,6 @@ func _ready() -> void:
 		data = loaded
 	else:
 		data = SaveData.new()
-		data.energy_g = 100
 		ResourceSaver.save(data, GAME_SAVE_PATH)
 	if data.plants.is_empty():
 		World.initialize_plant_data()
@@ -20,7 +20,7 @@ func save_game():
 		push_error("Save failed: %s" % error_string(err))
 
 func initialize_data():
-	data.energy_g = 100
+	data.energy_g = STARTING_ENERGY
 	data.plants_map = {}
 	data.plants = []
 	data.run_time = 0

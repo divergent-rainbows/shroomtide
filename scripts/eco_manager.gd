@@ -13,9 +13,6 @@ func _on_tick() -> void:
 	for plant in  Global.save_data.plants: 
 		if plant.is_revived:
 			g += plant.get_glycosine_per_tick()
-			a += plant.get_alkaline_per_tick()
-			p += plant.get_poly_per_tick()
-			t += plant.get_terpine_per_tick()
 	add_energy(g, a, p, t)
 	
 func get_tick_energy():
@@ -33,10 +30,11 @@ func add_energy(g, a = 0, p = 0, t = 0):
 	Save.save_game()
 	emit_signal("energy_gained", g,a,p,t)
 
-func subtract_energy(g, a = 0, p = 0, t = 0):
-	save_data.energy_g -= g
-	save_data.energy_a -= a
-	save_data.energy_p -= p
-	save_data.energy_t -= t
-	Save.save_game()
+func subtract_energy(g) -> bool:
+	if g <= save_data.energy_g:
+		save_data.energy_g -= g
+		Save.save_game()
+		return true
+	else:
+		return false
 	
