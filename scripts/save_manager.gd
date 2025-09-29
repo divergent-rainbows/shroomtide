@@ -23,6 +23,7 @@ func initialize_data():
 	data.energy_g = STARTING_ENERGY
 	data.plants_map = {}
 	data.plants = []
+	data.network_paths = []
 	data.run_time = 0
 
 func reset():

@@ -1,19 +1,21 @@
 extends HexGrid
 class_name MyceliumNetwork
 
-@export var fractal_network_auto_grow: bool = false
-@export var grow_interval: float = 1.0
+signal fractal_segment_finished
+signal connection_finished
 
-@export_group("Network Appearance")
-@export var network_color: Color = Color.GREEN
-@export var network_thickness: float = 0.5
+@export var demo_mode: bool = true
+
+@export_group("Network Properties")
+@export var grow_interval 	:= 0.1
+@export var base_thickness 	:= 0.5
+@export var network_color 	:= Color.WHITE
+@export var rainbow_mode 	:= false
 
 @export_group("Fractal Properties")
-@export var enable_fractals: bool = true
-@export var fractal_only: bool = false  # Only draw fractal pattern, no main line
-@export var fractal_segments: int = 5
-@export var golden_ratio: float = 0.618034
-@export var fractal_angle: float = 0.74159677  # Supplement of golden angle
+@export var fractal_segments	:= 5
+@export var golden_ratio		:= 0.618034
+@export var fractal_angle 	:= 0.74159677  # Supplement of golden angle
 
 # Pre-calculated unit fractal pattern (calculated once, reused with transforms)
 var unit_fractal_pattern: Array[Vector2] = []
@@ -31,9 +33,10 @@ var connection_colors: Array[Color] = [
 	Color.SKY_BLUE
 ]
 var connection_count: int = 0
-
+var connection_paths: Array[Array] = []
 var network: Array[Vector2i] = []  # Store offset odd-r coordinates of network nodes
 var lines: Array[Line2D] = []  # Store all rendered line segments for cleanup
+@onready var map: TileMapLayer = $".."
 
 var demo_network: Array[Vector2i] = [
 	Vector2i(17, 32), Vector2i(17, 28), Vector2i(20, 26), Vector2i(20, 34), Vector2i(23, 28), Vector2i(23, 32),
@@ -48,71 +51,74 @@ var outline_complete: bool = false
 
 func _ready():
 	calculate_unit_fractal_pattern()
-	if fractal_network_auto_grow:
-		start_network_demo()
+	connection_paths = Save.data.network_paths
+	await rebuild_network_show_connections()
+	if demo_mode:
+		start_demo()
 
-func start_network_demo():
+func start_demo():
 	clear_network()
-	demo_index = 0
+	network.append(demo_network[0])
+	demo_index = 1
 	outline_complete = false
-	timer = Timer.new()
-	timer.wait_time = grow_interval
-	timer.timeout.connect(_network_demo_step)
-	add_child(timer)
-	timer.start()
-
-func _network_demo_step():
-	if not outline_complete:
+	
+	while not outline_complete:
 		if demo_index < demo_network.size():
-			# Store offset coordinate directly
-			var offset_coord = demo_network[demo_index]
-			network.append(offset_coord)
-
-			# Connect to nearest node using A* pathfinding
-			if network.size() >= 2:
-				var current_pos = network[network.size() - 1]  # Current point
-				var nearest_index = find_nearest_node(current_pos)
-
-				# Find A* path between nearest node and current node
-				var start_tile = network[nearest_index]
-				var end_tile = network[network.size() - 1]
-				var astar_path = find_astar_path(start_tile, end_tile)
-				if astar_path.size() > 1:
-					# Add all intermediate nodes from A* path to network (skip first node - already exists)
-					for i in range(1, astar_path.size()):
-						if not network.has(astar_path[i]):
-							network.append(astar_path[i])
-
-					# Draw animated lines along network connection
-					await tween_network_connection(astar_path)
+			var pos = map.map_to_local(demo_network[demo_index])
+			await create_connection(pos)
 			demo_index += 1
 		else:
 			outline_complete = true
-			timer.queue_free()
-	else:
-		timer.queue_free()
+			for i in (demo_network.size()-1):
+				var tile = demo_network[i]
 
+func rebuild_network_show_connections():
+	for path in connection_paths:
+		for i in range(path.size()):
+			if not network.has(path[i]):
+				network.append(path[i])
+		show_network_connection(path)
+
+func create_connection(pos: Vector2) -> Signal:
+	var local_pos = map.local_to_map(pos)
+	var path = get_new_connection_path(local_pos)
+	add_connection_to_network(path)
+	Save.data.network_paths = connection_paths
+	Save.save_game()
+	return await show_new_network_connection(path)
+
+func get_new_connection_path(target: Vector2i) -> Array[Vector2i]:
+	if network.size() > 0:
+		var nearest_index = find_nearest_node(target)
+		var start_tile = network[nearest_index]
+		var astar_path = find_astar_path(start_tile, target)
+		return astar_path
+	else:
+		return [target] # Signal new network 
+
+func add_connection_to_network(path: Array[Vector2i]):
+	for i in range(path.size()):
+		if not network.has(path[i]):
+			network.append(path[i])
+	if path.size() > 1: connection_paths.append(path)
 
 func clear_network():
 	network.clear()
-	connection_count = 0
 	for line in lines:
 		line.queue_free()
 	lines.clear()
 
 func find_nearest_node(target_coord: Vector2i) -> int:
-	# Find the nearest node in the network using hex distance (excluding the target position itself)
 	var min_distance = INF
 	var nearest_index = 0
 
-	for i in range(network.size() - 1):  # Exclude the last node (current position)
+	for i in range(network.size()): 
 		var start_axial = offset_to_axial(network[i])
 		var target_axial = offset_to_axial(target_coord)
 		var distance = hex_distance(start_axial, target_axial)
 		if distance < min_distance:
 			min_distance = distance
 			nearest_index = i
-
 	return nearest_index
 
 # A* Pathfinding Functions using HexGrid utilities
@@ -175,7 +181,7 @@ func create_fractal_pattern(start_pos: Vector2, end_pos: Vector2, color: Color) 
 	# Use pre-calculated unit fractal pattern, transformed to fit start->end
 	var fractal_lines: Array[Line2D] = []
 
-	if not enable_fractals or unit_fractal_pattern.size() < 2:
+	if unit_fractal_pattern.size() < 2:
 		return fractal_lines
 
 	# Calculate transformation parameters
@@ -192,13 +198,11 @@ func create_fractal_pattern(start_pos: Vector2, end_pos: Vector2, color: Color) 
 		var world_start = pattern_start.rotated(target_angle) * target_distance + start_pos
 		var world_end = pattern_end.rotated(target_angle) * target_distance + start_pos
 
-		# Create fractal line segment (initially hidden - will be shown during animation)
+		# Create fractal line segment
 		var fractal_line = Line2D.new()
 		var thickness_factor = fractal_length_factors[i] if i < fractal_length_factors.size() else 1.0
-		fractal_line.width = network_thickness * (0.3 + thickness_factor * 0.7)  # Reduced diminishing factor
+		fractal_line.width = base_thickness * thickness_factor
 		fractal_line.default_color = color
-		fractal_line.begin_cap_mode = Line2D.LINE_CAP_ROUND
-		fractal_line.end_cap_mode = Line2D.LINE_CAP_ROUND
 		fractal_line.add_point(world_start)
 		fractal_line.add_point(world_end)
 
@@ -206,7 +210,7 @@ func create_fractal_pattern(start_pos: Vector2, end_pos: Vector2, color: Color) 
 
 	return fractal_lines
 
-func tween_segment(start_tile: Vector2i, end_tile: Vector2i, color: Color):
+func tween_segment(start_tile: Vector2i, end_tile: Vector2i, color: Color) -> Signal:
 	# Draw an animated line between two adjacent hex tiles with optional fractal pattern
 	var tilemap = get_parent() as TileMapLayer
 
@@ -216,72 +220,46 @@ func tween_segment(start_tile: Vector2i, end_tile: Vector2i, color: Color):
 	var start_node_pos = to_local(start_world)
 	var end_node_pos = to_local(end_world)
 
-	if fractal_only:
-		# Create only fractal pattern
-		var fractal_lines = create_fractal_pattern(start_node_pos, end_node_pos, color)
-		for fractal_line in fractal_lines:
-			add_child(fractal_line)
-			lines.append(fractal_line)
+	# Create only fractal pattern
+	var fractal_lines = create_fractal_pattern(start_node_pos, end_node_pos, color)
+	for fractal_line in fractal_lines:
+		add_child(fractal_line)
+		fractal_line.visible = false
+		lines.append(fractal_line)
 
-		# Animate each fractal segment growing sequentially and wait for all to complete
-		for i in range(fractal_lines.size()):
-			var fractal_line = fractal_lines[i]
-			var start_pos = fractal_line.get_point_position(0)
-			var end_pos = fractal_line.get_point_position(1)
+	# Animate each fractal segment growing sequentially
+	for i in range(fractal_lines.size()):
+		var fractal_line = fractal_lines[i]
+		var start_pos = fractal_line.get_point_position(0)
+		var end_pos = fractal_line.get_point_position(1)
 
-			# Start with zero length
-			fractal_line.set_point_position(1, start_pos)
-
-			# Calculate duration proportional to segment length using golden ratio factor
-			var length_factor = fractal_length_factors[i] if i < fractal_length_factors.size() else 1.0
-			var segment_duration = grow_interval * length_factor
-
-			# Animate this segment growing and wait for completion
-			var tween = create_tween()
-			tween.tween_method(
-				func(pos): fractal_line.set_point_position(1, pos),
-				start_pos,
-				end_pos,
-				segment_duration
-			)
-			await tween.finished
-
-		# All fractal segments are now complete
-	else:
-		# Create main line with specified color
-		var line = Line2D.new()
-		line.width = network_thickness
-		line.default_color = color
-		line.begin_cap_mode = Line2D.LINE_CAP_ROUND
-		line.end_cap_mode = Line2D.LINE_CAP_ROUND
-		line.add_point(start_node_pos)
-		line.add_point(start_node_pos)  # Start with zero length
-		add_child(line)
-		lines.append(line)
-
-		# Create fractal pattern if enabled
-		var fractal_lines = create_fractal_pattern(start_node_pos, end_node_pos, color)
-		for fractal_line in fractal_lines:
-			add_child(fractal_line)
-			lines.append(fractal_line)
-
-		# Animate main segment growing and wait for completion
+		# Start with zero length
+		fractal_line.set_point_position(1, start_pos)
+		fractal_line.visible = true
+		# Animate this segment growing
 		var tween = create_tween()
 		tween.tween_method(
-			func(pos): line.set_point_position(1, pos),
-			start_node_pos,
-			end_node_pos,
+			func(pos): fractal_line.set_point_position(1, pos),
+			start_pos,
+			end_pos,
 			grow_interval
 		)
 		await tween.finished
+	return fractal_segment_finished
 
-func tween_network_connection(path: Array[Vector2i]):
-	# Animate lines along the network connection with rotating colors
+func show_new_network_connection(path: Array[Vector2i]) -> Signal:
+	var connection_color = connection_colors[demo_index % connection_colors.size()] if rainbow_mode else network_color
+	var fin
+	for i in range(path.size() - 1):
+		var current_tile = path[i]
+		var next_tile = path[i + 1]
 
-	# Get color for this connection
-	var connection_color = connection_colors[connection_count % connection_colors.size()]
-	connection_count += 1
-
+		# Use helper method to draw each segment
+		fin = await tween_segment(current_tile, next_tile, connection_color)
+	return connection_finished
+	
+func show_network_connection(path: Array[Vector2i]):
+	var connection_color = connection_colors[demo_index % connection_colors.size()] if rainbow_mode else network_color
 	for i in range(path.size() - 1):
 		var current_tile = path[i]
 		var next_tile = path[i + 1]

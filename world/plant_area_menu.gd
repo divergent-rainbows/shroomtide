@@ -63,6 +63,7 @@ const NOT_ENOUGH_RES = "Not enough energy..."
 	}
 }
 
+@onready var network: MyceliumNetwork = $"../../Map/Network"
 @onready var message: Control = %Message
 @onready var shroomie := %Shroomie
 @onready var pd : PlantData
@@ -318,7 +319,7 @@ func execute_connect():
 	if pd.is_in_network:
 		message.show_inspection('Already in network')
 		return false
-	if pd.network():
+	if pd.connect_to_network(network, _current_tile.global_position ):
 		message.show_inspection(GROWTH_SUCCESS)
 	else:
 		message.show_inspection(NOT_ENOUGH_RES)

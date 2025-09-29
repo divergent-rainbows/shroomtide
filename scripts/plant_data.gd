@@ -74,8 +74,9 @@ func revive() -> bool:
 		is_revived = true
 	return true
 
-func network() -> bool:
+func connect_to_network(network: MyceliumNetwork, global_pos: Vector2) -> bool:
 	if Eco.subtract_energy(get_connect_cost()):
+		network.create_connection(global_pos)
 		is_in_network = true
 		return true
 	else: return false

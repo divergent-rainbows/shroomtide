@@ -7,6 +7,7 @@ class_name SaveData
 @export var energy_p: float # Polyphenols
 @export var energy_t: float # Terpenes
 @export var plants_map: Dictionary[Vector2i, PlantData]
+@export var network_paths: Array[Array]
 @export var plants: Array[PlantData]
 @export var coords: Vector2
 
