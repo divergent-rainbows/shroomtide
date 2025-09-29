@@ -11,10 +11,10 @@ uniform float alpha_threshold : hint_range(0.0, 2.0) = 1.0;
 uniform bool enable_radial_opacity = false;
 /** Center enter for radial opacity */
 uniform vec2 radial_opacity_center = vec2(0.5, 0.5);
-/** Inner radius for opacity transition start */
-uniform float inner_radial_opacity_radius : hint_range(0.0, 2.0) = 0.3;
-/** Outer radius for opacity transition end */
-uniform float outer_radial_opacity_radius : hint_range(0.1, 2.0) = 0.7;
+/** Radius for opaque area */
+uniform float opaque_radius : hint_range(0.0, 2.0) = 0.5;
+/** Ring thickness - creates transparent area inside opaque radius */
+uniform float ring_thickness : hint_range(0.0, 1.0) = 0.4;
 /** Speed of opacity falloff (1.0 = linear, higher = sharper) */
 uniform float radial_opacity_falloff : hint_range(0.1, 20.0) = 1.0;
 /** Invert radial opacity (true = opaque at edges, transparent at center) */
@@ -28,7 +28,7 @@ Ctx stage_opacity(Ctx c) {
 	float final_opacity = opacity;
 	if (enable_radial_opacity) {
 		// Apply the same X/Y scaling used for radial waves to the opacity calculation
-		vec2 scaled_opacity_position = c.uv - radial_opacity_center;
+		vec2 scaled_opacity_position = c.uv - texture_center;
 		float scaled_radial_value_x = radial_scale.x / c.uv_scale;
 		float scaled_radial_value_y = radial_scale.y / c.uv_scale;
 		scaled_opacity_position.x /= scaled_radial_value_x;
@@ -36,20 +36,24 @@ Ctx stage_opacity(Ctx c) {
 		float distance_from_center = length(scaled_opacity_position);
 
 		// Scale the radii to match the coordinate space transformation
-		float scaled_inner_radius = inner_radial_opacity_radius / max(scaled_radial_value_x, scaled_radial_value_y);
-		float scaled_outer_radius = outer_radial_opacity_radius / max(scaled_radial_value_x, scaled_radial_value_y);
+		float scaled_outer_radius = opaque_radius / max(scaled_radial_value_x, scaled_radial_value_y);
+		float scaled_inner_radius = max(0.0, (opaque_radius - ring_thickness)) / max(scaled_radial_value_x, scaled_radial_value_y);
 
-		// Calculate radial opacity using two smooth transitions that meet in the middle
-		// Inner transition: fade from center (transparent) to inner radius (opaque)
-		float inner_progress = smoothstep(0.0, scaled_inner_radius, distance_from_center);
-		inner_progress = pow(inner_progress, radial_opacity_falloff);
+		// Create ring: transparent inside inner radius, opaque between inner and outer, transparent beyond outer
+		float radial_alpha;
 
-		// Outer transition: fade from outer radius (opaque) to beyond (transparent)
-		float outer_progress = 1.0 - smoothstep(scaled_outer_radius, scaled_outer_radius * 1.5, distance_from_center);
-		outer_progress = pow(outer_progress, radial_opacity_falloff);
+		if (ring_thickness <= 0.0) {
+			// When ring thickness is 0, everything should be transparent
+			radial_alpha = 0.0;
+		} else {
+			// Fade from transparent at center to opaque at inner radius
+			float inner_fade = smoothstep(scaled_inner_radius - 0.05, scaled_inner_radius + 0.05, distance_from_center);
+			// Fade from opaque at outer radius to transparent beyond
+			float outer_fade = 1.0 - smoothstep(scaled_outer_radius - 0.05, scaled_outer_radius + 0.05, distance_from_center);
 
-		// Combine both transitions - take minimum to create island mask with ocean fade
-		float radial_alpha = min(inner_progress, outer_progress);
+			radial_alpha = inner_fade * outer_fade;
+		}
+		radial_alpha = pow(radial_alpha, radial_opacity_falloff);
 
 		if (invert_radial_opacity) {
 			radial_alpha = 1.0 - radial_alpha; // Invert the entire effect
@@ -60,11 +64,13 @@ Ctx stage_opacity(Ctx c) {
 
 	// Apply brightness-as-alpha if enabled
 	if (brightness_as_alpha) {
-		// Calculate brightness of final color
-		float color_brightness = dot(c.color, vec3(0.299, 0.587, 0.114)); // Luma RGB coefficients
+		// Use wave value directly for consistent radial pattern
+		float wave_value = c.w1 + c.w2 + c.pulse_wave;
+		// Normalize wave from [-1,1] to [0,1]
+		float normalized_wave = (wave_value + 1.0) * 0.5;
 
-		// Convert brightness to alpha (darker = transparent, lighter = opaque)
-		float brightness_alpha = clamp(color_brightness / alpha_threshold, 0.0, 1.0);
+		// Apply threshold - higher threshold makes more areas opaque
+		float brightness_alpha = clamp((normalized_wave - (1.0 - alpha_threshold)) / alpha_threshold, 0.0, 1.0);
 		final_opacity *= brightness_alpha;
 	}
 

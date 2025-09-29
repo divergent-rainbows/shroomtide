@@ -68,11 +68,17 @@ void fragment() {
 
 	if (enable) {
 		// Apply effect opacity control - blend between original and modified colors
-		c.color = mix(c.base_pixel.rgb, c.color, c.alpha);
+		if (brightness_as_alpha) {
+			// When using brightness as alpha, preserve effect color and use alpha for transparency
+			COLOR = vec4(c.color, c.alpha);
+		} else {
+			// Normal mode: blend effect with original based on alpha
+			c.color = mix(c.base_pixel.rgb, c.color, c.alpha);
+			COLOR = vec4(c.color, c.base_pixel.a);
+		}
 	} else {
 		c.color = c.base_pixel.rgb;
 		c.alpha  = c.base_pixel.a;
+		COLOR = vec4(c.color, c.alpha);
 	}
-
-	COLOR = vec4(c.color, c.alpha);
 }

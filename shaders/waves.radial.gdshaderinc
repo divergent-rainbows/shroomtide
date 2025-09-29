@@ -5,8 +5,16 @@ uniform float radial_frequency : hint_range(1.0, 50.0) = 5.0;
 uniform int radial_direction : hint_enum("Inward", "Outward") = 0;
 /** Radial wave scale (lower = smaller waves, higher = larger waves) */
 uniform vec2 radial_scale = vec2(1.0,1.0);
+/** Lock Y scale to X scale for perfect circles */
+uniform bool lock_aspect_ratio = false;
+/** Auto-correct aspect ratio for perfect circles (requires aspect_ratio uniform) */
+uniform bool auto_aspect_correction = false;
+/** Material aspect ratio (width/height) - set from script for auto correction */
+uniform float aspect_ratio : hint_range(0.1, 5.0) = 1.0;
 /** Wave sharpness (1.0 = normal, higher = thinner highlighted areas) */
 uniform float wave_sharpness : hint_range(0.1, 3.0) = 1.0;
+/** Wave threshold bias (negative = shrink lights, positive = expand lights) */
+uniform float radial_wave_bias : hint_range(-1.0, 1.0) = 0.0;
 
 
 group_uniforms RadialDynamics;
@@ -24,6 +32,17 @@ uniform float cycle_gap : hint_range(0.0, 1.0) = 0.5;
 Ctx stage_radial_effects(Ctx c){
     // Apply separate X/Y scaling to create non-uniform radial waves
     vec2  position = c.uv - texture_center;
+
+    // Apply scaling with optional aspect ratio correction
+    vec2 effective_scale = radial_scale;
+    if (lock_aspect_ratio) {
+        effective_scale.y = effective_scale.x;
+    } else if (auto_aspect_correction) {
+        // Adjust Y scale based on aspect ratio to maintain perfect circles
+        effective_scale.y = effective_scale.x * aspect_ratio;
+    }
+
+    position /= effective_scale;
     float distance = length(position);
     float radial_magnitude =  c.speed * c.t;
 
@@ -36,10 +55,33 @@ Ctx stage_radial_effects(Ctx c){
     // sets distance_based_frequency
     c = stage_radial_acceleration(c);
 
-    float raw_wave = sin( 
-        distance * radial_frequency * PI 
-        + radial_magnitude 
+    float raw_wave = sin(
+        distance * radial_frequency * PI
+        + radial_magnitude
         * (radial_direction == 0 ? 1.0 : -1.0));
-    c.w1 = pow(abs(raw_wave), wave_sharpness) * sign(raw_wave);
+
+    // Apply wave sharpness
+    if (wave_sharpness == 1.0) {
+        // Smooth gradient: create triangle wave for continuous smooth transitions
+        float phase = fract(distance * radial_frequency);
+
+        // Apply wave bias to skew the triangle wave
+        float bias_point = clamp(0.5 + radial_wave_bias * 0.4, 0.1, 0.9);
+
+        // Create asymmetric triangle wave
+        float gradient = mix(
+            (phase / bias_point) * 2.0 - 1.0,
+            1.0 - ((phase - bias_point) / (1.0 - bias_point)) * 2.0,
+            step(bias_point, phase)
+        );
+
+        c.w1 = gradient;
+    } else if (wave_sharpness < 1.0) {
+        // Smooth transitions: reduce contrast
+        c.w1 = raw_wave * wave_sharpness;
+    } else {
+        // Sharp transitions: increase contrast using power function
+        c.w1 = sign(raw_wave) * pow(abs(raw_wave), wave_sharpness);
+    }
     return c;
 }

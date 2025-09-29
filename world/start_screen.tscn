@@ -104,7 +104,6 @@ tile_map_data = PackedByteArray("AAD4/wAAAAACAAQAAAD4/wwAAAACAAQAAAD5////AAACAAQ
 tile_set = ExtResource("2_afy8x")
 
 [node name="StartEffect" type="ColorRect" parent="CanvasLayer"]
-modulate = Color(1, 1, 1, 0)
 z_index = 1
 material = ExtResource("4_05mpx")
 anchors_preset = 15

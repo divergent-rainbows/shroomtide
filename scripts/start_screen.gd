@@ -17,14 +17,12 @@ func _on_resize():
 
 func _on_screen_tap(event) -> void:
 	var screen_pos = event.position
-	_activate_shader_effect_at(screen_pos)
-	await get_tree().create_timer(0.9).timeout
+	await _activate_shader_effect_at(screen_pos)
 	Global.goto_scene(Global.WORLD_SCENE_PATH)
 
 func _on_accept():
 	var start_input_position = start_effect.get_global_rect().size / 2.0
-	_activate_shader_effect_at(start_input_position)
-	await get_tree().create_timer(0.9).timeout
+	await _activate_shader_effect_at(start_input_position)
 	Global.goto_scene(Global.WORLD_SCENE_PATH)
 
 func _flash_start_button():
@@ -33,9 +31,26 @@ func _flash_start_button():
 	tween.tween_property(start_button, "modulate:a", 0.3, 0.8)
 	tween.tween_property(start_button, "modulate:a", 1.0, 0.8)
 
-func _activate_shader_effect_at(screen_pos: Vector2) -> void:
+func _activate_shader_effect_at(screen_pos: Vector2) -> Signal:
 	var global_rect := start_effect.get_global_rect() # Rect2, in screen coords
 	var local: Vector2 = screen_pos - global_rect.position
 	var uv: Vector2 = local / global_rect.size
 	start_effect.material.set_shader_parameter("texture_center", uv)
 	start_effect.modulate = Color(1,1,1,1)
+
+	# Create the ripple effect tween
+	var tween = create_tween()
+	tween.set_parallel(true)  # Allow multiple tweens to run simultaneously
+
+	# Tween opaque radius from 0 to 1.0 over 2 seconds with ease_out quad
+	tween.tween_property(start_effect.material, "shader_parameter/opaque_radius", 1.2, 2.2) \
+		 .from(0.0) \
+		 .set_trans(Tween.TRANS_LINEAR)
+
+	# Tween ring thickness from 0.05 to 0.3 over 2 seconds with ease_out quad
+	tween.tween_property(start_effect.material, "shader_parameter/ring_thickness", 0.3, 2) \
+		 .from(0.05) \
+		 .set_ease(Tween.EASE_OUT) \
+		 .set_trans(Tween.TRANS_QUAD)
+		
+	return tween.finished
