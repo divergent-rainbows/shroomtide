@@ -17,7 +17,7 @@ var hex_direction : int :
 		if value != hex_direction:
 			InputManager.haptic_once()
 		hex_direction = value
-		
+
 var tilt : float :
 	set(value):
 		# Haptic on movement start
@@ -83,6 +83,7 @@ func _release_knob(index : int) -> void:
 	if index == event_index:
 		_reset_knob()
 		is_pressing = false
+		event_index = -1  # Reset event index so next touch can activate joystick
 		InputManager.on_release.emit()
 		
 func _reset_knob() -> void:
