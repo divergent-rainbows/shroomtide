@@ -11,6 +11,20 @@ class_name HexJoystick
 @export var base_scale 	: Vector2 	= Vector2.ONE
 @export var knob_scale 	: Vector2 	= Vector2.ONE
 
+var hex_direction : int :
+	set(value):
+		# Haptic on change direction
+		if value != hex_direction:
+			InputManager.haptic_once()
+		hex_direction = value
+		
+var tilt : float :
+	set(value):
+		# Haptic on movement start
+		if value > aimzone and tilt < aimzone:
+			InputManager.haptic_once() 
+		tilt = value
+		
 var center 			: Vector2
 var knob_position 	: Vector2
 var is_pressing 		: bool
@@ -33,7 +47,8 @@ func _ready() -> void:
 	InputManager.on_screen_drag.connect(_on_screen_drag)
 
 func _on_screen_touch(event : InputEventScreenTouch) -> void:
-	if event.pressed and event_index == -1 and not Global.control_override:
+	var first_finger_press_event = event.pressed and event_index == -1
+	if first_finger_press_event and not Global.control_override:
 		Global.control_anchor = event.position
 		show()
 		event_index = event.index
@@ -60,14 +75,13 @@ func _move_knob(event_pos : Vector2) -> void:
 	else:
 		knob_position.x = center.x + cos(angle) * base_radius
 		knob_position.y = center.y + sin(angle) * base_radius
-	if not is_in_deadzone():
-		trigger_actions(delta_local)
+		
+	trigger_actions(delta_local)
 	queue_redraw()
 
 func _release_knob(index : int) -> void:
 	if index == event_index:
 		_reset_knob()
-		event_index = -1
 		is_pressing = false
 		InputManager.on_release.emit()
 		
@@ -77,30 +91,33 @@ func _reset_knob() -> void:
 
 ## -PI 	-> ZERO	 crosses Vector2.UP
 ## ZERO 	-> PI	 crosses Vector2.DOWN
-func trigger_actions(delta_local: Vector2) -> void:	
-	var angle = get_radian_angle(delta_local)
-	var hex_direction
-	match angle:
-		_ when angle >= -PI/6 and angle < PI/6:
-			hex_direction = HexGrid.E
-		_ when angle >= PI/6 and angle < PI/2:
-			hex_direction = HexGrid.SE
-		_ when angle >= PI/2 and angle < 5*PI/6:
-			hex_direction = HexGrid.SW
-		_ when angle >= 5*PI/6 or angle < -5*PI/6:
-			hex_direction = HexGrid.W
-		_ when angle >= -5*PI/6 and angle < -PI/2:
-			hex_direction = HexGrid.NW
-		_ when angle >= -PI/2 and angle < -PI/6:
-			hex_direction = HexGrid.NE
-
-	var tilt = delta_local.length()
-	if tilt < aimzone: InputManager.aim.emit(hex_direction)
-	else: InputManager.move.emit(hex_direction)
-
 func get_radian_angle(delta_local: Vector2) -> float:
 	return center.angle_to_point(center + delta_local)
 
-func is_in_deadzone() -> bool:
-	var distance := center.distance_to(knob_position)
-	return distance < deadzone
+func get_hex_direction(angle: float):
+	match angle:
+		_ when angle >= -PI/6 and angle < PI/6:
+			return HexGrid.E
+		_ when angle >= PI/6 and angle < PI/2:
+			return HexGrid.SE
+		_ when angle >= PI/2 and angle < 5*PI/6:
+			return HexGrid.SW
+		_ when angle >= 5*PI/6 or angle < -5*PI/6:
+			return HexGrid.W
+		_ when angle >= -5*PI/6 and angle < -PI/2:
+			return HexGrid.NW
+		_ when angle >= -PI/2 and angle < -PI/6:
+			return HexGrid.NE
+
+func trigger_actions(delta_local: Vector2) -> void:	
+	var angle = get_radian_angle(delta_local)
+	tilt = delta_local.length()
+	hex_direction = get_hex_direction(angle)
+			
+	match tilt:
+		_ when tilt < deadzone:
+			pass
+		_ when tilt < aimzone:
+			InputManager.aim.emit(hex_direction)
+		_ :
+			InputManager.move.emit(hex_direction)
