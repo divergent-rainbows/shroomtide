@@ -1,14 +1,12 @@
 extends Node
 
 # Game Mode Signals - emitted based on context
+signal aim(direction: int)
+signal move(direction: int)
 signal move_left
 signal move_right  
 signal move_up
 signal move_down
-signal face_left
-signal face_right  
-signal face_up
-signal face_down
 signal accept
 signal accept_released
 signal charge_jump
@@ -22,14 +20,14 @@ signal on_release
 signal on_change_direction
 signal on_zoom
 
-# Game Mode Types
+const HAPTIC_COOLDOWN_PERIOD := 0.06
+
 enum GameMode {
 	WORLD,
 	PLATFORMER
 }
 
-# Keyboard/Mouse Action Mappings
-var keyboard_action_map = {
+var KEYBOARD_ACTION_CONFIG = {
 	"reset": reset,
 	"esc": cancel,
 	"back": back,
@@ -49,6 +47,7 @@ var simulated_touch_midpoint_multiplier = {
 	"Right": 1.5,
 	"Left": 0.5
 }
+var _haptic_cooldown := false
 
 func _ready() -> void:
 	_connect_input_signals()
@@ -81,10 +80,10 @@ func _handle_platformer_screen_input(event: InputEventScreenTouch) -> void:
 	accept.emit()
 
 func _handle_platformer_key_input(event: InputEventKey) -> void:
-	for action in keyboard_action_map:
+	for action in KEYBOARD_ACTION_CONFIG:
 		if event.is_action_pressed(action):
 			held_keys.append(event.as_text_keycode())
-			keyboard_action_map[action].emit()
+			KEYBOARD_ACTION_CONFIG[action].emit()
 			if action == "ui_accept":
 				charge_jump.emit()
 		elif event.is_action_released(action):
@@ -111,9 +110,9 @@ func simulate_jump_release(_event: InputEventKey) -> void:
 
 func _handle_world_key_input(event: InputEventKey) -> void:
 	# Handle action presses and releases using the event directly
-	for action in keyboard_action_map:
+	for action in KEYBOARD_ACTION_CONFIG:
 		if event.is_action_pressed(action) and event.pressed:
-			var signals = keyboard_action_map[action]
+			var signals = KEYBOARD_ACTION_CONFIG[action]
 			if signals is Array:
 				for signal_to_emit in signals:
 					signal_to_emit.emit()
@@ -138,6 +137,12 @@ func _on_cancel_pressed():
 func _on_back_pressed():
 	Global.goto_scene(Global.WORLD_SCENE_PATH)
 	
+func haptic_once():
+	if _haptic_cooldown: return
+	_haptic_cooldown = true
+	Input.vibrate_handheld(10) # duration is ignored on iOS; it’s a single impact
+	get_tree().create_timer(HAPTIC_COOLDOWN_PERIOD).timeout.connect(func(): _haptic_cooldown = false)
+
 # Game Mode Management
 func set_game_mode(mode: GameMode):
 	held_keys.clear()
