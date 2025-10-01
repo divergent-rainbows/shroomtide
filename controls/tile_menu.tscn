@@ -1,0 +1,260 @@
+[gd_scene load_steps=7 format=3 uid="uid://djd22n34ukgcu"]
+
+[ext_resource type="Theme" uid="uid://ccb43p0cholhl" path="res://assets/fonts/hud_theme.tres" id="1_pv6v7"]
+[ext_resource type="Script" uid="uid://dnuuh20l3rv8s" path="res://world/tile_menu.gd" id="2_me7md"]
+[ext_resource type="Texture2D" uid="uid://b25b0ofls5676" path="res://assets/pixel_art/hex-arrow2.png" id="3_ga0md"]
+[ext_resource type="Texture2D" uid="uid://7dkserjyfmon" path="res://assets/pixel_art/hex-arrow1.png" id="4_70cd4"]
+[ext_resource type="Texture2D" uid="uid://b3ciwd0knnb0x" path="res://assets/pixel_art/hex-arrow4.png" id="5_sdy3w"]
+[ext_resource type="Texture2D" uid="uid://dtn7sbqp4e6py" path="res://assets/pixel_art/hex-arrow3.png" id="6_hqky0"]
+
+[node name="TileMenu" type="Control"]
+z_index = 1
+layout_mode = 3
+anchor_left = 0.5
+anchor_top = 0.8
+anchor_right = 0.5
+anchor_bottom = 0.8
+grow_horizontal = 2
+grow_vertical = 0
+focus_mode = 1
+mouse_filter = 2
+mouse_default_cursor_shape = 2
+theme = ExtResource("1_pv6v7")
+script = ExtResource("2_me7md")
+metadata/_edit_use_anchors_ = true
+
+[node name="Top" type="TextureButton" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -16.0
+offset_top = -80.0
+offset_right = 16.0
+offset_bottom = -52.0
+grow_horizontal = 2
+grow_vertical = 0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+focus_neighbor_left = NodePath("../Left")
+focus_neighbor_top = NodePath(".")
+focus_neighbor_right = NodePath("../Right")
+focus_neighbor_bottom = NodePath("../Bottom")
+mouse_default_cursor_shape = 2
+action_mode = 0
+texture_normal = ExtResource("3_ga0md")
+texture_focused = ExtResource("4_70cd4")
+stretch_mode = 0
+
+[node name="Action" type="RichTextLabel" parent="Top"]
+clip_contents = false
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -75.0
+offset_top = -143.0
+offset_right = 75.0
+offset_bottom = -101.0
+grow_horizontal = 2
+grow_vertical = 0
+bbcode_enabled = true
+text = "Connect"
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[node name="Cost" type="RichTextLabel" parent="Top"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -75.0
+offset_top = -98.0
+offset_right = 75.0
+offset_bottom = -56.0
+grow_horizontal = 2
+grow_vertical = 0
+bbcode_enabled = true
+text = "-100"
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[node name="Bottom" type="TextureButton" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -16.0
+offset_top = 52.0
+offset_right = 16.0
+offset_bottom = 80.0
+grow_horizontal = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+focus_neighbor_left = NodePath("../Left")
+focus_neighbor_top = NodePath("../Top")
+focus_neighbor_right = NodePath("../Right")
+action_mode = 0
+texture_normal = ExtResource("3_ga0md")
+texture_focused = ExtResource("4_70cd4")
+stretch_mode = 0
+flip_v = true
+
+[node name="Action" type="RichTextLabel" parent="Bottom"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -47.0
+offset_top = 62.0
+offset_right = 47.0
+offset_bottom = 104.0
+grow_horizontal = 2
+bbcode_enabled = true
+text = "Close"
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
+horizontal_alignment = 1
+
+[node name="Cost" type="RichTextLabel" parent="Bottom"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -47.0
+offset_top = 107.0
+offset_right = 47.0
+offset_bottom = 149.0
+grow_horizontal = 2
+bbcode_enabled = true
+text = "-100"
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
+horizontal_alignment = 1
+
+[node name="Right" type="TextureButton" parent="."]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 52.0
+offset_top = -14.0
+offset_right = 84.0
+offset_bottom = 14.0
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+focus_neighbor_left = NodePath("../Left")
+focus_neighbor_top = NodePath("../Top")
+focus_neighbor_right = NodePath(".")
+focus_neighbor_bottom = NodePath("../Bottom")
+action_mode = 0
+texture_normal = ExtResource("5_sdy3w")
+texture_focused = ExtResource("6_hqky0")
+stretch_mode = 0
+
+[node name="Labels" type="VBoxContainer" parent="Right"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 69.0
+offset_top = -44.0
+offset_right = 189.0
+offset_bottom = 44.0
+grow_vertical = 2
+size_flags_horizontal = 4
+
+[node name="Action" type="RichTextLabel" parent="Right/Labels"]
+layout_mode = 2
+bbcode_enabled = true
+text = "Grow"
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
+vertical_alignment = 1
+
+[node name="Cost" type="RichTextLabel" parent="Right/Labels"]
+layout_mode = 2
+bbcode_enabled = true
+text = "-100"
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
+vertical_alignment = 1
+
+[node name="Left" type="TextureButton" parent="."]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -84.0
+offset_top = -14.0
+offset_right = -52.0
+offset_bottom = 14.0
+grow_horizontal = 0
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+focus_neighbor_left = NodePath(".")
+focus_neighbor_top = NodePath("../Top")
+focus_neighbor_right = NodePath("../Right")
+focus_neighbor_bottom = NodePath("../Bottom")
+action_mode = 0
+texture_normal = ExtResource("5_sdy3w")
+texture_focused = ExtResource("6_hqky0")
+stretch_mode = 0
+flip_h = true
+
+[node name="Labels" type="VBoxContainer" parent="Left"]
+layout_direction = 3
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 27.0
+offset_top = -44.0
+offset_right = 132.0
+offset_bottom = 44.0
+grow_vertical = 2
+
+[node name="Action" type="RichTextLabel" parent="Left/Labels"]
+layout_direction = 3
+layout_mode = 2
+bbcode_enabled = true
+text = "Play"
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
+vertical_alignment = 1
+
+[node name="Cost" type="RichTextLabel" parent="Left/Labels"]
+layout_direction = 3
+layout_mode = 2
+bbcode_enabled = true
+text = "-100"
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
+vertical_alignment = 1
+
+[connection signal="pressed" from="Top" to="." method="_on_top_pressed"]
+[connection signal="pressed" from="Bottom" to="." method="_on_bottom_pressed"]
+[connection signal="pressed" from="Right" to="." method="_on_right_pressed"]
+[connection signal="pressed" from="Left" to="." method="_on_left_pressed"]

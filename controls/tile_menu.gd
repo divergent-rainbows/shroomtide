@@ -1,21 +1,12 @@
-extends Control
+extends Actions
+class_name Tile_Menu
 
 # Action menu layout
 enum BtnPos {TOP, BTM, LEFT, RIGHT}
-# Action settings
-enum {DISPLAY, EXECUTE, COST_FN}
+
 # UI Nodes 
 enum {ACTION_LABEL, COST_LABEL}
  
-const SHOW_DELAY_DWELL_TIME := 0.6  # seconds to “dwell” before showing menu
-const MOVE_CANCEL_SPEED := 10.0  # optional: cancel if player is moving
-
-# Inspector message
-const REVIVE_SUCCESS = "Plant is revived!"
-const GROWTH_SUCCESS = "Plant grew a new leaf!"
-const CONNECT_SUCCESS = "Plant is now in fungal network!"
-const NOT_ENOUGH_RES = "Not enough energy..."
-
 # Button references for screen input
 @onready var button_nodes = {
 	BtnPos.TOP: $Top,
@@ -63,15 +54,6 @@ const NOT_ENOUGH_RES = "Not enough energy..."
 	}
 }
 
-@onready var network: MyceliumNetwork = $"../../Map/Network"
-@onready var message: Control = %Message
-@onready var shroomie := %Shroomie
-@onready var pd : PlantData
-@onready var save_data := Save.data as SaveData
-
-var _current_tile: Area2D = null
-var _ticket: int = 0  # increments to invalidate pending timers
-
 func _ready() -> void:
 	# Add Back button to each menu state
 	for health_state_config in ACTION_CONFIG.keys():
@@ -84,6 +66,7 @@ func _ready() -> void:
 	InputManager.move_right.connect(action_simulator("ui_right"))
 	InputManager.move_up.connect(action_simulator("ui_up"))
 	InputManager.move_down.connect(action_simulator("ui_down"))
+	message = hud.get_node("%Message")
 
 func _update_menu()-> void:
 	if pd != null: 
@@ -298,88 +281,12 @@ func set_cost(b:BtnPos) -> void:
 	else: 
 		UI_NODES[b][COST_LABEL].hide()
 
-func format_cost(c):
-	return "-%d" % c
-	
 func action_simulator(action: String) -> Callable:
 	return func():
 		var ev := InputEventAction.new()
 		ev.action = action
 		ev.pressed = true
 		Input.parse_input_event(ev) 
-
-# ACTIONS
-### Connect
-var ACTION_CONNECT = {
-	DISPLAY: 'Connect',
-	EXECUTE: Callable(self, "execute_connect"),
-	COST_FN: func(p: PlantData): return p.get_connect_cost()
-}
-func execute_connect():
-	if pd.is_in_network:
-		message.show_inspection('Already in network')
-		return false
-	if pd.connect_to_network(network, _current_tile.global_position ):
-		message.show_inspection(GROWTH_SUCCESS)
-	else:
-		message.show_inspection(NOT_ENOUGH_RES)
-
-### Inspect
-var ACTION_INSPECT = {
-	DISPLAY: 'Inspect',
-	EXECUTE: Callable(self, "execute_inspect"),
-}
-func execute_inspect():
-	message.show_inspection(pd.get_info())
-	
-### Grow Leaf
-var ACTION_GROW_LEAF = {
-	DISPLAY: 'Grow',
-	EXECUTE: Callable(self, "execute_grow_leaf"),
-	COST_FN: func(p: PlantData): return p.get_new_leaf_cost()
-}
-func execute_grow_leaf():
-	if pd.grow():
-		message.show_inspection(GROWTH_SUCCESS)
-	else:
-		message.show_inspection(NOT_ENOUGH_RES)
-
-### Nurture
-var ACTION_NURTURE = {
-	DISPLAY: 'Nurture',
-	EXECUTE: Callable(self, "execute_nurture"),
-	COST_FN: func(p: PlantData): return p.get_nurture_cost()
-}
-func execute_nurture():
-	var cost = pd.get_nurture_cost()
-	if save_data.energy_g >= cost:
-		Eco.subtract_energy(cost)
-		Global.control_override = false
-		Global.goto_scene(Global.PLATFORMER_SCENE_PATH, _current_tile.plant_data)
-	else: 
-		message.show_inspection(NOT_ENOUGH_RES)
-
-### Revive
-var ACTION_REVIVE = {
-	DISPLAY: 'Revive',
-	EXECUTE: Callable(self, "execute_revive"),
-	COST_FN: func(p: PlantData): return p.get_revive_cost()
-}
-func execute_revive():
-	if pd.revive():
-		message.show_inspection(REVIVE_SUCCESS)
-	else: 
-		message.show_inspection(NOT_ENOUGH_RES)
-
-### Back
-var ACTION_BACK = {
-	DISPLAY: 'Back',
-	EXECUTE: Callable(self, "execute_back"),
-}
-func execute_back():
-	Global.control_override = false
-	shroomie.cancel_dwell()
-	_unlock_hide_menu()
 
 func _setup_button_layout():
 	var scale_factor = Global.CAMERA_ZOOM * 0.85
