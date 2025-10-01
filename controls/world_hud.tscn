@@ -1,0 +1,173 @@
+[gd_scene load_steps=6 format=3 uid="uid://c78861j2w5nrv"]
+
+[ext_resource type="Theme" uid="uid://ccb43p0cholhl" path="res://assets/fonts/hud_theme.tres" id="1_xj1mb"]
+[ext_resource type="Script" uid="uid://unjhlxsa5g8t" path="res://world/world_hud.gd" id="2_fbw4v"]
+[ext_resource type="Script" uid="uid://dk2u0ri6onvnj" path="res://world/inspector_view.gd" id="3_pfor0"]
+[ext_resource type="Theme" uid="uid://bu3qilx747ohm" path="res://assets/radial_menu.tres" id="4_0dsak"]
+[ext_resource type="Theme" uid="uid://du1ir6iptoqui" path="res://assets/fungisland.tres" id="5_tymke"]
+
+[node name="World HUD" type="Control"]
+z_index = 5
+texture_filter = 1
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 0
+theme = ExtResource("1_xj1mb")
+script = ExtResource("2_fbw4v")
+metadata/_edit_use_anchors_ = true
+
+[node name="Header" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.05
+anchor_top = 0.05
+anchor_right = 0.95
+anchor_bottom = 1.0
+offset_top = -18.0
+offset_bottom = -18.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Stats" type="VBoxContainer" parent="Header"]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 0
+
+[node name="Resource" type="RichTextLabel" parent="Header/Stats"]
+clip_contents = false
+layout_mode = 2
+size_flags_vertical = 3
+theme = ExtResource("1_xj1mb")
+bbcode_enabled = true
+text = "[img]res://assets/svg/sun.svg[/img]0"
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
+context_menu_enabled = true
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="TimeDisplay" type="RichTextLabel" parent="Header/Stats"]
+clip_contents = false
+layout_mode = 2
+size_flags_vertical = 3
+text = "00:00
+"
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
+context_menu_enabled = true
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="MessageContainer" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.3
+anchor_right = 0.7
+offset_left = -83.5
+offset_top = 121.0
+offset_right = 83.5
+offset_bottom = 317.0
+grow_horizontal = 2
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="Message" type="Control" parent="MessageContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("3_pfor0")
+metadata/_edit_use_anchors_ = true
+
+[node name="Label" type="RichTextLabel" parent="MessageContainer/Message"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 3
+theme = ExtResource("4_0dsak")
+text = "Message goes here"
+fit_content = true
+scroll_active = false
+autowrap_mode = 2
+context_menu_enabled = true
+horizontal_alignment = 1
+vertical_alignment = 1
+justification_flags = 160
+metadata/_edit_use_anchors_ = true
+
+[node name="Timer" type="Timer" parent="MessageContainer/Message"]
+wait_time = 2.085
+one_shot = true
+
+[node name="GameOverScreen" type="VBoxContainer" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 200.0
+offset_bottom = -300.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+alignment = 1
+
+[node name="GameOver" type="Label" parent="GameOverScreen"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.65
+theme = ExtResource("5_tymke")
+text = "Game Over!"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="FinalTime" type="Label" parent="GameOverScreen"]
+layout_mode = 2
+theme = ExtResource("4_0dsak")
+text = "00:00"
+horizontal_alignment = 1
+
+[node name="FinalMessage" type="Label" parent="GameOverScreen"]
+custom_minimum_size = Vector2(0, 200)
+layout_mode = 2
+size_flags_vertical = 3
+theme = ExtResource("4_0dsak")
+text = "Try to beat your score next time."
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="Controls" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -40.0
+offset_right = 40.0
+grow_vertical = 0
+
+[node name="BackToStartScreen" type="Button" parent="Controls"]
+layout_mode = 2
+text = "Back"
+
+[node name="ResetData" type="Button" parent="Controls"]
+layout_mode = 2
+text = "Reset Data"
+
+[node name="TickTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+autostart = true
+
+[connection signal="timeout" from="MessageContainer/Message/Timer" to="MessageContainer/Message" method="_on_timer_timeout"]

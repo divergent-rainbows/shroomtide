@@ -7,13 +7,10 @@ func _ready() -> void:
 
 func _on_tick() -> void:
 	var g = 0
-	var a = 0
-	var p = 0
-	var t = 0
 	for plant in  Global.save_data.plants: 
 		if plant.is_revived:
 			g += plant.get_glycosine_per_tick()
-	add_energy(g, a, p, t)
+	add_energy(g)
 	
 func get_tick_energy():
 	var energy = 0
@@ -22,13 +19,10 @@ func get_tick_energy():
 			energy += plant.get_glycosine_per_tick()
 	return energy
 
-func add_energy(g, a = 0, p = 0, t = 0):
+func add_energy(g):
 	save_data.energy_g += g
-	save_data.energy_a += a
-	save_data.energy_p += p
-	save_data.energy_t += t
 	Save.save_game()
-	emit_signal("energy_gained", g,a,p,t)
+	emit_signal("energy_gained", g)
 
 func subtract_energy(g) -> bool:
 	if g <= save_data.energy_g:

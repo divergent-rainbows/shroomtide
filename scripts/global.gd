@@ -8,6 +8,7 @@ signal game_complete
 const WORLD_SCENE_PATH = "res://world/world.tscn"
 const START_SCREEN_PATH = "res://world/start_screen.tscn"
 const PLATFORMER_SCENE_PATH = "res://platformer/platformer.tscn"
+const G_SYMBOL = "[img]res://assets/svg/sun.svg[/img]"
 
 enum PlantType {Stalk, Shrub, Trees, Grass}
 enum HealthStatus {Unknown, Dead, Healing, Recovered}
