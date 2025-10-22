@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="GrowAction" load_steps=3 format=3 uid="uid://c6c8ooufxmswc"]
+
+[ext_resource type="Texture2D" uid="uid://d3jlckkutenec" path="res://assets/svg/sun.svg" id="1_drcff"]
+[ext_resource type="Script" uid="uid://cjkuswcjqi4xn" path="res://actions/config/action_grow_config.gd" id="1_oscwv"]
+
+[resource]
+script = ExtResource("1_oscwv")
+id = ""
+label = "Grow"
+icon = ExtResource("1_drcff")
+priority = 0
+metadata/_custom_type_script = "uid://cjkuswcjqi4xn"
