@@ -1,6 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://xosll0unga4"]
+[gd_scene load_steps=8 format=3 uid="uid://xosll0unga4"]
 
 [ext_resource type="Texture2D" uid="uid://driuhpxtix6p4" path="res://assets/pixel_art/plant-hex-placeholder.png" id="1_fbmkx"]
+[ext_resource type="Texture2D" uid="uid://dl4gamyjl7b8d" path="res://assets/svg/shrub-glow.png" id="2_jfok4"]
+[ext_resource type="Script" uid="uid://cfiil5bxatmqn" path="res://plants/scenes/glow.gd" id="3_5j3ys"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_58aww"]
 texture = ExtResource("1_fbmkx")
@@ -42,3 +44,10 @@ tile_set = SubResource("TileSet_yg0tw")
 [node name="Recovered" type="TileMapLayer" parent="."]
 tile_map_data = PackedByteArray(0, 0, 255, 255, 255, 255, 1, 0, 2, 0, 0, 0, 0, 0)
 tile_set = SubResource("TileSet_yg0tw")
+
+[node name="Thriving" type="Sprite2D" parent="."]
+position = Vector2(-1.31, -8)
+scale = Vector2(0.15, 0.15)
+texture = ExtResource("2_jfok4")
+script = ExtResource("3_5j3ys")
+BASELINE = 0.5

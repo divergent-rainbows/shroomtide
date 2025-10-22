@@ -35,25 +35,10 @@ func _init() -> void:
 	growth_order = range(max_spawns) 
 	growth_order.shuffle()
 
-func get_health_status() -> Global.HealthStatus:
-	if not is_in_network:
-		return Global.HealthStatus.Unknown
-	elif not is_revived:
-		return Global.HealthStatus.Dead
-
-	match level:
-		_ when level >15:
-			return Global.HealthStatus.Recovered
-		_ :
-			return Global.HealthStatus.Healing
-
 func on_tile_ready(plant_area: Node, tile_root: Node) -> void:
 	_plant_area = plant_area
 	_tile_root = tile_root
 	var sprites := tile_root.get_children()
-	for s in sprites:
-		var off = Vector2(randf_range(-jitter, jitter), randf_range(-jitter, jitter))
-		s.position += off
 	self.spawn_visuals = sprites
 
 func update_visuals():
@@ -70,39 +55,27 @@ func update_visuals():
 				blade.show()
 			else:
 				blade.frame = 0
+			if get_health_status() == Global.HealthStatus.Thriving:
+				var glow = blade.get_node("Glow")
+				if glow: glow.show()
 
-	# Apply shading mods
-	for i in range(spawn_visuals.size()):
-		var shaded = SHADED_POS_RULES.get(i)
-		var spawn_idx = growth_order[i]
-		if shaded != null and spawn_idx < spawns.size():
-			var shading_spawn = spawns[spawn_idx]
-			var blade_size = min(shading_spawn.max(), 7)
-			var size_factor = max(blade_size - BLADE_COUNT_FOR_SHADE, 0)
-			for shaded_pos in shaded:
-				var shaded_sprite = spawn_visuals[shaded_pos]
-				var dark_factor = BASE_DARKEN * size_factor * (i + 1) / 5
-				shaded_sprite.modulate = Color.WHITE.darkened(dark_factor)
 
 ## Apply growth logic to the active spawn instances.
 ## Default = do nothing.
-func grow() -> bool:
-	if Eco.subtract_energy(get_new_leaf_cost()):
-		leaves.append(sides.pick_random())
-		
-		for i in range(spawns.size()):
-			for j in range(spawns[i].size()):
-				spawns[i][j] += 1
-		level += 1
+func grow() -> bool:	
+	for i in range(spawns.size()):
+		for j in range(spawns[i].size()):
+			spawns[i][j] += 1
+	level += 1
+
+	if spawns.size() < max_spawns:
+		show_new_spawn()
+	for idx in range(spawns.size()):
+		if spawns[idx].size() < max_foliage:
+			show_new_blade(idx)
+	update_visuals()
 	
-		if spawns.size() < max_spawns:
-			show_new_spawn()
-		for idx in range(spawns.size()):
-			if spawns[idx].size() < max_foliage:
-				show_new_blade(idx)
-		update_visuals()
-		return true
-	else: return false
+	return super.grow()
 
 func calc_spawn_level(spawn_idx: int) -> int:
 	return level - (spawn_emerge_level[spawn_idx] - 1)

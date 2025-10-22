@@ -1,8 +1,10 @@
-[gd_scene load_steps=10 format=3 uid="uid://dlg48nfmibicu"]
+[gd_scene load_steps=12 format=3 uid="uid://dlg48nfmibicu"]
 
 [ext_resource type="Texture2D" uid="uid://c0dhwy0q11c81" path="res://assets/pixel_art/plant_bush/hex-bush1.png" id="2_7nmk6"]
 [ext_resource type="Texture2D" uid="uid://c8trty10itoql" path="res://assets/pixel_art/plant_bush/hex-bush2.png" id="3_6anig"]
+[ext_resource type="Texture2D" uid="uid://dl4gamyjl7b8d" path="res://assets/svg/shrub-glow.png" id="4_h5ah0"]
 [ext_resource type="Texture2D" uid="uid://wic8jjn40sad" path="res://assets/pixel_art/plant_bush/hex-bush3.png" id="4_l7gr5"]
+[ext_resource type="Script" uid="uid://cfiil5bxatmqn" path="res://plants/scenes/glow.gd" id="5_ftvtj"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_gqn6o"]
 texture = ExtResource("2_7nmk6")
@@ -51,3 +53,11 @@ tile_set = SubResource("TileSet_qm5cq")
 texture_filter = 1
 tile_map_data = PackedByteArray(0, 0, 255, 255, 255, 255, 1, 0, 0, 0, 0, 0, 0, 0)
 tile_set = SubResource("TileSet_ie7tp")
+
+[node name="Glow" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(-1.31, -8)
+scale = Vector2(0.15, 0.15)
+texture = ExtResource("4_h5ah0")
+script = ExtResource("5_ftvtj")
+AMPLITUDE = 0.5

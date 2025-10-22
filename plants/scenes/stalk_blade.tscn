@@ -1,0 +1,100 @@
+[gd_scene load_steps=16 format=3 uid="uid://brfjvwoa3mrah"]
+
+[ext_resource type="Texture2D" uid="uid://wvqbx56nhh17" path="res://animation/striped-leaf-sheet.png" id="1_x3vsd"]
+[ext_resource type="Script" uid="uid://doffdsb1gt5um" path="res://plants/scenes/stalk_blade.gd" id="2_uag3s"]
+[ext_resource type="Texture2D" uid="uid://bnaq2sururoft" path="res://assets/svg/stalk_blade_glow.png" id="2_ul8am"]
+[ext_resource type="Script" uid="uid://cfiil5bxatmqn" path="res://plants/scenes/glow.gd" id="3_fy2jj"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_v0b55"]
+atlas = ExtResource("1_x3vsd")
+region = Rect2(0, 0, 21, 17)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_06arg"]
+atlas = ExtResource("1_x3vsd")
+region = Rect2(21, 0, 21, 17)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5fhbv"]
+atlas = ExtResource("1_x3vsd")
+region = Rect2(42, 0, 21, 17)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_31g8i"]
+atlas = ExtResource("1_x3vsd")
+region = Rect2(63, 0, 21, 17)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ubm4m"]
+atlas = ExtResource("1_x3vsd")
+region = Rect2(84, 0, 21, 17)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_02yxq"]
+atlas = ExtResource("1_x3vsd")
+region = Rect2(105, 0, 21, 17)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_021lm"]
+atlas = ExtResource("1_x3vsd")
+region = Rect2(126, 0, 21, 17)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1psyx"]
+atlas = ExtResource("1_x3vsd")
+region = Rect2(147, 0, 21, 17)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cujfp"]
+atlas = ExtResource("1_x3vsd")
+region = Rect2(168, 0, 21, 17)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_imrdn"]
+atlas = ExtResource("1_x3vsd")
+region = Rect2(189, 0, 21, 17)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_226ye"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_v0b55")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_06arg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5fhbv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_31g8i")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ubm4m")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_02yxq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_021lm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1psyx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cujfp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_imrdn")
+}],
+"loop": false,
+"name": &"default",
+"speed": 1.0
+}]
+
+[node name="StalkBlade" type="AnimatedSprite2D"]
+z_as_relative = false
+y_sort_enabled = true
+texture_filter = 1
+sprite_frames = SubResource("SpriteFrames_226ye")
+frame = 9
+frame_progress = 1.0
+script = ExtResource("2_uag3s")
+
+[node name="Glow" type="Sprite2D" parent="."]
+visible = false
+z_index = 1
+scale = Vector2(0.22, 0.22)
+texture = ExtResource("2_ul8am")
+script = ExtResource("3_fy2jj")

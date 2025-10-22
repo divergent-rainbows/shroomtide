@@ -1,86 +1,8 @@
-[gd_scene load_steps=26 format=3 uid="uid://bjh5pl5nwo0xq"]
+[gd_scene load_steps=15 format=3 uid="uid://bjh5pl5nwo0xq"]
 
+[ext_resource type="PackedScene" uid="uid://brfjvwoa3mrah" path="res://plants/scenes/stalk_blade.tscn" id="1_5fhbv"]
 [ext_resource type="Texture2D" uid="uid://qmjxaham7mev" path="res://animation/stem.png" id="1_06arg"]
-[ext_resource type="Texture2D" uid="uid://wvqbx56nhh17" path="res://animation/striped-leaf-sheet.png" id="1_g8vr2"]
 [ext_resource type="Texture2D" uid="uid://dmj0iokl3d7in" path="res://assets/seed.png" id="2_v0b55"]
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_v0b55"]
-atlas = ExtResource("1_g8vr2")
-region = Rect2(0, 0, 21, 17)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_06arg"]
-atlas = ExtResource("1_g8vr2")
-region = Rect2(21, 0, 21, 17)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_5fhbv"]
-atlas = ExtResource("1_g8vr2")
-region = Rect2(42, 0, 21, 17)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_31g8i"]
-atlas = ExtResource("1_g8vr2")
-region = Rect2(63, 0, 21, 17)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_ubm4m"]
-atlas = ExtResource("1_g8vr2")
-region = Rect2(84, 0, 21, 17)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_02yxq"]
-atlas = ExtResource("1_g8vr2")
-region = Rect2(105, 0, 21, 17)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_021lm"]
-atlas = ExtResource("1_g8vr2")
-region = Rect2(126, 0, 21, 17)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_1psyx"]
-atlas = ExtResource("1_g8vr2")
-region = Rect2(147, 0, 21, 17)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_cujfp"]
-atlas = ExtResource("1_g8vr2")
-region = Rect2(168, 0, 21, 17)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_imrdn"]
-atlas = ExtResource("1_g8vr2")
-region = Rect2(189, 0, 21, 17)
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_226ye"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_v0b55")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_06arg")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_5fhbv")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_31g8i")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_ubm4m")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_02yxq")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_021lm")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_1psyx")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_cujfp")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_imrdn")
-}],
-"loop": false,
-"name": &"default",
-"speed": 1.0
-}]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_226ye"]
 atlas = ExtResource("1_06arg")
@@ -170,113 +92,62 @@ z_as_relative = false
 y_sort_enabled = true
 position = Vector2(0, 1)
 
-[node name="Leaf1" type="AnimatedSprite2D" parent="StalkSpawn"]
-z_as_relative = false
-y_sort_enabled = true
-position = Vector2(7.342, 2)
-rotation = 0.261799
-sprite_frames = SubResource("SpriteFrames_226ye")
-frame = 9
-frame_progress = 1.0
-offset = Vector2(0, -10.14)
+[node name="Leaf1" parent="StalkSpawn" instance=ExtResource("1_5fhbv")]
+position = Vector2(8, -10)
 
-[node name="Leaf2" type="AnimatedSprite2D" parent="StalkSpawn"]
-z_as_relative = false
-y_sort_enabled = true
-position = Vector2(-6.768, 2)
-rotation = -0.261799
-sprite_frames = SubResource("SpriteFrames_226ye")
-frame = 9
-frame_progress = 1.0
-offset = Vector2(0, -13.4)
+[node name="Leaf2" parent="StalkSpawn" instance=ExtResource("1_5fhbv")]
+position = Vector2(-8, -8)
 flip_h = true
 
-[node name="Leaf3" type="AnimatedSprite2D" parent="StalkSpawn"]
-z_as_relative = false
-y_sort_enabled = true
-position = Vector2(6.342, 3)
-rotation = 0.174533
-sprite_frames = SubResource("SpriteFrames_226ye")
+[node name="Leaf3" parent="StalkSpawn" instance=ExtResource("1_5fhbv")]
+position = Vector2(8, -20)
 frame = 8
-frame_progress = 1.0
-offset = Vector2(0, -17.89)
+frame_progress = 0.0
 
-[node name="Leaf4" type="AnimatedSprite2D" parent="StalkSpawn"]
-z_as_relative = false
-y_sort_enabled = true
-position = Vector2(-6.658, 2)
-rotation = -0.139626
-sprite_frames = SubResource("SpriteFrames_226ye")
+[node name="Leaf4" parent="StalkSpawn" instance=ExtResource("1_5fhbv")]
+position = Vector2(-9, -18)
 frame = 8
-frame_progress = 1.0
-offset = Vector2(0, -20.52)
+frame_progress = 0.0
 flip_h = true
 
-[node name="Leaf5" type="AnimatedSprite2D" parent="StalkSpawn"]
-z_index = 1
-z_as_relative = false
-position = Vector2(8, 2)
-rotation = 0.0349066
-sprite_frames = SubResource("SpriteFrames_226ye")
+[node name="Leaf5" parent="StalkSpawn" instance=ExtResource("1_5fhbv")]
+position = Vector2(9, -29)
 frame = 6
-frame_progress = 0.473521
-offset = Vector2(0, -24.62)
+frame_progress = 0.0
 
-[node name="Leaf6" type="AnimatedSprite2D" parent="StalkSpawn"]
-z_index = 1
-z_as_relative = false
-position = Vector2(-8.658, 2)
-rotation = -0.0349066
-sprite_frames = SubResource("SpriteFrames_226ye")
-frame = 5
-frame_progress = 0.630539
-offset = Vector2(0, -28.81)
+[node name="Leaf6" parent="StalkSpawn" instance=ExtResource("1_5fhbv")]
+position = Vector2(-9, -26)
+frame = 6
+frame_progress = 0.0
 flip_h = true
 
-[node name="Leaf7" type="AnimatedSprite2D" parent="StalkSpawn"]
-z_index = 1
-z_as_relative = false
-position = Vector2(8.342, 2)
-sprite_frames = SubResource("SpriteFrames_226ye")
+[node name="Leaf7" parent="StalkSpawn" instance=ExtResource("1_5fhbv")]
+position = Vector2(9, -37)
+frame = 3
+frame_progress = 0.0
+
+[node name="Leaf8" parent="StalkSpawn" instance=ExtResource("1_5fhbv")]
+position = Vector2(-9, -34)
 frame = 4
-frame_progress = 0.610666
-offset = Vector2(0, -32.58)
+frame_progress = 0.0
+flip_h = true
 
-[node name="Leaf8" type="AnimatedSprite2D" parent="StalkSpawn"]
-z_index = 1
-z_as_relative = false
-position = Vector2(-9.658, 2)
-sprite_frames = SubResource("SpriteFrames_226ye")
+[node name="Leaf9" parent="StalkSpawn" instance=ExtResource("1_5fhbv")]
+position = Vector2(-9, -41)
 frame = 2
-frame_progress = 0.426133
-offset = Vector2(0, -36.5)
+frame_progress = 0.0
 flip_h = true
 
-[node name="Leaf9" type="AnimatedSprite2D" parent="StalkSpawn"]
-z_index = 1
-z_as_relative = false
-position = Vector2(10.342, 1)
-rotation = -0.0349066
-sprite_frames = SubResource("SpriteFrames_226ye")
+[node name="Leaf10" parent="StalkSpawn" instance=ExtResource("1_5fhbv")]
+position = Vector2(9, -44)
 frame = 1
-frame_progress = 0.511939
-offset = Vector2(0, -40.64)
-
-[node name="Leaf10" type="AnimatedSprite2D" parent="StalkSpawn"]
-z_index = 1
-z_as_relative = false
-position = Vector2(-10.658, 2)
-rotation = 0.0349066
-sprite_frames = SubResource("SpriteFrames_226ye")
-frame_progress = 0.658389
-offset = Vector2(0, -45.23)
-flip_h = true
+frame_progress = 0.0
 
 [node name="Stem" type="AnimatedSprite2D" parent="."]
 z_as_relative = false
 y_sort_enabled = true
 sprite_frames = SubResource("SpriteFrames_kxo0r")
-frame_progress = 0.171843
+frame = 9
 offset = Vector2(0, -25)
 
 [node name="Seed" type="Sprite2D" parent="."]

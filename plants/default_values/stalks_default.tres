@@ -1,7 +1,8 @@
-[gd_resource type="Resource" script_class="StalkData" load_steps=3 format=3 uid="uid://bylb8b3m63m7"]
+[gd_resource type="Resource" script_class="StalkData" load_steps=4 format=3 uid="uid://bch41ds5e50pu"]
 
 [ext_resource type="Script" uid="uid://bcp3jv13naenc" path="res://plants/plant_data_types/stalk_data.gd" id="1_wietq"]
 [ext_resource type="PackedScene" uid="uid://cdb678m1upsxl" path="res://plants/scenes/plant_area.tscn" id="2_fpmrr"]
+[ext_resource type="PackedScene" uid="uid://bjh5pl5nwo0xq" path="res://plants/scenes/stalk_spawn.tscn" id="3_tktbj"]
 
 [resource]
 script = ExtResource("1_wietq")
@@ -9,23 +10,23 @@ max_level = 25
 level = 0
 max_spawns = 1
 spawns = Array[Array]([])
-jitter = 2.0
+JITTER = 0.5
 max_foliage = 10
 spawn_emerge_level = [1]
 blade_emerge_stage = [1, 3, 5, 7, 9, 11, 12, 13, 14, 15]
-blade_frame_limits = []
 id = 0
 type = 0
 is_in_network = false
 is_revived = false
-network_cost = 50
-revive_cost = 100
+network_cost = 30
+revive_cost = 15
 nurture_cost = 15
-leaf_cost_basis = 2
-initial_leaf_count = 20
+leaf_cost_basis = 3
+initial_leaf_count = 0
 leaves = Array[int]([])
-g_rate = 0.5
-run_multiplier = 5
+g_rate = 0.75
+run_multiplier = 7
 max_num_leaves = 50
 tile = ExtResource("2_fpmrr")
-metadata/_custom_type_script = "uid://drvolyvlc40or"
+visual_scene = ExtResource("3_tktbj")
+metadata/_custom_type_script = "uid://bcp3jv13naenc"

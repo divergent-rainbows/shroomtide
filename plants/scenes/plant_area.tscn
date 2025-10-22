@@ -32,5 +32,6 @@ plant_data = SubResource("Resource_cgr6h")
 scale = Vector2(1.05, 1.05)
 polygon = PackedVector2Array(-14, -6, -14, 8, 0, 13, 14, 8, 14, -6, 0, -12)
 
-[connection signal="body_entered" from="." to="." method="_on_body_entered"]
-[connection signal="body_exited" from="." to="." method="_on_body_exited"]
+[connection signal="area_shape_entered" from="." to="." method="_on_area_shape_entered"]
+[connection signal="area_shape_exited" from="." to="." method="_on_area_shape_exited"]
+[connection signal="input_event" from="." to="." method="_on_input_event"]

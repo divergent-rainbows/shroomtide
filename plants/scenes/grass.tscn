@@ -5,18 +5,24 @@
 [node name="PlantTile" type="Node2D"]
 z_as_relative = false
 y_sort_enabled = true
+scale = Vector2(1, 0.69)
 
 [node name="GrassSpawn5" parent="." instance=ExtResource("1_q81rb")]
-position = Vector2(0, 10)
+position = Vector2(0, 13.0435)
+scale = Vector2(1, 0.69)
 
 [node name="GrassSpawn4" parent="." instance=ExtResource("1_q81rb")]
-position = Vector2(-12, 4)
+position = Vector2(-8, 7.24638)
+scale = Vector2(1, 0.69)
 
 [node name="GrassSpawn3" parent="." instance=ExtResource("1_q81rb")]
-position = Vector2(11, 5)
+position = Vector2(8, 7.24638)
+scale = Vector2(1, 0.69)
 
 [node name="GrassSpawn2" parent="." instance=ExtResource("1_q81rb")]
-position = Vector2(-9, -4)
+position = Vector2(-4, -5.7971)
+scale = Vector2(1, 0.69)
 
 [node name="GrassSpawn" parent="." instance=ExtResource("1_q81rb")]
-position = Vector2(10, -4)
+position = Vector2(5, -5.7971)
+scale = Vector2(1, 0.69)

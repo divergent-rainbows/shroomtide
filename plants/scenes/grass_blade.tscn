@@ -1,0 +1,73 @@
+[gd_scene load_steps=12 format=3 uid="uid://dof0ryk6r72pg"]
+
+[ext_resource type="Texture2D" uid="uid://s0j1dbq6164h" path="res://animation/grass-blade.png" id="1_gw7mr"]
+[ext_resource type="Texture2D" uid="uid://bhp8m76mqleci" path="res://assets/svg/blade-glow.png" id="2_06dp4"]
+[ext_resource type="Script" uid="uid://cfiil5bxatmqn" path="res://plants/scenes/glow.gd" id="3_k00w5"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_06dp4"]
+atlas = ExtResource("1_gw7mr")
+region = Rect2(0, 0, 9, 160)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_k00w5"]
+atlas = ExtResource("1_gw7mr")
+region = Rect2(10, 0, 9, 160)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_emwnt"]
+atlas = ExtResource("1_gw7mr")
+region = Rect2(20, 0, 9, 160)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4ex6y"]
+atlas = ExtResource("1_gw7mr")
+region = Rect2(30, 0, 9, 160)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hw2dx"]
+atlas = ExtResource("1_gw7mr")
+region = Rect2(40, 0, 9, 160)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fvvbt"]
+atlas = ExtResource("1_gw7mr")
+region = Rect2(50, 0, 9, 160)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ppiko"]
+atlas = ExtResource("1_gw7mr")
+region = Rect2(60, 0, 9, 160)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ydunk"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_06dp4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_k00w5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_emwnt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4ex6y")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hw2dx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fvvbt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ppiko")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="GrassBlade" type="AnimatedSprite2D"]
+self_modulate = Color(0.83, 0.83, 0.83, 1)
+sprite_frames = SubResource("SpriteFrames_ydunk")
+frame = 6
+
+[node name="Glow" type="Sprite2D" parent="."]
+visible = false
+self_modulate = Color(1, 1, 1, 0.247059)
+texture = ExtResource("2_06dp4")
+script = ExtResource("3_k00w5")
