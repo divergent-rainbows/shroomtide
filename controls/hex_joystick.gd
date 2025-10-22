@@ -43,6 +43,7 @@ func _draw_texture_joystick() -> void:
 
 func _ready() -> void:
 	center = size / 2.0
+	hide()
 	InputManager.on_screen_touch.connect(_on_screen_touch)
 	InputManager.on_screen_drag.connect(_on_screen_drag)
 

@@ -1,0 +1,28 @@
+[gd_scene load_steps=4 format=3 uid="uid://bu8dfk5ynj2es"]
+
+[ext_resource type="Script" uid="uid://hyo74n4uphav" path="res://controls/hex_selector.gd" id="1_d1650"]
+[ext_resource type="Texture2D" uid="uid://bsujjbsl7he3d" path="res://assets/svg/blur-edge-hex.svg" id="2_3qjei"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_b2suy"]
+
+[node name="HexSelector" type="Area2D"]
+rotation = -1.5708
+scale = Vector2(0.06, 0.08)
+script = ExtResource("1_d1650")
+
+[node name="InnerRing" type="Sprite2D" parent="."]
+modulate = Color(1, 1, 1, 0)
+scale = Vector2(0.33, 0.33)
+texture = ExtResource("2_3qjei")
+
+[node name="MidRing" type="Sprite2D" parent="."]
+modulate = Color(1, 1, 1, 0)
+scale = Vector2(0.66, 0.66)
+texture = ExtResource("2_3qjei")
+
+[node name="OuterRing" type="Sprite2D" parent="."]
+modulate = Color(1, 1, 1, 0)
+texture = ExtResource("2_3qjei")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." groups=["selector"]]
+shape = SubResource("CircleShape2D_b2suy")

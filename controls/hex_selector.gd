@@ -1,4 +1,7 @@
 extends Area2D
+class_name HexSelector
+
+@onready var inspector_view: InspectorView = $"../../HUD/InspectorView"
 @onready var outer_ring: Sprite2D = $OuterRing
 @onready var mid_ring: Sprite2D = $MidRing
 @onready var inner_ring: Sprite2D = $InnerRing
@@ -18,7 +21,10 @@ func _fade_to_out_in(aim_pos: Vector2) -> void:
 	if global_position != aim_pos:
 		await _fade_out()
 		global_position = aim_pos
-		await _fade_in()  # uses staggered durations
+		await _fade_in()
+	else:
+		inspector_view.on_rehover()
+		await _fade_in()
 
 func _fade_out(dur := 0.1) -> void:
 	_kill_fade_tween()
