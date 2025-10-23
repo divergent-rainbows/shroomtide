@@ -16,8 +16,10 @@ enum LeafPosition {Left, Right}
 const LEFT_LANE_X := 226.0
 const RIGHT_LANE_X := 435.0
 const CAMERA_ZOOM := 3.5
+var control_anchor := Vector2(0, 0)
 var current_scene = null
 var control_override = false
+var current_coords = Vector2.ZERO
 var sprint_timer: Timer
 
 func _ready() -> void:

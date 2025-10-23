@@ -17,6 +17,11 @@ func _ready() -> void:
 		initialize_data()
 
 
+func next_level() -> void:
+	if save_data.current_level < save_data.level_save_data.size():
+		save_data.current_level += 1
+
+
 func increment_run_time(t: float) -> void:
 	get_current_level_data().run_time += t
 
@@ -41,7 +46,6 @@ func initialize_data() -> void:
 		level_save.energy_g = level.starting_energy
 		save_data.level_save_data.append(level_save)
 	ResourceSaver.save(save_data, GAME_SAVE_PATH)
-	save_data.print_to_console()
 
 
 func reset():

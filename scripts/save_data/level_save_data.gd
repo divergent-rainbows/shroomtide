@@ -9,7 +9,7 @@ class_name LevelSaveData
 @export var plants_map: Dictionary[Vector2i, PlantData] = {}
 @export var network_paths: Array[Array] = []
 @export var plants: Array[PlantData] = []
-@export var coords: Vector2 = Vector2.ZERO
+@export var coords: Vector2i = Vector2i.ZERO
 
 static func create_from_level(level) -> LevelSaveData:
 	var new_save_data = LevelSaveData.new()

@@ -20,7 +20,7 @@ signal on_release
 signal on_change_direction
 signal on_zoom
 
-const HAPTIC_COOLDOWN_PERIOD := 0.06
+const HAPTIC_COOLDOWN_PERIOD := 0.1
 
 enum GameMode {
 	WORLD,
@@ -74,10 +74,12 @@ func _input(event: InputEvent) -> void:
 		_ when event is InputEventMagnifyGesture:
 			on_zoom.emit(event.get_factor())
 
+
 func _handle_platformer_screen_input(event: InputEventScreenTouch) -> void:
 	if event.pressed: charge_jump.emit() 
 	else: jump_released.emit(event.position)
 	accept.emit()
+
 
 func _handle_platformer_key_input(event: InputEventKey) -> void:
 	for action in KEYBOARD_ACTION_CONFIG:
@@ -94,6 +96,7 @@ func _handle_platformer_key_input(event: InputEventKey) -> void:
 				simulate_jump_release(event)
 			held_keys.erase(event.as_text_keycode())
 
+
 func simulate_jump_release(_event: InputEventKey) -> void: 
 	var screen_mid_point = get_viewport().get_visible_rect().size.x / 2
 	var simulated_pos = Vector2(screen_mid_point,0)
@@ -108,6 +111,7 @@ func simulate_jump_release(_event: InputEventKey) -> void:
 		simulated_pos.x = x_pos * screen_mid_point
 	jump_released.emit(simulated_pos)
 
+
 func _handle_world_key_input(event: InputEventKey) -> void:
 	# Handle action presses and releases using the event directly
 	for action in KEYBOARD_ACTION_CONFIG:
@@ -121,42 +125,55 @@ func _handle_world_key_input(event: InputEventKey) -> void:
 		elif event.is_action_released(action):
 			if action == "ui_accept":
 				accept_released.emit()			
-	
+
+
 func _connect_input_signals():
 	reset.connect(_on_reset_pressed)
-	cancel.connect(_on_cancel_pressed)
-	back.connect(_on_back_pressed)
+	cancel.connect(_on_back_to_start_screen_pressed)
+	back.connect(_on_refresh_pressed)
+
 
 func _on_reset_pressed():
 	Global.goto_scene(Global.START_SCREEN_PATH)
 	Save.reset()
 
-func _on_cancel_pressed():
+
+func _on_back_to_start_screen_pressed():
 	Global.goto_scene(Global.START_SCREEN_PATH)
 
-func _on_back_pressed():
+
+func _on_refresh_pressed():
 	Global.goto_scene(Global.WORLD_SCENE_PATH)
-	
+
+
 func haptic_once():
 	if _haptic_cooldown: return
 	_haptic_cooldown = true
-	Input.vibrate_handheld(10) # duration is ignored on iOS; it’s a single impact
+
+	if OS.has_feature("mobile"):
+		Input.vibrate_handheld(10)
+
 	get_tree().create_timer(HAPTIC_COOLDOWN_PERIOD).timeout.connect(func(): _haptic_cooldown = false)
+
 
 # Game Mode Management
 func set_game_mode(mode: GameMode):
 	held_keys.clear()
 	current_game_mode = mode
 
+
 func set_platformer_mode(enabled: bool):
 	held_keys.clear()
 	current_game_mode = GameMode.PLATFORMER if enabled else GameMode.WORLD
 
+
 func is_action_pressed(action: String) -> bool:
 	return Input.is_action_pressed(action)
 
+
 func is_action_just_pressed(action: String) -> bool:
 	return Input.is_action_just_pressed(action)
+
 
 func is_action_just_released(action: String) -> bool:
 	return Input.is_action_just_released(action)

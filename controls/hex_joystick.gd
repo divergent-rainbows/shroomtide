@@ -25,7 +25,6 @@ var tilt : float :
 			InputManager.haptic_once() 
 		tilt = value
 
-var control_anchor	: Vector2
 var center 			: Vector2
 var knob_position 	: Vector2
 var is_pressing 		: bool
@@ -51,7 +50,7 @@ func _ready() -> void:
 func _on_screen_touch(event : InputEventScreenTouch) -> void:
 	var first_finger_press_event = event.pressed and event_index == -1
 	if first_finger_press_event and not Global.control_override:
-		control_anchor = event.position
+		Global.control_anchor = event.position
 		show()
 		event_index = event.index
 		is_pressing = true
@@ -64,7 +63,7 @@ func _on_screen_drag(event : InputEventScreenDrag) -> void:
 		_move_knob(event.position)
 	
 func _get_local_delta(event_pos : Vector2) -> Vector2:
-	var delta_screen := event_pos - control_anchor
+	var delta_screen := event_pos - Global.control_anchor
 	return delta_screen / scale
 	
 func _move_knob(event_pos : Vector2) -> void:

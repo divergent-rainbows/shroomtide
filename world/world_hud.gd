@@ -55,5 +55,5 @@ func _on_add_energy_pressed() -> void:
 
 
 func _on_next_level_button_down() -> void:
-	Save.save_data.current_level += 1
+	Save.next_level()
 	InputManager._on_refresh_pressed()
