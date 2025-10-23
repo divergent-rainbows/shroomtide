@@ -36,15 +36,16 @@ const PLANT_TYPE_STRING = {
 
 @export var tile := preload("res://plants/scenes/plant_area.tscn")
 @export var visual_scene: PackedScene
-var _plant_area = Node
-var _tile_root = Node
+var _plant_area: PlantArea
+var _tile_root: Node
+var _network: MyceliumNetwork
 
-static var STALK_DEFAULT := load("res://plants/default_values/stalk_default.tres")
+static var STALK_DEFAULT := load("res://plants/default_values/stalks_default.tres")
 static var SHRUB_DEFAULT := load("res://plants/default_values/shrubs_default.tres")
 static var TREE_DEFAULT := load("res://plants/default_values/trees_default.tres")
 static var GRASS_DEFAULT := load("res://plants/default_values/grass_default.tres")
 
-var sides = [Global.LeafPosition.Left, Global.LeafPosition.Right]
+const sides = [Global.LeafPosition.Left, Global.LeafPosition.Right]
 
 static func create_from_type(plant_type: Global.PlantType) -> PlantData:
 	var plant : PlantData
@@ -63,33 +64,34 @@ static func create_from_type(plant_type: Global.PlantType) -> PlantData:
 	return plant
 	
 func grow() -> bool:
-	if Eco.subtract_energy(get_new_leaf_cost()):
-		leaves.append(sides.pick_random())
-		update_visuals()
-		return true
-	else: return false
-
-func revive() -> bool:
-	if Eco.subtract_energy(get_revive_cost()):
-		is_revived = true
+	leaves.append(sides.pick_random())
+	update_visuals()
 	return true
 
-func connect_to_network(network: MyceliumNetwork, global_pos: Vector2) -> bool:
-	if Eco.subtract_energy(get_connect_cost()):
-		network.create_connection(global_pos)
-		is_in_network = true
-		return true
-	else: return false
+func revive() -> bool:
+	is_revived = true
+	return true
+
+func connect_to_network() -> bool:
+	_network.create_connection(_plant_area.position)
+	is_in_network = true
+	return true
+
+func get_health_percent() -> float:
+	var health_percent = float(get_leaf_count()) / float(max_num_leaves)
+	return min(health_percent, 1.0) 
 
 func get_health_status() -> Global.HealthStatus:
 	if not is_in_network:
 		return Global.HealthStatus.Unknown
-	elif not is_revived:
+	elif not is_revived or get_health_percent() < 0.25 :
 		return Global.HealthStatus.Dead
-	elif get_leaf_count() < max_num_leaves:
+	elif get_health_percent() < 0.75 :
 		return Global.HealthStatus.Healing
-	else:
+	elif get_health_percent() < 1.0:
 		return Global.HealthStatus.Recovered
+	else:
+		return Global.HealthStatus.Thriving
 
 func on_tile_ready(plant_area: Node, tile_root: Node) -> void:
 	_plant_area = plant_area
@@ -99,6 +101,7 @@ func on_tile_ready(plant_area: Node, tile_root: Node) -> void:
 		Global.HealthStatus.Dead:    _tile_root.get_node("Dead"),
 		Global.HealthStatus.Healing: _tile_root.get_node("Healing"),
 		Global.HealthStatus.Recovered:_tile_root.get_node("Recovered"),
+		Global.HealthStatus.Thriving:_tile_root.get_node("Recovered"),
 	}
 	_plant_area.set("tile_states", states)
 
@@ -110,9 +113,12 @@ func update_visuals() -> void:
 		var st = get_health_status()
 		if states.has(st):
 			states[st].show()
+	if get_health_status() == Global.HealthStatus.Thriving:
+		var glow = _tile_root.get_node("Glow")
+		if glow: glow.show()
 
-func get_glycosine_per_tick():
-	return g_rate * get_health_status()
+func get_glycosine_per_tick() -> float:
+	return g_rate * get_health_percent() * get_health_status() / Global.TICK_GRAIN
 
 func generate_random_leaves():
 	leaves = []
@@ -138,15 +144,16 @@ func get_nurture_time():
 	return (get_leaf_count() / 2.0) + 5
 	
 func get_nurture_reward():
-	Console.log_format("Nurture reward: ", "tick: %s, \thealth: %s", [Eco.get_tick_energy(), get_health_status()])
-	return Eco.get_tick_energy() * get_health_status() * run_multiplier
+	return Eco.get_tick_energy() * get_health_status() * run_multiplier * Global.TICK_GRAIN
 
 func get_info():
-	print(get_health_status())
 	for i in Save.data.plants_map.keys():
 		var p = Save.data.plants_map[i]
 		Console.log_format(i, ": %s, %s", [p.stringify_type(), p.stringify_health()])
 	return "%s has %d leaves\nGlycosine Rate: %.2f" % [PLANT_TYPE_STRING[type],  get_leaf_count(), get_glycosine_per_tick()] 
+
+func get_plant_id_str() -> String:
+	return "%s-%s" % [stringify_type(), id]
 
 func stringify_type() -> String:
 	return PLANT_TYPE_STRING[type]

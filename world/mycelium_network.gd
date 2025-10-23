@@ -4,7 +4,7 @@ class_name MyceliumNetwork
 signal fractal_segment_finished
 signal connection_finished
 
-@export var demo_mode: bool = true
+@export var demo_mode: bool = false
 
 @export_group("Network Properties")
 @export var grow_interval 	:= 0.1
@@ -69,8 +69,6 @@ func start_demo():
 			demo_index += 1
 		else:
 			outline_complete = true
-			for i in (demo_network.size()-1):
-				var tile = demo_network[i]
 
 func rebuild_network_show_connections():
 	for path in connection_paths:
@@ -249,13 +247,12 @@ func tween_segment(start_tile: Vector2i, end_tile: Vector2i, color: Color) -> Si
 
 func show_new_network_connection(path: Array[Vector2i]) -> Signal:
 	var connection_color = connection_colors[demo_index % connection_colors.size()] if rainbow_mode else network_color
-	var fin
 	for i in range(path.size() - 1):
 		var current_tile = path[i]
 		var next_tile = path[i + 1]
 
 		# Use helper method to draw each segment
-		fin = await tween_segment(current_tile, next_tile, connection_color)
+		await tween_segment(current_tile, next_tile, connection_color)
 	return connection_finished
 	
 func show_network_connection(path: Array[Vector2i]):
