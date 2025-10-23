@@ -18,7 +18,7 @@ config/icon="uid://8ijj171bi58y"
 [autoload]
 
 Console="*res://scripts/console_debug.gd"
-Save="*res://scripts/save_manager.gd"
+Save="*res://scripts/save_data/save_manager.gd"
 Eco="*res://scripts/eco_manager.gd"
 Global="*res://scripts/global.gd"
 InputManager="*res://scripts/input_manager.gd"

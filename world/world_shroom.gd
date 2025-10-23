@@ -26,7 +26,7 @@ var curr_dir 		: int
 
 func _ready() -> void: 
 	camera.zoom = Vector2(Global.CAMERA_ZOOM, Global.CAMERA_ZOOM)
-	local_pos = Global.current_coords
+	local_pos = Save.get_current_level_data().coords
 	position = world_map.map_to_local(local_pos) 
 	target_pos = position
 	sprite.animation = "idle"
@@ -37,7 +37,7 @@ func _ready() -> void:
 
 func _physics_process(_delta: float) -> void:
 	local_pos = world_map.local_to_map(position)
-	Global.current_coords = local_pos
+	Save.get_current_level_data().coords = local_pos
 	_snap_location_to_grid()
 	if is_moving:
 		_adjust_velocity()

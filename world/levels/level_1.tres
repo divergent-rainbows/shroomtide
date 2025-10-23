@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="LevelData" load_steps=2 format=3 uid="uid://dtdxqusdg2w5g"]
+
+[ext_resource type="Script" uid="uid://d4attpm2r0ppb" path="res://world/levels/level_data.gd" id="1_govaq"]
+
+[resource]
+script = ExtResource("1_govaq")
+id = 1
+name = "Level 1"
+starting_energy = 10
+plant_locations = {
+0: [],
+1: [],
+2: [],
+3: [Vector2i(0, 0)]
+}
+metadata/_custom_type_script = "uid://d4attpm2r0ppb"

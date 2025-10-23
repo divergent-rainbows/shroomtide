@@ -3,24 +3,20 @@ extends Node
 signal tick
 signal game_complete
 
-@onready var save_data := Save.data as SaveData
-
+const TICK_GRAIN := 10.0 # tick per second
 const WORLD_SCENE_PATH = "res://world/world.tscn"
 const START_SCREEN_PATH = "res://world/start_screen.tscn"
 const PLATFORMER_SCENE_PATH = "res://platformer/platformer.tscn"
 const G_SYMBOL = "[img]res://assets/svg/sun.svg[/img]"
 
 enum PlantType {Stalk, Shrub, Trees, Grass}
-enum HealthStatus {Unknown, Dead, Healing, Recovered}
+enum HealthStatus {Unknown, Dead, Healing, Recovered, Thriving}
 enum LeafPosition {Left, Right}
 
 const LEFT_LANE_X := 226.0
 const RIGHT_LANE_X := 435.0
 const CAMERA_ZOOM := 3.5
 var current_scene = null
-var current_coords := Vector2i(20, 32)
-var control_anchor := Vector2(0, 0)
-
 var control_override = false
 var sprint_timer: Timer
 
@@ -49,12 +45,12 @@ func _deferred_goto_scene(path, plant_data: PlantData):
 
 func _setup_sprint_timer() -> void:
 	sprint_timer = Timer.new()
-	sprint_timer.wait_time = 1.0
+	sprint_timer.wait_time = 1.0 / TICK_GRAIN
 	sprint_timer.timeout.connect(_on_sprint_timer_timeout)
 	add_child(sprint_timer)
 
 func _on_sprint_timer_timeout() -> void:
-	save_data.run_time += sprint_timer.wait_time
+	Save.increment_run_time(sprint_timer.wait_time)
 	emit_signal("tick")
 	if _check_game_complete_by_plant_health():
 		emit_signal("game_complete")
@@ -63,9 +59,9 @@ func _stop_sprint_timer() -> void:
 	sprint_timer.stop()
 
 func _check_game_complete_by_plant_health() -> bool: 
-	var recovered_statuses = save_data.plants.map(
+	var recovered_statuses = Save.get_current_level_data().plants.map(
 		func(p: PlantData): 
-				return p.get_health_status() == Global.HealthStatus.Recovered
+				return p.get_health_status() == Global.HealthStatus.Thriving
 	)
 	return false not in recovered_statuses
 

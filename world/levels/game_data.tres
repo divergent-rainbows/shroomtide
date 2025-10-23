@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="GameData" load_steps=5 format=3 uid="uid://br6n24slvhu4w"]
+
+[ext_resource type="Script" uid="uid://d4attpm2r0ppb" path="res://world/levels/level_data.gd" id="1_iawsr"]
+[ext_resource type="Resource" uid="uid://bnmfnbg7j4u4g" path="res://world/levels/default.tres" id="2_0wanh"]
+[ext_resource type="Script" uid="uid://dwc45vubkobod" path="res://world/levels/game_data.gd" id="2_nv2yo"]
+[ext_resource type="Resource" uid="uid://dtdxqusdg2w5g" path="res://world/levels/level_1.tres" id="3_5gdc1"]
+
+[resource]
+script = ExtResource("2_nv2yo")
+version = "v0"
+levels = Array[ExtResource("1_iawsr")]([ExtResource("2_0wanh"), ExtResource("3_5gdc1")])
+metadata/_custom_type_script = "uid://dwc45vubkobod"

@@ -51,7 +51,7 @@ var outline_complete: bool = false
 
 func _ready():
 	calculate_unit_fractal_pattern()
-	connection_paths = Save.data.network_paths
+	connection_paths = Save.get_current_level_data().network_paths
 	await rebuild_network_show_connections()
 	if demo_mode:
 		start_demo()
@@ -81,7 +81,7 @@ func create_connection(pos: Vector2) -> Signal:
 	var local_pos = map.local_to_map(pos)
 	var path = get_new_connection_path(local_pos)
 	add_connection_to_network(path)
-	Save.data.network_paths = connection_paths
+	Save.get_current_level_data().network_paths = connection_paths
 	Save.save_game()
 	return await show_new_network_connection(path)
 
