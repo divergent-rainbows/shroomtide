@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://b83st0mkcv71y"]
+
+[ext_resource type="Script" uid="uid://b8wbn63fnnyrm" path="res://world/mycelium_network.gd" id="1_sbdbm"]
+
+[node name="Network" type="Node2D"]
+z_index = 1
+script = ExtResource("1_sbdbm")
