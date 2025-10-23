@@ -1,6 +1,8 @@
 extends Node2D
 class_name HexGrid
 
+enum {E, NE, NW, W, SW, SE}
+
 # Hex grid properties
 @export var hex_size: float = 32.0
 @export var hex_layout: String = "pointy"  # "pointy" or "flat"
@@ -166,7 +168,7 @@ func string_to_hex(hex_string: String) -> Vector2:
 func offset_to_axial(offset_coord: Vector2i) -> Vector2:
 	var col = offset_coord.x
 	var row = offset_coord.y
-	var q = col - (row - (row & 1)) / 2
+	var q = floor(col - (row - (row & 1)) / 2.0)
 	var r = row
 	return Vector2(q, r)
 
@@ -177,3 +179,12 @@ func axial_to_offset(axial_coord: Vector2) -> Vector2i:
 	var col = q + (r - (int(r) & 1)) / 2
 	var row = r
 	return Vector2i(int(col), int(row))
+
+static func get_dir_str(dir: int):
+	match dir:
+		E: 	return "East"
+		NE: return "Northeast"
+		NW: return "Northwest"
+		W: 	return "West"
+		SW: return "Southwest"
+		SE: return "Southeast"
