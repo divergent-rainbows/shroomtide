@@ -1,15 +1,10 @@
 extends Area2D
 class_name PlantArea
 
-signal player_entered(tile: Area2D)
-signal player_exited(tile: Area2D)
+signal tile_hovered(tile: Area2D)
 
 @export var plant_data: PlantData
-
-@onready var tile_menu := $"../../HUD/TileMenu"
-@onready var tile_menu_top: TextureButton = $"../../HUD/TileMenu/Top"
-@onready var selector: AnimatedSprite2D = $Selector
-@onready var plant_tile_root: Node = $PlantTile   # parent of visuals
+@onready var plant_tile_root: Node = $PlantTile
 
 var tile_states
 var current_plant_state
@@ -22,12 +17,13 @@ func _ready():
 	plant_data.on_tile_ready(self, plant_tile_root)
 	plant_data.update_visuals()
 
-func _on_body_entered(body: Node2D) -> void:
-	if body.is_in_group("player"):
-		player_entered.emit(self)
-		selector.show()
+func _on_area_shape_entered(_area_rid: RID, area: Area2D, area_shape_index: int, _local_shape_index: int) -> void:
+	var owner_id    := area.shape_find_owner(area_shape_index)
+	var shape_node  := area.shape_owner_get_owner(owner_id)
+	if shape_node.is_in_group("selector"):
+		tile_hovered.emit(self)
 
-func _on_body_exited(body: Node2D) -> void:
-	if body.is_in_group("player"):
-		selector.hide()
-		player_exited.emit(self)
+
+func _on_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:
+	if event.is_pressed() and event.is_action_type():
+		tile_hovered.emit(self)

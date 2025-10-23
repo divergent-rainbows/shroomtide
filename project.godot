@@ -31,6 +31,7 @@ gdscript/warnings/unused_signal=0
 
 window/size/viewport_width=720
 window/size/viewport_height=1280
+window/subwindows/embed_subwindows=false
 window/stretch/mode="viewport"
 window/stretch/aspect="expand"
 window/handheld/orientation=1
@@ -46,7 +47,7 @@ version_control/autoload_on_startup=true
 
 [global_group]
 
-player=""
+selector=""
 
 [input]
 
